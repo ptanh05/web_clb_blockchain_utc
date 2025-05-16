@@ -373,7 +373,7 @@ export default function Home() {
                 ease: "linear",
               }}
             >
-              {[...Array(8)].map((_, index) => (
+              {[...Array(32)].map((_, index) => (
                 <motion.div
                   key={index}
                   className="flex items-center justify-center p-4 mx-4 w-[200px]"
