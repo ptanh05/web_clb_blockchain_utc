@@ -1,12 +1,18 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Users, BookOpen, Award, ChevronRight } from "lucide-react"
-import Link from "next/link"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Users, BookOpen, Award, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export default function JoinPage() {
   return (
@@ -14,12 +20,15 @@ export default function JoinPage() {
       {/* Hero Banner */}
       <section className="relative w-full h-[300px] bg-gradient-to-r from-[#004987] to-[#0070b8] overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center" />
+          <div className="absolute inset-0  bg-cover bg-center" />
         </div>
         <div className="container relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4 md:px-6">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Tham gia CLB</h1>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            Tham gia CLB
+          </h1>
           <p className="text-lg max-w-2xl">
-            Trở thành thành viên của CLB Blockchain UTC và bắt đầu hành trình khám phá công nghệ đột phá
+            Trở thành thành viên của CLB Blockchain UTC và bắt đầu hành trình
+            khám phá công nghệ đột phá
           </p>
         </div>
       </section>
@@ -28,10 +37,13 @@ export default function JoinPage() {
       <section className="py-16 bg-white">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#004987] mb-4">Tại sao nên tham gia CLB?</h2>
+            <h2 className="text-3xl font-bold text-[#004987] mb-4">
+              Tại sao nên tham gia CLB?
+            </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Tham gia CLB Blockchain UTC mang đến cho bạn nhiều cơ hội học tập, phát triển và kết nối
+              Tham gia CLB Blockchain UTC mang đến cho bạn nhiều cơ hội học tập,
+              phát triển và kết nối
             </p>
           </div>
 
@@ -40,10 +52,13 @@ export default function JoinPage() {
               <div className="w-16 h-16 bg-[#004987]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BookOpen className="h-8 w-8 text-[#004987]" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#004987]">Học tập & Phát triển</h3>
+              <h3 className="text-xl font-semibold mb-2 text-[#004987]">
+                Học tập & Phát triển
+              </h3>
               <p className="text-gray-600">
-                Tiếp cận kiến thức mới nhất về Blockchain và Web3 thông qua các workshop, seminar và khóa học do chuyên
-                gia trong ngành giảng dạy.
+                Tiếp cận kiến thức mới nhất về Blockchain và Web3 thông qua các
+                workshop, seminar và khóa học do chuyên gia trong ngành giảng
+                dạy.
               </p>
             </div>
 
@@ -51,10 +66,12 @@ export default function JoinPage() {
               <div className="w-16 h-16 bg-[#004987]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="h-8 w-8 text-[#004987]" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#004987]">Kết nối & Networking</h3>
+              <h3 className="text-xl font-semibold mb-2 text-[#004987]">
+                Kết nối & Networking
+              </h3>
               <p className="text-gray-600">
-                Gặp gỡ và kết nối với cộng đồng sinh viên, chuyên gia và doanh nghiệp trong lĩnh vực Blockchain và công
-                nghệ.
+                Gặp gỡ và kết nối với cộng đồng sinh viên, chuyên gia và doanh
+                nghiệp trong lĩnh vực Blockchain và công nghệ.
               </p>
             </div>
 
@@ -62,9 +79,12 @@ export default function JoinPage() {
               <div className="w-16 h-16 bg-[#004987]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="h-8 w-8 text-[#004987]" />
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-[#004987]">Cơ hội việc làm</h3>
+              <h3 className="text-xl font-semibold mb-2 text-[#004987]">
+                Cơ hội việc làm
+              </h3>
               <p className="text-gray-600">
-                Tiếp cận với các cơ hội thực tập, việc làm và dự án thực tế từ các đối tác doanh nghiệp của CLB.
+                Tiếp cận với các cơ hội thực tập, việc làm và dự án thực tế từ
+                các đối tác doanh nghiệp của CLB.
               </p>
             </div>
           </div>
@@ -75,17 +95,22 @@ export default function JoinPage() {
       <section className="py-16 bg-gray-50">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#004987] mb-4">Đăng ký tham gia</h2>
+            <h2 className="text-3xl font-bold text-[#004987] mb-4">
+              Đăng ký tham gia
+            </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Điền thông tin vào mẫu đơn dưới đây để đăng ký trở thành thành viên CLB Blockchain UTC
+              Điền thông tin vào mẫu đơn dưới đây để đăng ký trở thành thành
+              viên CLB Blockchain UTC
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
             <form className="space-y-6">
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#004987]">Thông tin cá nhân</h3>
+                <h3 className="text-xl font-semibold text-[#004987]">
+                  Thông tin cá nhân
+                </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -94,18 +119,28 @@ export default function JoinPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="studentId">Mã sinh viên</Label>
-                    <Input id="studentId" placeholder="Nhập mã sinh viên của bạn" />
+                    <Input
+                      id="studentId"
+                      placeholder="Nhập mã sinh viên của bạn"
+                    />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="Nhập địa chỉ email của bạn" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Nhập địa chỉ email của bạn"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Số điện thoại</Label>
-                    <Input id="phone" placeholder="Nhập số điện thoại của bạn" />
+                    <Input
+                      id="phone"
+                      placeholder="Nhập số điện thoại của bạn"
+                    />
                   </div>
                 </div>
 
@@ -143,7 +178,9 @@ export default function JoinPage() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#004987]">Thông tin bổ sung</h3>
+                <h3 className="text-xl font-semibold text-[#004987]">
+                  Thông tin bổ sung
+                </h3>
 
                 <div className="space-y-2">
                   <Label>Bạn quan tâm đến lĩnh vực nào trong Blockchain?</Label>
@@ -222,26 +259,41 @@ export default function JoinPage() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="any" id="team-any" />
-                      <Label htmlFor="team-any">Bất kỳ (theo sự phân công của CLB)</Label>
+                      <Label htmlFor="team-any">
+                        Bất kỳ (theo sự phân công của CLB)
+                      </Label>
                     </div>
                   </RadioGroup>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="experience">Kinh nghiệm về Blockchain (nếu có)</Label>
-                  <Textarea id="experience" placeholder="Chia sẻ kinh nghiệm của bạn về Blockchain (nếu có)" />
+                  <Label htmlFor="experience">
+                    Kinh nghiệm về Blockchain (nếu có)
+                  </Label>
+                  <Textarea
+                    id="experience"
+                    placeholder="Chia sẻ kinh nghiệm của bạn về Blockchain (nếu có)"
+                  />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="motivation">Lý do bạn muốn tham gia CLB</Label>
-                  <Textarea id="motivation" placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain UTC" />
+                  <Label htmlFor="motivation">
+                    Lý do bạn muốn tham gia CLB
+                  </Label>
+                  <Textarea
+                    id="motivation"
+                    placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain UTC"
+                  />
                 </div>
 
                 <div className="flex items-center space-x-2">
                   <Checkbox id="terms" />
                   <label htmlFor="terms" className="text-sm text-gray-600">
                     Tôi đồng ý với{" "}
-                    <Link href="/terms" className="text-[#004987] hover:underline">
+                    <Link
+                      href="/terms"
+                      className="text-[#004987] hover:underline"
+                    >
                       điều khoản và điều kiện
                     </Link>{" "}
                     của CLB Blockchain UTC
@@ -249,7 +301,10 @@ export default function JoinPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full bg-[#004987] hover:bg-[#003b6d]">
+              <Button
+                type="submit"
+                className="w-full bg-[#004987] hover:bg-[#003b6d]"
+              >
                 Gửi đơn đăng ký
               </Button>
             </form>
@@ -261,7 +316,9 @@ export default function JoinPage() {
       <section className="py-16 bg-white">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[#004987] mb-4">Câu hỏi thường gặp</h2>
+            <h2 className="text-3xl font-bold text-[#004987] mb-4">
+              Câu hỏi thường gặp
+            </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
           </div>
 
@@ -273,7 +330,8 @@ export default function JoinPage() {
                   "Tất cả sinh viên đang học tại Trường Đại học Giao thông Vận tải đều có thể đăng ký tham gia CLB, không phân biệt khoa, ngành hay năm học.",
               },
               {
-                question: "Tôi cần có kiến thức về Blockchain để tham gia không?",
+                question:
+                  "Tôi cần có kiến thức về Blockchain để tham gia không?",
                 answer:
                   "Không, CLB chào đón tất cả sinh viên có đam mê và quan tâm đến công nghệ Blockchain, bất kể trình độ kiến thức. Chúng tôi có các khóa học và workshop từ cơ bản đến nâng cao phù hợp với mọi đối tượng.",
               },
@@ -289,7 +347,9 @@ export default function JoinPage() {
               },
             ].map((faq, index) => (
               <div key={index} className="bg-gray-50 rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-[#004987] mb-2">{faq.question}</h3>
+                <h3 className="text-lg font-semibold text-[#004987] mb-2">
+                  {faq.question}
+                </h3>
                 <p className="text-gray-600">{faq.answer}</p>
               </div>
             ))}
@@ -297,7 +357,10 @@ export default function JoinPage() {
 
           <div className="text-center mt-8">
             <Link href="/faq">
-              <Button variant="outline" className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white">
+              <Button
+                variant="outline"
+                className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
+              >
                 Xem tất cả câu hỏi
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
@@ -306,5 +369,5 @@ export default function JoinPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

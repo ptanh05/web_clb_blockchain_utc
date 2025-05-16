@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Blockchain Pioneer Student",
   description: "Câu lạc bộ Blockchain thuộc Trường Đại học Giao thông Vận tải",
-  generator: "v0.dev & theanh.dev",
+  generator: "theanh.dev",
 };
 
 export default function RootLayout({

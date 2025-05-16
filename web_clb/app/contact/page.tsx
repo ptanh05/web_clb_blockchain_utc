@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
   MapPin,
   Mail,
@@ -22,73 +22,86 @@ import {
   MessageSquare,
   ArrowRight,
   ExternalLink,
-} from "lucide-react"
-import Link from "next/link"
-import Image from "next/image"
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { AnimatedDivider } from "@/components/ui/animated-section";
 
 export default function ContactPage() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [focusedField, setFocusedField] = useState<string | null>(null)
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 300)
+      setIsVisible(true);
+    }, 300);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
 
     // Simulate form submission
     setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubmitted(true)
+      setIsSubmitting(false);
+      setIsSubmitted(true);
 
       // Reset form after showing success message
       setTimeout(() => {
-        setIsSubmitted(false)
+        setIsSubmitted(false);
         setFormState({
           name: "",
           email: "",
           subject: "",
           message: "",
-        })
-      }, 5000)
-    }, 1500)
-  }
+        });
+      }, 5000);
+    }, 1500);
+  };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     setFormState((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Banner */}
       <section className="relative w-full h-[300px] bg-gradient-to-r from-[#004987] via-[#0070b8] to-[#00a1e0] overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center" />
+          <div className="absolute inset-0  bg-cover bg-center" />
         </div>
         {/* Hero SVG Pattern */}
         <div className="absolute inset-0 opacity-10">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1" />
+              <pattern
+                id="grid"
+                width="40"
+                height="40"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 40 0 L 0 0 0 40"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="1"
+                />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -101,10 +114,17 @@ export default function ContactPage() {
 
         <div className="container relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight animate-fade-in">
-            <span className="inline-block transform hover:scale-105 transition-transform duration-300">Liên hệ</span>
+            <span className="inline-block transform hover:scale-105 transition-transform duration-300">
+              Liên hệ
+            </span>
           </h1>
-          <p className="text-lg max-w-2xl animate-slide-in" style={{ animationDelay: "200ms" }}>
-            Kết nối với CLB Blockchain UTC - Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn
+          <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
+          <p
+            className="text-lg max-w-2xl animate-slide-in"
+            style={{ animationDelay: "200ms" }}
+          >
+            Kết nối với CLB Blockchain UTC - Chúng tôi luôn sẵn sàng lắng nghe
+            và hỗ trợ bạn
           </p>
         </div>
       </section>
@@ -147,7 +167,12 @@ export default function ContactPage() {
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+              <pattern
+                id="dots"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
                 <circle cx="10" cy="10" r="1" fill="#004987" />
               </pattern>
             </defs>
@@ -197,19 +222,32 @@ export default function ContactPage() {
               {/* Contact Information */}
               <div
                 className={`transition-all duration-700 transform ${
-                  isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-10 opacity-0"
                 }`}
               >
                 <div className="bg-white rounded-xl shadow-md p-8 border border-gray-100 relative overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
                   {/* Contact Info Card SVG Background */}
                   <div className="absolute top-0 right-0 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity duration-300">
-                    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="200"
+                      height="200"
+                      viewBox="0 0 200 200"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         fill="url(#gradient4)"
                         d="M39.5,31.7C36.7,38.7,17.8,41.5,9.7,48.5C1.6,55.5,4.2,66.7,4.3,76.8C4.4,86.9,1.9,95.8,5.5,102.5C9.1,109.1,18.9,113.5,27.8,119.2C36.7,124.9,44.7,132,54.1,135.9C63.5,139.8,74.3,140.6,83.8,138.3C93.3,136,101.5,130.7,110.1,126.3C118.7,121.9,127.6,118.5,133.8,112.2C140,105.9,143.4,96.7,147.4,87.8C151.4,78.9,156,70.3,155.8,61.2C155.6,52.1,150.7,42.4,144.1,34.8C137.5,27.2,129.2,21.7,119.7,17.3C110.2,12.9,99.5,9.7,89.1,9.2C78.7,8.7,68.6,10.9,59.4,15.1C50.2,19.3,42.3,24.7,39.5,31.7Z"
                       />
                       <defs>
-                        <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient
+                          id="gradient4"
+                          x1="0%"
+                          y1="0%"
+                          x2="100%"
+                          y2="100%"
+                        >
                           <stop offset="0%" stopColor="#004987" />
                           <stop offset="100%" stopColor="#00a1e0" />
                         </linearGradient>
@@ -230,9 +268,12 @@ export default function ContactPage() {
                         <MapPin className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold mb-2 text-gray-800">Địa chỉ</h3>
+                        <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                          Địa chỉ
+                        </h3>
                         <p className="text-gray-600 leading-relaxed">
-                          Phòng 305, Nhà A9, Trường Đại học Giao thông Vận tải, Số 3 Cầu Giấy, Hà Nội
+                          Phòng 305, Nhà A9, Trường Đại học Giao thông Vận tải,
+                          Số 3 Cầu Giấy, Hà Nội
                         </p>
                       </div>
                     </div>
@@ -242,7 +283,9 @@ export default function ContactPage() {
                         <Mail className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold mb-2 text-gray-800">Email</h3>
+                        <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                          Email
+                        </h3>
                         <p className="text-gray-600">
                           <Link
                             href="mailto:blockchain.utc@gmail.com"
@@ -259,7 +302,9 @@ export default function ContactPage() {
                         <Phone className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold mb-2 text-gray-800">Điện thoại</h3>
+                        <h3 className="text-lg font-semibold mb-2 text-gray-800">
+                          Điện thoại
+                        </h3>
                         <p className="text-gray-600">
                           <Link
                             href="tel:+84987654321"
@@ -273,7 +318,9 @@ export default function ContactPage() {
                   </div>
 
                   <div className="mt-10 pt-8 border-t border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Kết nối với chúng tôi</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                      Kết nối với chúng tôi
+                    </h3>
                     <div className="flex gap-4">
                       <Link
                         href="https://facebook.com"
@@ -311,7 +358,9 @@ export default function ContactPage() {
                   </div>
 
                   <div className="mt-10 pt-8 border-t border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Giờ làm việc</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                      Giờ làm việc
+                    </h3>
                     <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 shadow-inner">
                       <p className="text-gray-600 mb-2 flex justify-between">
                         <span>Thứ Hai - Thứ Sáu:</span>
@@ -329,7 +378,9 @@ export default function ContactPage() {
               {/* Contact Form */}
               <div
                 className={`transition-all duration-700 transform ${
-                  isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-10 opacity-0"
                 }`}
                 style={{ transitionDelay: "200ms" }}
               >
@@ -339,12 +390,32 @@ export default function ContactPage() {
 
                   {/* Form SVG Background */}
                   <div className="absolute inset-0 opacity-5 pointer-events-none">
-                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="100%"
+                      height="100%"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <defs>
-                        <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
-                          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="url(#gridGradient)" strokeWidth="0.5" />
+                        <pattern
+                          id="smallGrid"
+                          width="10"
+                          height="10"
+                          patternUnits="userSpaceOnUse"
+                        >
+                          <path
+                            d="M 10 0 L 0 0 0 10"
+                            fill="none"
+                            stroke="url(#gridGradient)"
+                            strokeWidth="0.5"
+                          />
                         </pattern>
-                        <linearGradient id="gridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <linearGradient
+                          id="gridGradient"
+                          x1="0%"
+                          y1="0%"
+                          x2="100%"
+                          y2="100%"
+                        >
                           <stop offset="0%" stopColor="#004987" />
                           <stop offset="100%" stopColor="#00a1e0" />
                         </linearGradient>
@@ -359,9 +430,12 @@ export default function ContactPage() {
                       <div className="text-[#00a1e0] mb-4 animate-bounce-once">
                         <CheckCircle className="h-16 w-16" />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-800 mb-2">Cảm ơn bạn!</h3>
+                      <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                        Cảm ơn bạn!
+                      </h3>
                       <p className="text-gray-600 text-center max-w-md">
-                        Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.
+                        Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ
+                        phản hồi trong thời gian sớm nhất.
                       </p>
                       {/* Success SVG */}
                       <div className="mt-6 transform hover:scale-105 transition-transform duration-300">
@@ -387,12 +461,17 @@ export default function ContactPage() {
                     <form className="space-y-6" onSubmit={handleSubmit}>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2 relative">
-                          <label htmlFor="name" className="text-sm font-medium text-gray-700 flex items-center gap-1.5">
+                          <label
+                            htmlFor="name"
+                            className="text-sm font-medium text-gray-700 flex items-center gap-1.5"
+                          >
                             <User className="h-4 w-4 text-[#004987]" />
                             Họ và tên
                           </label>
                           <div
-                            className={`relative transition-all duration-300 ${focusedField === "name" ? "scale-[1.02]" : ""}`}
+                            className={`relative transition-all duration-300 ${
+                              focusedField === "name" ? "scale-[1.02]" : ""
+                            }`}
                           >
                             <Input
                               id="name"
@@ -420,7 +499,9 @@ export default function ContactPage() {
                             Email
                           </label>
                           <div
-                            className={`relative transition-all duration-300 ${focusedField === "email" ? "scale-[1.02]" : ""}`}
+                            className={`relative transition-all duration-300 ${
+                              focusedField === "email" ? "scale-[1.02]" : ""
+                            }`}
                           >
                             <Input
                               id="email"
@@ -450,7 +531,9 @@ export default function ContactPage() {
                           Tiêu đề
                         </label>
                         <div
-                          className={`relative transition-all duration-300 ${focusedField === "subject" ? "scale-[1.02]" : ""}`}
+                          className={`relative transition-all duration-300 ${
+                            focusedField === "subject" ? "scale-[1.02]" : ""
+                          }`}
                         >
                           <Input
                             id="subject"
@@ -478,7 +561,9 @@ export default function ContactPage() {
                           Nội dung tin nhắn
                         </label>
                         <div
-                          className={`relative transition-all duration-300 ${focusedField === "message" ? "scale-[1.02]" : ""}`}
+                          className={`relative transition-all duration-300 ${
+                            focusedField === "message" ? "scale-[1.02]" : ""
+                          }`}
                         >
                           <Textarea
                             id="message"
@@ -596,10 +681,21 @@ export default function ContactPage() {
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="mapPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+              <pattern
+                id="mapPattern"
+                width="40"
+                height="40"
+                patternUnits="userSpaceOnUse"
+              >
                 <circle cx="20" cy="20" r="1" fill="url(#gradient6)" />
               </pattern>
-              <linearGradient id="gradient6" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient
+                id="gradient6"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#004987" />
                 <stop offset="100%" stopColor="#00a1e0" />
               </linearGradient>
@@ -614,14 +710,22 @@ export default function ContactPage() {
               Bản đồ
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] mx-auto mb-6"></div>
-            <p className="max-w-3xl mx-auto text-gray-600">Tìm đường đến CLB Blockchain UTC</p>
+            <p className="max-w-3xl mx-auto text-gray-600">
+              Tìm đường đến CLB Blockchain UTC
+            </p>
           </div>
 
           <div className="w-full h-[400px] bg-gray-200 rounded-xl overflow-hidden shadow-xl relative transform transition-all duration-500 hover:scale-[1.01] hover:shadow-2xl">
             {/* Map Pin SVG */}
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
               <div className="animate-bounce-slow">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
                     fill="url(#pinGradient)"
@@ -639,7 +743,14 @@ export default function ContactPage() {
                     strokeLinejoin="round"
                   />
                   <defs>
-                    <linearGradient id="pinGradient" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+                    <linearGradient
+                      id="pinGradient"
+                      x1="4"
+                      y1="2"
+                      x2="20"
+                      y2="22"
+                      gradientUnits="userSpaceOnUse"
+                    >
                       <stop stopColor="#004987" />
                       <stop offset="1" stopColor="#00a1e0" />
                     </linearGradient>
@@ -709,10 +820,26 @@ export default function ContactPage() {
         <div className="absolute inset-0 opacity-5 pointer-events-none">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <pattern id="faqPattern" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="url(#gradient7)" strokeWidth="0.5" />
+              <pattern
+                id="faqPattern"
+                width="60"
+                height="60"
+                patternUnits="userSpaceOnUse"
+              >
+                <path
+                  d="M 60 0 L 0 0 0 60"
+                  fill="none"
+                  stroke="url(#gradient7)"
+                  strokeWidth="0.5"
+                />
               </pattern>
-              <linearGradient id="gradient7" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient
+                id="gradient7"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#004987" />
                 <stop offset="100%" stopColor="#00a1e0" />
               </linearGradient>
@@ -732,7 +859,8 @@ export default function ContactPage() {
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
-                question: "CLB Blockchain UTC hoạt động vào những ngày nào trong tuần?",
+                question:
+                  "CLB Blockchain UTC hoạt động vào những ngày nào trong tuần?",
                 answer:
                   "CLB thường tổ chức các buổi sinh hoạt vào tối thứ 4 và sáng thứ 7 hàng tuần. Ngoài ra, còn có các sự kiện đặc biệt được thông báo trước trên các kênh truyền thông của CLB.",
               },
@@ -742,7 +870,8 @@ export default function ContactPage() {
                   "Bạn có thể đăng ký tham gia CLB thông qua mẫu đơn trực tuyến trên trang web của chúng tôi hoặc liên hệ trực tiếp với Ban chủ nhiệm CLB qua email hoặc số điện thoại được cung cấp.",
               },
               {
-                question: "CLB có yêu cầu kiến thức nền tảng về Blockchain không?",
+                question:
+                  "CLB có yêu cầu kiến thức nền tảng về Blockchain không?",
                 answer:
                   "Không, CLB chào đón tất cả sinh viên có đam mê và quan tâm đến công nghệ Blockchain, bất kể trình độ kiến thức. Chúng tôi có các khóa học và workshop từ cơ bản đến nâng cao phù hợp với mọi đối tượng.",
               },
@@ -777,5 +906,5 @@ export default function ContactPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
