@@ -1,6 +1,5 @@
 "use client";
 
-import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,11 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+const Player = dynamic(
+  () => import("@lottiefiles/react-lottie-player").then((m) => m.Player),
+  { ssr: false }
+);
+import dynamic from "next/dynamic";
 
 export default function Home() {
   const [heroRef, heroInView] = useInView({

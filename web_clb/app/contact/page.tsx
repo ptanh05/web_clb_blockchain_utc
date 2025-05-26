@@ -27,7 +27,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AnimatedDivider } from "@/components/ui/animated-section";
 
-export default function ContactPage() {
+export default function ContactPage() {         
   const [isVisible, setIsVisible] = useState(false);
   const [formState, setFormState] = useState({
     name: "",
