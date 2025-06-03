@@ -42,32 +42,6 @@ export default function Home() {
         {/* Background image with parallax effect */}
         <div className="absolute inset-0">
           <div className="w-full h-full bg-[url('/a8fd3637dcec6fb236fd.jpg?height=1080&width=1920')] bg-cover bg-center bg-fixed" />
-          {/* Animated decorative blobs */}
-          <motion.div
-            className="absolute -top-10 -left-10 w-[300px] h-[300px] bg-white opacity-5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.05, 0.1, 0.05],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.div
-            className="absolute -bottom-20 -right-20 w-[400px] h-[400px] bg-blue-500 opacity-5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.05, 0.15, 0.05],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-          />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6" ref={heroRef}>
@@ -120,21 +94,7 @@ export default function Home() {
                 </Link>
               </motion.div>
             </div>
-
             {/* RIGHT: Animation */}
-            <motion.div
-              className="hidden md:block"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={heroInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              <Player
-                autoplay
-                loop
-                src="/animations/blockchain.json"
-                className="w-full h-full"
-              />
-            </motion.div>
           </motion.div>
         </div>
       </section>

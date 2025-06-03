@@ -1,3 +1,10 @@
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,15 +19,109 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Users, BookOpen, Award, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { toast } from "sonner";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+// Schema validation
+const formSchema = z.object({
+  ho_ten: z.string().min(2, "Họ tên phải có ít nhất 2 ký tự"),
+  ma_sinh_vien: z.string().min(5, "Mã sinh viên không hợp lệ"),
+  email: z.string().email("Email không hợp lệ"),
+  so_dien_thoai: z.string().optional(),
+  khoa_nganh: z.string().min(1, "Vui lòng chọn khoa/ngành"),
+  nam_hoc: z.string().min(1, "Vui lòng chọn năm học"),
+  linh_vuc_quan_tam: z
+    .array(z.string())
+    .min(1, "Vui lòng chọn ít nhất một lĩnh vực"),
+  ban_tham_gia: z.string().min(1, "Vui lòng chọn ban muốn tham gia"),
+  kinh_nghiem_blockchain: z.string().optional(),
+  ly_do_tham_gia: z.string().min(10, "Lý do tham gia phải có ít nhất 10 ký tự"),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function JoinPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      ho_ten: "",
+      ma_sinh_vien: "",
+      email: "",
+      so_dien_thoai: "",
+      khoa_nganh: "",
+      nam_hoc: "",
+      linh_vuc_quan_tam: [],
+      ban_tham_gia: "",
+      kinh_nghiem_blockchain: "",
+      ly_do_tham_gia: "",
+    },
+  });
+
+  async function onSubmit(data: FormData) {
+    try {
+      setIsSubmitting(true);
+
+      // Chuyển đổi mảng lĩnh vực quan tâm thành chuỗi
+      const submitData = {
+        ...data,
+        linh_vuc_quan_tam: data.linh_vuc_quan_tam.join(", "),
+      };
+
+      const response = await fetch("/api/join", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(submitData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        if (result.errors) {
+          result.errors.forEach((error: { field: string; message: string }) => {
+            form.setError(error.field as any, {
+              type: "server",
+              message: error.message,
+            });
+          });
+          throw new Error("Vui lòng kiểm tra lại thông tin");
+        }
+        throw new Error(result.message || "Đăng ký thất bại");
+      }
+
+      toast.success(
+        result.message ||
+          "Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm."
+      );
+      form.reset();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+      }
+      console.error("Form submission error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Banner */}
       <section className="relative w-full h-[300px] bg-gradient-to-r from-[#004987] to-[#0070b8] overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0  bg-cover bg-center" />
+          <div className="absolute inset-0 bg-cover bg-center" />
         </div>
         <div className="container relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -106,208 +207,341 @@ export default function JoinPage() {
           </div>
 
           <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
-            <form className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#004987]">
-                  Thông tin cá nhân
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="fullName">Họ và tên</Label>
-                    <Input id="fullName" placeholder="Nhập họ và tên của bạn" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="studentId">Mã sinh viên</Label>
-                    <Input
-                      id="studentId"
-                      placeholder="Nhập mã sinh viên của bạn"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Nhập địa chỉ email của bạn"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Số điện thoại</Label>
-                    <Input
-                      id="phone"
-                      placeholder="Nhập số điện thoại của bạn"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="faculty">Khoa/Ngành</Label>
-                  <Select>
-                    <SelectTrigger id="faculty">
-                      <SelectValue placeholder="Chọn khoa/ngành của bạn" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cntt">Công nghệ thông tin</SelectItem>
-                      <SelectItem value="dtvt">Điện tử viễn thông</SelectItem>
-                      <SelectItem value="ktxd">Kỹ thuật xây dựng</SelectItem>
-                      <SelectItem value="ktct">Kinh tế vận tải</SelectItem>
-                      <SelectItem value="other">Khác</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="year">Năm học</Label>
-                  <Select>
-                    <SelectTrigger id="year">
-                      <SelectValue placeholder="Chọn năm học của bạn" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">Năm 1</SelectItem>
-                      <SelectItem value="2">Năm 2</SelectItem>
-                      <SelectItem value="3">Năm 3</SelectItem>
-                      <SelectItem value="4">Năm 4</SelectItem>
-                      <SelectItem value="5">Năm 5</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#004987]">
-                  Thông tin bổ sung
-                </h3>
-
-                <div className="space-y-2">
-                  <Label>Bạn quan tâm đến lĩnh vực nào trong Blockchain?</Label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-dev" />
-                      <label
-                        htmlFor="interest-dev"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Phát triển (Development)
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-research" />
-                      <label
-                        htmlFor="interest-research"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Nghiên cứu (Research)
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-defi" />
-                      <label
-                        htmlFor="interest-defi"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Tài chính phi tập trung (DeFi)
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-nft" />
-                      <label
-                        htmlFor="interest-nft"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        NFT & Metaverse
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-trading" />
-                      <label
-                        htmlFor="interest-trading"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Giao dịch (Trading)
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox id="interest-other" />
-                      <label
-                        htmlFor="interest-other"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                      >
-                        Khác
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Bạn muốn tham gia ban nào trong CLB?</Label>
-                  <RadioGroup defaultValue="tech">
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="tech" id="team-tech" />
-                      <Label htmlFor="team-tech">Ban Kỹ thuật</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="comm" id="team-comm" />
-                      <Label htmlFor="team-comm">Ban Truyền thông</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="event" id="team-event" />
-                      <Label htmlFor="team-event">Ban Sự kiện</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="any" id="team-any" />
-                      <Label htmlFor="team-any">
-                        Bất kỳ (theo sự phân công của CLB)
-                      </Label>
-                    </div>
-                  </RadioGroup>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="experience">
-                    Kinh nghiệm về Blockchain (nếu có)
-                  </Label>
-                  <Textarea
-                    id="experience"
-                    placeholder="Chia sẻ kinh nghiệm của bạn về Blockchain (nếu có)"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="motivation">
-                    Lý do bạn muốn tham gia CLB
-                  </Label>
-                  <Textarea
-                    id="motivation"
-                    placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain UTC"
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="terms" />
-                  <label htmlFor="terms" className="text-sm text-gray-600">
-                    Tôi đồng ý với{" "}
-                    <Link
-                      href="/terms"
-                      className="text-[#004987] hover:underline"
-                    >
-                      điều khoản và điều kiện
-                    </Link>{" "}
-                    của CLB Blockchain UTC
-                  </label>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-[#004987] hover:bg-[#003b6d]"
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6"
               >
-                Gửi đơn đăng ký
-              </Button>
-            </form>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold text-[#004987]">
+                    Thông tin cá nhân
+                  </h3>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="ho_ten"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Họ và tên</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập họ và tên của bạn"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="ma_sinh_vien"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mã sinh viên</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập mã sinh viên của bạn"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder="Nhập địa chỉ email của bạn"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="so_dien_thoai"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Số điện thoại</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập số điện thoại của bạn"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="khoa_nganh"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Khoa/Ngành</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn khoa/ngành của bạn" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="cntt">
+                              Công nghệ thông tin
+                            </SelectItem>
+                            <SelectItem value="dtvt">
+                              Điện tử viễn thông
+                            </SelectItem>
+                            <SelectItem value="ktxd">
+                              Kỹ thuật xây dựng
+                            </SelectItem>
+                            <SelectItem value="ktct">
+                              Kinh tế vận tải
+                            </SelectItem>
+                            <SelectItem value="other">Khác</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="nam_hoc"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Năm học</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn năm học của bạn" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="1">Năm 1</SelectItem>
+                            <SelectItem value="2">Năm 2</SelectItem>
+                            <SelectItem value="3">Năm 3</SelectItem>
+                            <SelectItem value="4">Năm 4</SelectItem>
+                            <SelectItem value="5">Năm 5</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold text-[#004987]">
+                    Thông tin bổ sung
+                  </h3>
+
+                  <FormField
+                    control={form.control}
+                    name="linh_vuc_quan_tam"
+                    render={() => (
+                      <FormItem>
+                        <FormLabel>
+                          Bạn quan tâm đến lĩnh vực nào trong Blockchain?
+                        </FormLabel>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {[
+                            {
+                              id: "dev",
+                              label: "Phát triển (Development)",
+                              value: "dev",
+                            },
+                            {
+                              id: "research",
+                              label: "Nghiên cứu (Research)",
+                              value: "research",
+                            },
+                            {
+                              id: "defi",
+                              label: "Tài chính phi tập trung (DeFi)",
+                              value: "defi",
+                            },
+                            {
+                              id: "nft",
+                              label: "NFT & Metaverse",
+                              value: "nft",
+                            },
+                            {
+                              id: "trading",
+                              label: "Giao dịch (Trading)",
+                              value: "trading",
+                            },
+                            { id: "other", label: "Khác", value: "other" },
+                          ].map((item) => (
+                            <FormField
+                              key={item.id}
+                              control={form.control}
+                              name="linh_vuc_quan_tam"
+                              render={({ field }) => {
+                                return (
+                                  <FormItem
+                                    key={item.id}
+                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                  >
+                                    <FormControl>
+                                      <Checkbox
+                                        checked={field.value?.includes(
+                                          item.value
+                                        )}
+                                        onCheckedChange={(checked) => {
+                                          return checked
+                                            ? field.onChange([
+                                                ...field.value,
+                                                item.value,
+                                              ])
+                                            : field.onChange(
+                                                field.value?.filter(
+                                                  (value) =>
+                                                    value !== item.value
+                                                )
+                                              );
+                                        }}
+                                      />
+                                    </FormControl>
+                                    <FormLabel className="font-normal">
+                                      {item.label}
+                                    </FormLabel>
+                                  </FormItem>
+                                );
+                              }}
+                            />
+                          ))}
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="ban_tham_gia"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel>
+                          Bạn muốn tham gia ban nào trong CLB?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex flex-col space-y-1"
+                          >
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="ban_ky_thuat" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Ban Kỹ thuật
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="ban_truyen_thong" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Ban Truyền thông
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="ban_doi_ngoai" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Ban Đối ngoại
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="ban_noi_bo" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Ban Nội bộ
+                              </FormLabel>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="kinh_nghiem_blockchain"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Kinh nghiệm về Blockchain (nếu có)
+                        </FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Mô tả kinh nghiệm của bạn về Blockchain..."
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="ly_do_tham_gia"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Lý do tham gia CLB</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain UTC..."
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-[#004987] hover:bg-[#003b6d]"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Đang xử lý..." : "Đăng ký tham gia"}
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </section>
