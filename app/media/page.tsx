@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { AnimatedDivider } from "@/components/ui/animated-section";
+import { toast } from "sonner";
 
 // Định nghĩa types cho media
 type BaseMedia = {
@@ -35,6 +36,7 @@ type BaseMedia = {
   thumbnail: string;
   category: string;
   date: string;
+  time?: string;
   views: number;
   tags: string[];
 };
@@ -57,59 +59,6 @@ type DocumentMedia = BaseMedia & {
 
 type Media = ImageMedia | VideoMedia | DocumentMedia;
 
-// Mock data cho thư viện media
-const mediaData: Media[] = [
-  {
-    id: 1,
-    title: "Workshop Blockchain Fundamentals 2024",
-    type: "image",
-    url: "/placeholder.svg?height=400&width=600&text=Workshop+2024",
-    thumbnail: "/placeholder.svg?height=200&width=300&text=Workshop+2024",
-    category: "Sự kiện",
-    date: "20/04/2024",
-    views: 1234,
-    downloads: 89,
-    tags: ["Workshop", "Blockchain", "Education"],
-  },
-  {
-    id: 2,
-    title: "Hackathon Blockchain UTC 2024",
-    type: "image",
-    url: "/placeholder.svg?height=400&width=600&text=Hackathon+2024",
-    thumbnail: "/placeholder.svg?height=200&width=300&text=Hackathon+2024",
-    category: "Sự kiện",
-    date: "15/04/2024",
-    views: 856,
-    downloads: 45,
-    tags: ["Hackathon", "Blockchain", "Competition"],
-  },
-  {
-    id: 3,
-    title: "Giới thiệu về CLB Blockchain UTC",
-    type: "video",
-    url: "https://www.youtube.com/watch?v=example",
-    thumbnail: "/placeholder.svg?height=400&width=600&text=Intro+Video",
-    category: "Giới thiệu",
-    date: "10/04/2024",
-    views: 2345,
-    duration: "5:30",
-    tags: ["Introduction", "Club", "Overview"],
-  },
-  {
-    id: 4,
-    title: "Tài liệu học Blockchain cơ bản",
-    type: "document",
-    url: "/documents/blockchain-basics.pdf",
-    thumbnail: "/placeholder.svg?height=400&width=600&text=Document",
-    category: "Tài liệu",
-    date: "05/04/2024",
-    views: 567,
-    downloads: 234,
-    fileSize: "2.5 MB",
-    tags: ["Document", "Learning", "Blockchain"],
-  },
-];
-
 export default function MediaPage() {
   const [selectedType, setSelectedType] = useState<Media["type"] | "all">(
     "all"
@@ -118,10 +67,42 @@ export default function MediaPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedMedia, setSelectedMedia] = useState<Media | null>(null);
+  const [mediaData, setMediaData] = useState<Media[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Fetch media data
+  useEffect(() => {
+    const fetchMedia = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await fetch(
+          `/api/media?type=${
+            selectedType !== "all" ? selectedType : ""
+          }&category=${
+            selectedCategory !== "all" ? selectedCategory : ""
+          }&search=${searchQuery}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch media data");
+        }
+        const data = await response.json();
+        setMediaData(data.data || []);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        toast.error("Failed to load media data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMedia();
+  }, [selectedType, selectedCategory, searchQuery]);
 
   // Lọc media theo type, category và search query
   const filteredMedia = mediaData.filter((media) => {
@@ -354,99 +335,124 @@ export default function MediaPage() {
             </motion.div>
           </motion.div>
 
-          {/* Media Grid/List */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className={
-              viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                : "space-y-4"
-            }
-          >
-            {filteredMedia.map((media) => (
-              <motion.div
-                key={media.id}
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className={`bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${
-                  viewMode === "list" ? "flex gap-4" : ""
-                }`}
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
+              <p className="mt-4 text-gray-600">Đang tải dữ liệu...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !isLoading && (
+            <div className="text-center py-12">
+              <p className="text-red-600 mb-4">{error}</p>
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+                className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
               >
-                {/* Thumbnail */}
-                <div
-                  className={`relative ${
-                    viewMode === "list" ? "w-48" : "h-48"
-                  } overflow-hidden group`}
+                Thử lại
+              </Button>
+            </div>
+          )}
+
+          {/* Media Grid/List */}
+          {!isLoading && !error && (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                  : "space-y-4"
+              }
+            >
+              {filteredMedia.map((media) => (
+                <motion.div
+                  key={media.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  className={`bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 ${
+                    viewMode === "list" ? "flex gap-4" : ""
+                  }`}
                 >
-                  <Image
-                    src={media.thumbnail}
-                    alt={media.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  {media.type === "video" && (
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Play className="w-12 h-12 text-white" />
-                    </div>
-                  )}
-                  <div className="absolute top-4 left-4">
-                    <span className="px-2 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
-                      {media.category}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}>
-                  <div className="flex items-center gap-2 mb-2">
-                    {media.type === "image" ? (
-                      <ImageIcon className="w-4 h-4 text-gray-500" />
-                    ) : media.type === "video" ? (
-                      <Video className="w-4 h-4 text-gray-500" />
-                    ) : (
-                      <FileText className="w-4 h-4 text-gray-500" />
-                    )}
-                    <span className="text-sm text-gray-500">
-                      {media.type === "image"
-                        ? "Hình ảnh"
-                        : media.type === "video"
-                        ? "Video"
-                        : "Tài liệu"}
-                    </span>
-                  </div>
-
-                  <h3 className="text-lg font-semibold text-[#004987] mb-2 line-clamp-2">
-                    {media.title}
-                  </h3>
-
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      <span>{media.date}</span>
-                    </div>
+                  {/* Thumbnail */}
+                  <div
+                    className={`relative ${
+                      viewMode === "list" ? "w-48" : "h-48"
+                    } overflow-hidden group`}
+                  >
+                    <Image
+                      src={media.thumbnail}
+                      alt={media.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
                     {media.type === "video" && (
-                      <div className="flex items-center">
-                        <Clock className="w-4 h-4 mr-1" />
-                        <span>{media.duration}</span>
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Play className="w-12 h-12 text-white" />
                       </div>
                     )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {media.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors duration-300"
-                      >
-                        {tag}
+                    <div className="absolute top-4 left-4">
+                      <span className="px-2 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
+                        {media.category}
                       </span>
-                    ))}
+                    </div>
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                    <div className="flex items-center gap-4">
+                  {/* Content */}
+                  <div className={`p-6 ${viewMode === "list" ? "flex-1" : ""}`}>
+                    <div className="flex items-center gap-2 mb-2">
+                      {media.type === "image" ? (
+                        <ImageIcon className="w-4 h-4 text-gray-500" />
+                      ) : media.type === "video" ? (
+                        <Video className="w-4 h-4 text-gray-500" />
+                      ) : (
+                        <FileText className="w-4 h-4 text-gray-500" />
+                      )}
+                      <span className="text-sm text-gray-500">
+                        {media.type === "image"
+                          ? "Hình ảnh"
+                          : media.type === "video"
+                          ? "Video"
+                          : "Tài liệu"}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-semibold text-[#004987] mb-2 line-clamp-2">
+                      {media.title}
+                    </h3>
+
+                    {/* Date and Time */}
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" />
+                        <span>{media.date}</span>
+                      </div>
+                      {media.time && (
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span>{media.time}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {media.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Views and Downloads/FileSize/Duration */}
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                       <div className="flex items-center">
                         <Eye className="w-4 h-4 mr-1" />
                         <span>{media.views} lượt xem</span>
@@ -466,45 +472,52 @@ export default function MediaPage() {
                           <span>{media.fileSize}</span>
                         </>
                       )}
+                      {media.type === "video" && media.duration && (
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span>{media.duration}</span>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  <div className="flex justify-between items-center">
-                    <Button
-                      variant="outline"
-                      className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                      onClick={() => setSelectedMedia(media)}
-                    >
-                      {media.type === "video" ? "Xem video" : "Xem chi tiết"}
-                      <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <div className="flex gap-2">
+                    {/* Action buttons */}
+                    <div className="flex justify-between items-center">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-gray-500 hover:text-[#004987] transition-colors duration-300"
+                        variant="outline"
+                        className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
+                        onClick={() => setSelectedMedia(media)}
                       >
-                        <Share2 className="w-4 h-4" />
+                        {media.type === "video" ? "Xem video" : "Xem chi tiết"}
+                        <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
-                      {(media.type === "image" ||
-                        media.type === "document") && (
+                      <div className="flex gap-2">
                         <Button
                           variant="ghost"
                           size="icon"
                           className="text-gray-500 hover:text-[#004987] transition-colors duration-300"
                         >
-                          <Download className="w-4 h-4" />
+                          <Share2 className="w-4 h-4" />
                         </Button>
-                      )}
+                        {(media.type === "image" ||
+                          media.type === "document") && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-gray-500 hover:text-[#004987] transition-colors duration-300"
+                          >
+                            <Download className="w-4 h-4" />
+                          </Button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
 
           {/* No Results Message */}
-          {filteredMedia.length === 0 && (
+          {!isLoading && !error && filteredMedia.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -585,18 +598,20 @@ export default function MediaPage() {
                 <h3 className="text-2xl font-semibold text-[#004987] mb-4">
                   {selectedMedia.title}
                 </h3>
+                {/* Date and Time in Modal */}
                 <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                   <div className="flex items-center">
                     <Calendar className="w-4 h-4 mr-1" />
                     <span>{selectedMedia.date}</span>
                   </div>
-                  {selectedMedia.type === "video" && (
+                  {selectedMedia.time && (
                     <div className="flex items-center">
                       <Clock className="w-4 h-4 mr-1" />
-                      <span>{selectedMedia.duration}</span>
+                      <span>{selectedMedia.time}</span>
                     </div>
                   )}
                 </div>
+                {/* Tags in Modal */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {selectedMedia.tags.map((tag, index) => (
                     <span
@@ -607,6 +622,7 @@ export default function MediaPage() {
                     </span>
                   ))}
                 </div>
+                {/* Views, Downloads, FileSize, Duration in Modal */}
                 <div className="flex items-center justify-between text-sm text-gray-500">
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
@@ -628,6 +644,13 @@ export default function MediaPage() {
                         <span>{selectedMedia.fileSize}</span>
                       </>
                     )}
+                    {selectedMedia.type === "video" &&
+                      selectedMedia.duration && (
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span>{selectedMedia.duration}</span>
+                        </div>
+                      )}
                   </div>
                 </div>
               </div>
