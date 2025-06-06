@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -22,98 +22,112 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { AnimatedDivider } from "@/components/ui/animated-section";
+import { Partner, PartnerType, PartnerStatus } from "@/app/api/partners/types";
+import { PartnersService } from "@/app/api/partners/partners.service";
+import { toast } from "react-hot-toast";
 
-// Mock data cho đối tác
-const partnersData = [
-  {
-    id: 1,
-    name: "Công ty Công nghệ Blockchain A",
-    logo: "/placeholder.svg?height=100&width=200&text=Partner+1",
-    type: "Công nghệ",
+// Constants for page content
+const PAGE_CONTENT = {
+  hero: {
+    title: "Đối tác & Nhà tài trợ",
     description:
-      "Đối tác chiến lược trong lĩnh vực phát triển công nghệ Blockchain và Web3",
-    website: "https://example.com",
-    email: "contact@example.com",
-    phone: "+84 123 456 789",
-    address: "Hà Nội, Việt Nam",
-    achievements: [
-      "Top 10 công ty công nghệ Blockchain hàng đầu Việt Nam",
-      "Đối tác chiến lược của nhiều dự án Web3 lớn",
-      "Đơn vị đào tạo chuyên sâu về Blockchain",
-    ],
-    collaboration: [
-      "Tổ chức workshop và seminar",
-      "Cung cấp cơ hội thực tập",
-      "Hỗ trợ dự án nghiên cứu",
-    ],
-    status: "active",
+      "Cùng với các đối tác chiến lược, chúng tôi xây dựng cộng đồng Blockchain mạnh mẽ",
   },
-  {
-    id: 2,
-    name: "Tập đoàn Tài chính B",
-    logo: "/placeholder.svg?height=100&width=200&text=Partner+2",
-    type: "Tài chính",
+  filters: {
+    searchPlaceholder: "Tìm kiếm đối tác...",
+    typeOptions: [
+      "all",
+      "academic",
+      "business",
+      "community",
+      "government",
+      "technology",
+    ],
+    typeLabels: {
+      all: "Tất cả",
+      academic: "Học thuật",
+      business: "Doanh nghiệp",
+      community: "Cộng đồng",
+      government: "Chính phủ",
+      technology: "Công nghệ",
+    },
+  },
+  status: {
+    active: "Đang hợp tác",
+    inactive: "Không hoạt động",
+    pending: "Đang xử lý",
+  },
+  cta: {
+    title: "Trở thành đối tác của chúng tôi",
     description:
-      "Đối tác trong lĩnh vực tài chính và đầu tư vào công nghệ Blockchain",
-    website: "https://example.com",
-    email: "contact@example.com",
-    phone: "+84 123 456 789",
-    address: "TP. Hồ Chí Minh, Việt Nam",
-    achievements: [
-      "Top 5 công ty tài chính công nghệ",
-      "Đầu tư vào nhiều dự án Blockchain tiềm năng",
-      "Đối tác chiến lược của các sàn giao dịch lớn",
-    ],
-    collaboration: [
-      "Tài trợ cho các sự kiện",
-      "Mentoring cho dự án khởi nghiệp",
-      "Cung cấp học bổng cho sinh viên",
-    ],
-    status: "active",
+      "Hãy cùng chúng tôi xây dựng cộng đồng Blockchain mạnh mẽ và phát triển bền vững",
+    buttonText: "Liên hệ ngay",
   },
-  {
-    id: 3,
-    name: "Viện Nghiên cứu Công nghệ C",
-    logo: "/placeholder.svg?height=100&width=200&text=Partner+3",
-    type: "Nghiên cứu",
-    description: "Đối tác nghiên cứu và phát triển công nghệ Blockchain",
-    website: "https://example.com",
-    email: "contact@example.com",
-    phone: "+84 123 456 789",
-    address: "Đà Nẵng, Việt Nam",
-    achievements: [
-      "Viện nghiên cứu hàng đầu về Blockchain",
-      "Nhiều công trình nghiên cứu được công bố quốc tế",
-      "Đối tác của nhiều trường đại học lớn",
-    ],
-    collaboration: [
-      "Hợp tác nghiên cứu",
-      "Tổ chức hội thảo khoa học",
-      "Đào tạo chuyên sâu",
-    ],
-    status: "active",
+  errors: {
+    loading: "Không thể tải danh sách đối tác",
+    adding: "Không thể thêm đối tác mới",
+    updating: "Không thể cập nhật thông tin đối tác",
+    deleting: "Không thể xóa đối tác",
+    network: "Lỗi kết nối mạng",
+    unknown: "Đã xảy ra lỗi không xác định",
+    noResults: "Không tìm thấy đối tác nào phù hợp",
   },
-];
+};
+
+// Thêm interface cho partner với arrays
+interface PartnerWithArrays {
+  id: number;
+  name: string;
+  logo: string;
+  type: PartnerType;
+  description: string;
+  website: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  achievements: string[];
+  collaboration: string[];
+  status: PartnerStatus;
+  created_at: string;
+  updated_at: string;
+}
 
 export default function PartnersPage() {
-  const [selectedPartner, setSelectedPartner] = useState<
-    (typeof partnersData)[0] | null
-  >(null);
-  const [selectedType, setSelectedType] = useState<string>("all");
+  const [partners, setPartners] = useState<PartnerWithArrays[]>([]);
+  const [selectedPartner, setSelectedPartner] =
+    useState<PartnerWithArrays | null>(null);
+  const [selectedType, setSelectedType] = useState<PartnerType | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  // Lọc đối tác theo type và search query
-  const filteredPartners = partnersData.filter((partner) => {
-    const matchesType = selectedType === "all" || partner.type === selectedType;
-    const matchesSearch =
-      partner.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      partner.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesType && matchesSearch;
-  });
+  // Fetch partners khi component mount hoặc khi filter thay đổi
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await PartnersService.filterPartners(
+          selectedType,
+          searchQuery
+        );
+        setPartners(data);
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : PAGE_CONTENT.errors.loading;
+        setError(errorMessage);
+        toast.error(errorMessage);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPartners();
+  }, [selectedType, searchQuery]);
 
   // Animation variants
   const containerVariants = {
@@ -137,60 +151,91 @@ export default function PartnersPage() {
     },
   };
 
-  // Infinite scroll animation for hero section
-  const infiniteScrollVariants = {
-    animate: {
-      x: [0, -1000],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 20,
-          ease: "linear",
-        },
-      },
-    },
+  // Xử lý filter partners
+  const handleFilter = async (type: PartnerType | "all", search: string) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const filteredPartners = await PartnersService.filterPartners(
+        type,
+        search
+      );
+      setPartners(filteredPartners);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : PAGE_CONTENT.errors.loading;
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xử lý thêm partner mới
+  const handleAddPartner = async (
+    partner: Omit<PartnerWithArrays, "id" | "created_at" | "updated_at">
+  ) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const newPartner = await PartnersService.addPartner(partner);
+      setPartners((prev) => [...prev, newPartner]);
+      toast.success("Thêm đối tác thành công");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : PAGE_CONTENT.errors.adding;
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xử lý cập nhật partner
+  const handleUpdatePartner = async (
+    id: number,
+    partner: Partial<PartnerWithArrays>
+  ) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      const updatedPartner = await PartnersService.updatePartner(id, partner);
+      setPartners((prev) =>
+        prev.map((p) => (p.id === id ? updatedPartner : p))
+      );
+      toast.success("Cập nhật đối tác thành công");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : PAGE_CONTENT.errors.updating;
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xử lý xóa partner
+  const handleDeletePartner = async (id: number) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      await PartnersService.deletePartner(id);
+      setPartners((prev) => prev.filter((p) => p.id !== id));
+      toast.success("Xóa đối tác thành công");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : PAGE_CONTENT.errors.deleting;
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 md:py-32 bg-gradient-to-b from-[#004987] to-[#0070b8] text-white overflow-hidden">
-        {/* Animated background elements */}
-        <motion.div
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Animated blobs */}
-          <motion.div
-            className="absolute -top-10 -left-10 w-[300px] h-[300px] bg-white opacity-5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.05, 0.1, 0.05],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.div
-            className="absolute -bottom-20 -right-20 w-[400px] h-[400px] bg-blue-500 opacity-5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.05, 0.15, 0.05],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1,
-            }}
-          />
-        </motion.div>
-
         <div className="container relative z-10 px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -204,7 +249,7 @@ export default function PartnersPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Đối tác & Nhà tài trợ
+              {PAGE_CONTENT.hero.title}
             </motion.h1>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
 
@@ -214,8 +259,7 @@ export default function PartnersPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Cùng với các đối tác chiến lược, chúng tôi xây dựng cộng đồng
-              Blockchain mạnh mẽ
+              {PAGE_CONTENT.hero.description}
             </motion.p>
           </motion.div>
         </div>
@@ -241,7 +285,7 @@ export default function PartnersPage() {
               >
                 <input
                   type="text"
-                  placeholder="Tìm kiếm đối tác..."
+                  placeholder={PAGE_CONTENT.filters.searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent transition-all duration-300"
@@ -256,110 +300,147 @@ export default function PartnersPage() {
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                {["all", "Công nghệ", "Tài chính", "Nghiên cứu"].map((type) => (
+                {PAGE_CONTENT.filters.typeOptions.map((type) => (
                   <Button
                     key={type}
                     variant={selectedType === type ? "default" : "outline"}
-                    onClick={() => setSelectedType(type)}
+                    onClick={() => setSelectedType(type as PartnerType | "all")}
                     className="transition-all duration-300"
                   >
-                    {type === "all" ? "Tất cả" : type}
+                    {
+                      PAGE_CONTENT.filters.typeLabels[
+                        type as keyof typeof PAGE_CONTENT.filters.typeLabels
+                      ]
+                    }
                   </Button>
                 ))}
               </motion.div>
             </div>
           </motion.div>
 
-          {/* Partners Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredPartners.map((partner) => (
-              <motion.div
-                key={partner.id}
-                variants={itemVariants}
-                whileHover={{ y: -5 }}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#004987] mx-auto"></div>
+              <p className="mt-4 text-gray-600">
+                Đang tải danh sách đối tác...
+              </p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="text-center py-12">
+              <p className="text-red-600">{error}</p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => window.location.reload()}
               >
-                {/* Logo */}
-                <div className="relative h-48 bg-gray-100 overflow-hidden group">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.name}
-                    fill
-                    className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                Thử lại
+              </Button>
+            </div>
+          )}
 
-                {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
-                      {partner.type}
-                    </span>
-                    {partner.status === "active" && (
-                      <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                        Đang hợp tác
-                      </span>
-                    )}
+          {/* Partners Grid */}
+          {!isLoading && !error && (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {partners.map((partner) => (
+                <motion.div
+                  key={partner.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  {/* Partner Card Content */}
+                  <div className="relative h-48 bg-gray-100 overflow-hidden group">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      fill
+                      className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-[#004987] mb-2">
-                    {partner.name}
-                  </h3>
-
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {partner.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {partner.collaboration.slice(0, 2).map((item, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors duration-300"
-                      >
-                        {item}
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="px-2 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
+                        {partner.type}
                       </span>
-                    ))}
-                  </div>
+                      {partner.status === "active" && (
+                        <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                          {PAGE_CONTENT.status.active}
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="flex justify-between items-center">
-                    <Button
-                      variant="outline"
-                      className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                      onClick={() => setSelectedPartner(partner)}
-                    >
-                      Xem chi tiết
-                      <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <Link href={partner.website} target="_blank">
+                    <h3 className="text-xl font-semibold text-[#004987] mb-2">
+                      {partner.name}
+                    </h3>
+
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {partner.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {partner.collaboration.slice(0, 2).map((item, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-600 rounded-full"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between items-center">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-gray-500 hover:text-[#004987] transition-colors duration-300"
+                        variant="outline"
+                        className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
+                        onClick={() => setSelectedPartner(partner)}
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        Xem chi tiết
+                        <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
-                    </Link>
+                      <Link
+                        href={partner.website || "#"}
+                        target="_blank"
+                        className={
+                          !partner.website
+                            ? "pointer-events-none opacity-50"
+                            : ""
+                        }
+                      >
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-gray-500 hover:text-[#004987] transition-colors duration-300"
+                          disabled={!partner.website}
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
 
           {/* No Results Message */}
-          {filteredPartners.length === 0 && (
+          {!isLoading && !error && partners.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-center py-12"
             >
               <p className="text-gray-600 text-lg">
-                Không tìm thấy đối tác phù hợp với tiêu chí tìm kiếm.
+                {PAGE_CONTENT.errors.noResults}
               </p>
             </motion.div>
           )}
@@ -373,17 +454,16 @@ export default function PartnersPage() {
           >
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                Trở thành đối tác của chúng tôi
+                {PAGE_CONTENT.cta.title}
               </h2>
               <p className="text-lg text-white/90 mb-8">
-                Hãy cùng chúng tôi xây dựng cộng đồng Blockchain mạnh mẽ và phát
-                triển bền vững
+                {PAGE_CONTENT.cta.description}
               </p>
               <Button
                 size="lg"
                 className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               >
-                Liên hệ ngay
+                {PAGE_CONTENT.cta.buttonText}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
@@ -408,6 +488,7 @@ export default function PartnersPage() {
               className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* Modal Content */}
               <div className="relative">
                 <div className="h-48 bg-gray-100 relative">
                   <Image
@@ -434,7 +515,7 @@ export default function PartnersPage() {
                   </span>
                   {selectedPartner.status === "active" && (
                     <span className="px-2 py-1 text-sm font-medium bg-green-100 text-green-800 rounded-full">
-                      Đang hợp tác
+                      {PAGE_CONTENT.status.active}
                     </span>
                   )}
                 </div>
@@ -447,25 +528,32 @@ export default function PartnersPage() {
                   {selectedPartner.description}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                {/* Achievements and Collaboration */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div>
                     <h4 className="text-lg font-semibold text-[#004987] mb-3 flex items-center gap-2">
                       <Award className="w-5 h-5" />
                       Thành tựu nổi bật
                     </h4>
-                    <ul className="space-y-2">
-                      {selectedPartner.achievements.map(
-                        (achievement, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start gap-2 text-gray-600"
-                          >
-                            <Star className="w-4 h-4 text-[#004987] mt-1 flex-shrink-0" />
-                            <span>{achievement}</span>
-                          </li>
-                        )
-                      )}
-                    </ul>
+                    {selectedPartner.achievements &&
+                    selectedPartner.achievements.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {selectedPartner.achievements.map(
+                          (achievement, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                            >
+                              {achievement}
+                            </span>
+                          )
+                        )}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-sm">
+                        Không có thành tựu nổi bật.
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -473,54 +561,74 @@ export default function PartnersPage() {
                       <Handshake className="w-5 h-5" />
                       Hợp tác
                     </h4>
-                    <ul className="space-y-2">
-                      {selectedPartner.collaboration.map((item, index) => (
-                        <li
-                          key={index}
-                          className="flex items-start gap-2 text-gray-600"
-                        >
-                          <Users className="w-4 h-4 text-[#004987] mt-1 flex-shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    {selectedPartner.collaboration &&
+                    selectedPartner.collaboration.length > 0 ? (
+                      <div className="flex flex-wrap gap-2">
+                        {selectedPartner.collaboration.map((item, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-500 text-sm">
+                        Không có thông tin hợp tác.
+                      </p>
+                    )}
                   </div>
                 </div>
 
+                {/* Contact Information */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <div className="flex items-center gap-2 text-gray-600">
-                    <Globe className="w-4 h-4 text-[#004987]" />
+                    <Globe className="w-4 h-4 text-[#004987] flex-shrink-0" />
                     <Link
-                      href={selectedPartner.website}
+                      href={selectedPartner.website || "#"}
                       target="_blank"
-                      className="hover:text-[#004987] transition-colors duration-300"
+                      className={
+                        !selectedPartner.website
+                          ? "pointer-events-none opacity-50 truncate"
+                          : "hover:text-[#004987] transition-colors duration-300 truncate"
+                      }
                     >
-                      {selectedPartner.website}
+                      {selectedPartner.website || "N/A"}
                     </Link>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
-                    <Mail className="w-4 h-4 text-[#004987]" />
+                    <Mail className="w-4 h-4 text-[#004987] flex-shrink-0" />
                     <a
                       href={`mailto:${selectedPartner.email}`}
-                      className="hover:text-[#004987] transition-colors duration-300"
+                      className={
+                        !selectedPartner.email
+                          ? "pointer-events-none opacity-50 truncate"
+                          : "hover:text-[#004987] transition-colors duration-300 truncate"
+                      }
                     >
-                      {selectedPartner.email}
+                      {selectedPartner.email || "N/A"}
                     </a>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
-                    <Phone className="w-4 h-4 text-[#004987]" />
+                    <Phone className="w-4 h-4 text-[#004987] flex-shrink-0" />
                     <a
                       href={`tel:${selectedPartner.phone}`}
-                      className="hover:text-[#004987] transition-colors duration-300"
+                      className={
+                        !selectedPartner.phone
+                          ? "pointer-events-none opacity-50 truncate"
+                          : "hover:text-[#004987] transition-colors duration-300 truncate"
+                      }
                     >
-                      {selectedPartner.phone}
+                      {selectedPartner.phone || "N/A"}
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-gray-600">
-                  <MapPin className="w-4 h-4 text-[#004987]" />
-                  <span>{selectedPartner.address}</span>
+                {/* Address */}
+                <div className="flex items-start gap-2 text-gray-600">
+                  <MapPin className="w-4 h-4 text-[#004987] flex-shrink-0 mt-1" />
+                  <span>{selectedPartner.address || "N/A"}</span>
                 </div>
               </div>
             </motion.div>

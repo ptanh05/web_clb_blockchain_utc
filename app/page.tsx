@@ -302,63 +302,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Partners */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container px-4 md:px-6">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Đối tác & Nhà tài trợ
-            </h2>
-            <motion.div
-              className="w-20 h-1 bg-[#004987] mx-auto mb-6"
-              initial={{ width: 0 }}
-              whileInView={{ width: 80 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-            />
-          </motion.div>
-
-          <div className="overflow-hidden whitespace-nowrap relative">
-            <motion.div
-              className="inline-flex"
-              animate={{
-                x: [0, -1000],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            >
-              {[...Array(32)].map((_, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-center justify-center p-4 mx-4 w-[200px]"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image
-                    src={`/placeholder.svg?height=100&width=200&text=Partner+${
-                      index + 1
-                    }`}
-                    alt={`Partner ${index + 1}`}
-                    width={200}
-                    height={100}
-                    className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
