@@ -11,6 +11,7 @@ import {
   Award,
   ExternalLink,
   ArrowRight,
+  LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -19,6 +20,22 @@ const Player = dynamic(
   { ssr: false }
 );
 import dynamic from "next/dynamic";
+
+// Define types for data structures
+interface IntroFeature {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+interface Activity {
+  id: number;
+  date: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  linkHref: string;
+}
 
 export default function Home() {
   const [heroRef, heroInView] = useInView({
@@ -34,6 +51,58 @@ export default function Home() {
     threshold: 0.1,
   });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+
+  // Data for Quick Introduction features
+  const introFeatures: IntroFeature[] = [
+    {
+      icon: BookOpen,
+      title: "Học tập",
+      description:
+        "Workshop, seminar và khóa học từ cơ bản đến chuyên sâu về Blockchain, Crypto và Web3",
+    },
+    {
+      icon: Users,
+      title: "Cộng đồng",
+      description:
+        "Kết nối với cộng đồng sinh viên, chuyên gia và doanh nghiệp trong lĩnh vực Blockchain",
+    },
+    {
+      icon: Award,
+      title: "Thực hành",
+      description:
+        "Tham gia các dự án thực tế, hackathon và cơ hội thực tập tại các công ty công nghệ hàng đầu",
+    },
+  ];
+
+  // Data for Featured Activities (using mock data structure for now)
+  const featuredActivities: Activity[] = [
+    {
+      id: 1,
+      date: "20/04/2023",
+      title: "Workshop: Blockchain Fundamentals",
+      description:
+        "Tìm hiểu về công nghệ Blockchain từ cơ bản đến nâng cao với các chuyên gia hàng đầu.",
+      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+1",
+      linkHref: "/events/1",
+    },
+    {
+      id: 2,
+      date: "20/04/2023",
+      title: "Hackathon: Build Your First dApp",
+      description:
+        "Thử thách xây dựng ứng dụng phi tập trung đầu tiên của bạn trong 48 giờ.",
+      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+2",
+      linkHref: "/events/2",
+    },
+    {
+      id: 3,
+      date: "20/04/2023",
+      title: "Seminar: Crypto Market Insights",
+      description: "Phân tích thị trường tiền điện tử và xu hướng đầu tư 2023.",
+      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+3",
+      linkHref: "/events/3",
+    },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -126,26 +195,7 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                icon: BookOpen,
-                title: "Học tập",
-                description:
-                  "Workshop, seminar và khóa học từ cơ bản đến chuyên sâu về Blockchain, Crypto và Web3",
-              },
-              {
-                icon: Users,
-                title: "Cộng đồng",
-                description:
-                  "Kết nối với cộng đồng sinh viên, chuyên gia và doanh nghiệp trong lĩnh vực Blockchain",
-              },
-              {
-                icon: Award,
-                title: "Thực hành",
-                description:
-                  "Tham gia các dự án thực tế, hackathon và cơ hội thực tập tại các công ty công nghệ hàng đầu",
-              },
-            ].map((item, index) => (
+            {introFeatures.map((item, index) => (
               <motion.div
                 key={index}
                 className="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
@@ -189,9 +239,9 @@ export default function Home() {
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {[1, 2, 3].map((item, index) => (
+            {featuredActivities.map((activity, index) => (
               <motion.div
-                key={item}
+                key={activity.id}
                 className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
                 initial={{ opacity: 0, y: 20 }}
                 animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
@@ -199,8 +249,8 @@ export default function Home() {
               >
                 <div className="relative h-48 overflow-hidden group">
                   <Image
-                    src={`/placeholder.svg?height=400&width=600&text=Event+${item}`}
-                    alt={`Event ${item}`}
+                    src={activity.imageSrc}
+                    alt={activity.title}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -209,22 +259,15 @@ export default function Home() {
                 <div className="p-6">
                   <div className="flex items-center text-sm text-gray-500 mb-2">
                     <Calendar className="h-4 w-4 mr-1" />
-                    <span>20/04/2023</span>
+                    <span>{activity.date}</span>
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
-                    {item === 1 && "Workshop: Blockchain Fundamentals"}
-                    {item === 2 && "Hackathon: Build Your First dApp"}
-                    {item === 3 && "Seminar: Crypto Market Insights"}
+                    {activity.title}
                   </h3>
                   <p className="text-gray-600 text-sm md:text-base mb-4">
-                    {item === 1 &&
-                      "Tìm hiểu về công nghệ Blockchain từ cơ bản đến nâng cao với các chuyên gia hàng đầu."}
-                    {item === 2 &&
-                      "Thử thách xây dựng ứng dụng phi tập trung đầu tiên của bạn trong 48 giờ."}
-                    {item === 3 &&
-                      "Phân tích thị trường tiền điện tử và xu hướng đầu tư 2023."}
+                    {activity.description}
                   </p>
-                  <Link href={`/events/${item}`}>
+                  <Link href={activity.linkHref}>
                     <Button
                       variant="outline"
                       className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

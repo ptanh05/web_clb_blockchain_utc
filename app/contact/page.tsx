@@ -26,10 +26,11 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { AnimatedDivider } from "@/components/ui/animated-section";
+import type { ContactFormData } from "@/app/api/contact/types";
 
-export default function ContactPage() {         
+export default function ContactPage() {
   const [isVisible, setIsVisible] = useState(false);
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<ContactFormData>({
     name: "",
     email: "",
     subject: "",
@@ -47,26 +48,42 @@ export default function ContactPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formState),
+      });
 
-      // Reset form after showing success message
-      setTimeout(() => {
-        setIsSubmitted(false);
+      if (response.ok) {
+        // Handle successful submission
+        setIsSubmitted(true);
         setFormState({
           name: "",
           email: "",
           subject: "",
           message: "",
         });
-      }, 5000);
-    }, 1500);
+        // Keep success message visible for a few seconds
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        // Handle errors
+        const errorData = await response.json();
+        console.error("Form submission failed:", errorData);
+        alert(`Submission failed: ${errorData.error || response.statusText}`); // Simple error display
+      }
+    } catch (error) {
+      console.error("Error sending form data:", error);
+      alert("An error occurred while sending your message."); // Simple error display
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (

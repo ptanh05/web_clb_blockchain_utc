@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ import {
   ChevronRight,
   ExternalLink,
   Search,
+  Filter,
+  Eye,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -21,70 +23,54 @@ import {
   AnimatedDivider,
   AnimatedCard,
 } from "@/components/ui/animated-section";
+import { toast } from "sonner";
 
-// Mock data cho các sự kiện
-const events = [
-  {
-    id: 1,
-    title: "Workshop: Blockchain Fundamentals",
-    date: "20/04/2024",
-    time: "14:00 - 17:00",
-    location: "Phòng A1.1, Trường Đại học Giao thông Vận tải",
-    image: "/placeholder.svg?height=400&width=600&text=Workshop+Blockchain",
-    description:
-      "Tìm hiểu về công nghệ Blockchain từ cơ bản đến nâng cao với các chuyên gia hàng đầu.",
-    category: "Workshop",
-    attendees: 50,
-    status: "upcoming",
-    registrationLink: "/events/register/1",
-  },
-  {
-    id: 2,
-    title: "Hackathon: Build Your First dApp",
-    date: "15/05/2024",
-    time: "08:00 - 20:00",
-    location: "Phòng Lab CNTT, Trường Đại học Giao thông Vận tải",
-    image: "/placeholder.svg?height=400&width=600&text=Hackathon+dApp",
-    description:
-      "Thử thách xây dựng ứng dụng phi tập trung đầu tiên của bạn trong 48 giờ.",
-    category: "Hackathon",
-    attendees: 100,
-    status: "upcoming",
-    registrationLink: "/events/register/2",
-  },
-  {
-    id: 3,
-    title: "Seminar: Crypto Market Insights",
-    date: "10/03/2024",
-    time: "09:00 - 11:30",
-    location: "Hội trường A, Trường Đại học Giao thông Vận tải",
-    image: "/placeholder.svg?height=400&width=600&text=Crypto+Market",
-    description: "Phân tích thị trường tiền điện tử và xu hướng đầu tư 2024.",
-    category: "Seminar",
-    attendees: 150,
-    status: "past",
-    registrationLink: "/events/register/3",
-  },
-  // Thêm các sự kiện khác...
-];
+// Import Event types from API types
+import { Event, EventListResponse } from "@/app/api/events/types";
 
 export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [eventData, setEventData] = useState<Event[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
-  // Lọc sự kiện theo category và search query
-  const filteredEvents = events.filter((event) => {
-    const matchesCategory =
-      selectedCategory === "all" || event.category === selectedCategory;
-    const matchesSearch =
-      event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // Fetch events data
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const response = await fetch(
+          `/api/events?category=${
+            selectedCategory !== "all" ? selectedCategory : ""
+          }&search=${searchQuery}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch events data");
+        }
+        const data: EventListResponse = await response.json();
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        setEventData(data.data || []);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+        toast.error("Failed to load events data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, [selectedCategory, searchQuery]);
+
+  // Mock data for event categories (replace with dynamic fetch if needed)
+  const categories = ["all", "Workshop", "Hackathon", "Seminar", "Community"];
 
   // Animation variants
   const containerVariants = {
@@ -163,134 +149,154 @@ export default function EventsPage() {
       <section className="py-16 md:py-24 bg-gray-50" ref={ref}>
         <div className="container px-4 md:px-6">
           {/* Filters */}
-          <div className="mb-12">
+          <motion.div className="mb-12">
             <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
               {/* Search */}
-              <div className="relative w-full md:w-96">
+              <motion.div
+                className="relative w-full md:w-96"
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
                 <input
                   type="text"
                   placeholder="Tìm kiếm sự kiện..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent"
+                  className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent transition-all duration-300"
                 />
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              </div>
+              </motion.div>
 
               {/* Category Filter */}
-              <div className="flex gap-2">
-                {["all", "Workshop", "Hackathon", "Seminar"].map((category) => (
+              <motion.div
+                className="flex flex-wrap gap-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.3 }}
+              >
+                {categories.map((category) => (
                   <Button
                     key={category}
                     variant={
                       selectedCategory === category ? "default" : "outline"
                     }
                     onClick={() => setSelectedCategory(category)}
-                    className="capitalize"
+                    className="transition-all duration-300"
                   >
-                    {category === "all" ? "Tất cả" : category}
+                    {category === "all" ? "Tất cả danh mục" : category}
                   </Button>
                 ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Events Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredEvents.map((event) => (
-              <motion.div
-                key={event.id}
-                variants={itemVariants}
-                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative h-48 overflow-hidden group">
-                  <Image
-                    src={event.image}
-                    alt={event.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                    <p className="text-sm font-medium">{event.description}</p>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        event.status === "upcoming"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {event.status === "upcoming"
-                        ? "Sắp diễn ra"
-                        : "Đã kết thúc"}
-                    </span>
-                    <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                      {event.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-semibold text-[#004987] mb-3">
-                    {event.title}
-                  </h3>
-
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Clock className="w-4 h-4 mr-2" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span className="line-clamp-1">{event.location}</span>
-                    </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Users className="w-4 h-4 mr-2" />
-                      <span>{event.attendees} người tham gia</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center">
-                    <Link href={event.registrationLink}>
-                      <Button
-                        variant="outline"
-                        className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                      >
-                        Đăng ký tham gia
-                        <ChevronRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </Link>
-                    {event.status === "past" && (
-                      <Link href={`/events/${event.id}`}>
-                        <Button
-                          variant="ghost"
-                          className="text-gray-600 hover:text-[#004987] transition-colors duration-300"
-                        >
-                          Xem chi tiết
-                          <ExternalLink className="ml-2 h-4 w-4" />
-                        </Button>
-                      </Link>
-                    )}
-                  </div>
-                </div>
               </motion.div>
-            ))}
+            </div>
           </motion.div>
 
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
+              <p className="mt-4 text-gray-600">Đang tải sự kiện...</p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !isLoading && (
+            <div className="text-center py-12">
+              <p className="text-red-600 mb-4">{error}</p>
+              <Button
+                variant="outline"
+                onClick={() => window.location.reload()}
+                className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
+              >
+                Thử lại
+              </Button>
+            </div>
+          )}
+
+          {/* Events Grid */}
+          {!isLoading && !error && (
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {eventData.map((event) => (
+                <motion.div
+                  key={event.id}
+                  variants={itemVariants}
+                  whileHover={{ y: -5 }}
+                  className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="relative h-48 overflow-hidden group">
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
+                        {event.category}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center text-sm text-gray-500 mb-2">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{event.date}</span>
+                      {event.time && (
+                        <div className="flex items-center ml-4">
+                          <Clock className="w-4 h-4 mr-1" />
+                          <span>{event.time}</span>
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987] line-clamp-2">
+                      {event.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
+                      {event.excerpt}
+                    </p>
+                    <div className="flex items-center text-sm text-gray-500 mb-4">
+                      <MapPin className="h-4 w-4 mr-1" />
+                      <span>{event.location}</span>
+                    </div>
+                    {event.tags &&
+                      Array.isArray(event.tags) &&
+                      event.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {event.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    <div className="flex items-center text-sm text-gray-500 mb-4">
+                      <Eye className="h-4 w-4 mr-1" />
+                      <span>{event.views} lượt xem</span>
+                    </div>
+                    <Link href={`/events/${event.slug}`}>
+                      <Button
+                        variant="outline"
+                        className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
+                      >
+                        Xem chi tiết
+                      </Button>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
           {/* No Results Message */}
-          {filteredEvents.length === 0 && (
+          {!isLoading && !error && eventData.length === 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

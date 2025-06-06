@@ -13,10 +13,10 @@ export async function GET(
   if (!id) {
     return NextResponse.json(
       { 
-        data: {} as Media,
+        data: null,
         error: "Missing media ID", 
         details: "Media ID is required" 
-      } as MediaResponse,
+      } as unknown as MediaResponse,
       { status: 400 }
     );
   }
@@ -29,10 +29,10 @@ export async function GET(
     console.error(`Error in GET /api/media/${id}:`, error);
     return NextResponse.json(
       { 
-        data: {} as Media,
+        data: null,
         error: "Failed to fetch media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
-      } as MediaResponse,
+      } as unknown as MediaResponse,
       { status: 500 }
     );
   }
@@ -49,10 +49,10 @@ export async function PUT(
   if (!id) {
     return NextResponse.json(
       { 
-        data: {} as Media,
+        data: null,
         error: "Missing media ID", 
         details: "Media ID is required" 
-      } as MediaResponse,
+      } as unknown as MediaResponse,
       { status: 400 }
     );
   }
@@ -68,10 +68,10 @@ export async function PUT(
     console.error(`Error in PUT /api/media/${id}:`, error);
     return NextResponse.json(
       { 
-        data: {} as Media,
+        data: null,
         error: "Failed to update media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
-      } as MediaResponse,
+      } as unknown as MediaResponse,
       { status: 500 }
     );
   }
