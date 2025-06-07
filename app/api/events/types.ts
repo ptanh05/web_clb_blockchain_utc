@@ -34,6 +34,7 @@ export interface Event {
   schedule?: EventScheduleItem[]; // Optional array of schedule items
   speakers?: EventSpeaker[]; // Optional array of speakers
   registrationLink?: string; // Optional link to registration
+  organizer?: string; // Optional organizer name
   createdAt?: string; // Optional timestamp
   updatedAt?: string; // Optional timestamp
 }

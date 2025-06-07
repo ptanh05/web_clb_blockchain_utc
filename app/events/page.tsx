@@ -226,7 +226,7 @@ export default function EventsPage() {
                 >
                   <div className="relative h-48 overflow-hidden group">
                     <Image
-                      src={event.image}
+                      src={event.image || "/placeholder.svg"}
                       alt={event.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"

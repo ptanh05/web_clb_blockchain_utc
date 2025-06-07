@@ -42,11 +42,15 @@ export interface DocumentMedia extends BaseMedia {
 export type Media = ImageMedia | VideoMedia | DocumentMedia;
 
 export interface MediaResponse {
-  data: Media;
+  data: Media | null;
+  error?: string;
+  details?: string;
 }
 
 export interface MediaListResponse {
   data: Media[];
+  error?: string;
+  details?: string;
 }
 
 // Database types

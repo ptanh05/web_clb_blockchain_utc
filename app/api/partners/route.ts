@@ -241,11 +241,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<PartnerRe
 // PUT /api/partners/:id
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<PartnerResponse>> {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await context.params;
+    const partnerId = parseInt(id);
+    if (isNaN(partnerId)) {
       return NextResponse.json(
         { error: "Invalid ID", details: "Partner ID must be a number" },
         { status: 400 }
@@ -274,11 +275,11 @@ export async function PUT(
       RETURNING *
     `;
 
-    const { rows } = await sql.query(query, [id, ...values]);
+    const { rows } = await sql.query(query, [partnerId, ...values]);
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { error: "Partner not found", details: `No partner found with ID ${id}` },
+        { error: "Partner not found", details: `No partner found with ID ${partnerId}` },
         { status: 404 }
       );
     }
@@ -305,11 +306,12 @@ export async function PUT(
 // DELETE /api/partners/:id
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ success: boolean } | { error: string; details: string }>> {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
+    const { id } = await context.params;
+    const partnerId = parseInt(id);
+    if (isNaN(partnerId)) {
       return NextResponse.json(
         { error: "Invalid ID", details: "Partner ID must be a number" },
         { status: 400 }
@@ -318,12 +320,12 @@ export async function DELETE(
     
     const { rows } = await sql.query(
       "DELETE FROM partners WHERE id = $1 RETURNING id",
-      [id]
+      [partnerId]
     );
 
     if (rows.length === 0) {
       return NextResponse.json(
-        { error: "Partner not found", details: `No partner found with ID ${id}` },
+        { error: "Partner not found", details: `No partner found with ID ${partnerId}` },
         { status: 404 }
       );
     }

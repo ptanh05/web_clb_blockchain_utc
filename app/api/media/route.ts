@@ -18,6 +18,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<MediaListR
     console.error("Error in GET /api/media:", error);
     return NextResponse.json(
       { 
+        data: [],
         error: "Failed to fetch media items", 
         details: error instanceof Error ? error.message : 'Unknown error occurred'
       },
@@ -41,6 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<MediaResp
     console.error("Error in POST /api/media:", error);
     return NextResponse.json(
       { 
+        data: null,
         error: "Failed to create media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
       },

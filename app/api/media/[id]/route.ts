@@ -1,16 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MediaService } from "../media.service";
 
-type RouteSegment = {
-  params: { id: string }
-}
-
 // GET /api/media/[id]
 export async function GET(
   request: NextRequest,
-  segment: RouteSegment
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  const { id } = segment.params;
+  const { id } = await context.params;
   console.log(`GET /api/media/${id} called`);
 
   if (!id) {
@@ -44,9 +40,9 @@ export async function GET(
 // PUT /api/media/[id]
 export async function PUT(
   request: NextRequest,
-  segment: RouteSegment
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  const { id } = segment.params;
+  const { id } = await context.params;
   console.log(`PUT /api/media/${id} called`);
 
   if (!id) {
@@ -83,9 +79,9 @@ export async function PUT(
 // DELETE /api/media/[id]
 export async function DELETE(
   request: NextRequest,
-  segment: RouteSegment
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  const { id } = segment.params;
+  const { id } = await context.params;
   console.log(`DELETE /api/media/${id} called`);
 
   if (!id) {
@@ -113,9 +109,9 @@ export async function DELETE(
 // POST /api/media/[id]/download
 export async function POST(
   request: NextRequest,
-  segment: RouteSegment
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  const { id } = segment.params;
+  const { id } = await context.params;
   console.log(`POST /api/media/${id}/download called`);
 
   if (!id) {

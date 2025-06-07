@@ -6,9 +6,9 @@ import { convertDBNewsArticleToNewsArticle, convertNewsArticleToDBNewsArticle, v
 // GET /api/news/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<NewsArticleResponse>> {
-  const { id } = params;
+  const { id } = await context.params;
   console.log(`GET /api/news/${id} called`);
 
   if (!id) {
@@ -50,9 +50,9 @@ export async function GET(
 // PUT /api/news/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<NewsArticleResponse>> {
-  const { id } = params;
+  const { id } = await context.params;
   console.log(`PUT /api/news/${id} called`);
 
   if (!id) {
@@ -126,9 +126,9 @@ export async function PUT(
 // DELETE /api/news/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ): Promise<NextResponse<{ success: boolean } | { error: string; details: string }>> {
-  const { id } = params;
+  const { id } = await context.params;
   console.log(`DELETE /api/news/${id} called`);
 
   if (!id) {

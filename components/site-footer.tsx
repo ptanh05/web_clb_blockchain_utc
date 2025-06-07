@@ -10,10 +10,6 @@ import {
   Phone,
 } from "lucide-react";
 
-type RouteSegment = {
-  params: { id: string };
-};
-
 export function SiteFooter() {
   return (
     <footer className="bg-[#004987] text-white">
