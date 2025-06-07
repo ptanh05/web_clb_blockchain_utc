@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Partner, PartnerType, PartnerStatus, PartnerResponse, PartnersResponse, stringifyArray, parseStringArray } from "./types";
+import {
+  PartnerType, PartnerStatus, PartnerResponse, PartnersResponse, parseStringArray, PartnerDB
+} from "./types";
 import { sql } from "@vercel/postgres";
 
 // GET /api/partners
@@ -27,7 +29,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<PartnersRe
 
     // Build query with proper type checking
     let query = "SELECT * FROM partners";
-    const params: any[] = [];
+    const params: (string | PartnerType)[] = [];
     const conditions: string[] = [];
     
     if (type && type !== "all") {
@@ -70,7 +72,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<PartnersRe
 
     // Transform and validate data
     console.log('Transforming data...');
-    const partners = rows.map((row: any) => {
+    const partners = rows.map((row: PartnerDB) => {
       try {
         const transformed = {
           ...row,
@@ -121,6 +123,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<PartnerRe
     try {
       body = await request.json();
     } catch (parseError) {
+      console.error("JSON parse error:", parseError);
       return NextResponse.json(
         { error: "Invalid request body", details: "Failed to parse JSON" },
         { status: 400 }
@@ -144,7 +147,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<PartnerRe
     // Validate required fields
     const requiredFields = { name, logo, type, description };
     const missingFields = Object.entries(requiredFields)
-      .filter(([_, value]) => !value)
+      .filter(([, value]) => !value)
       .map(([key]) => key);
 
     if (missingFields.length > 0) {

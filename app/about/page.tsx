@@ -5,12 +5,10 @@ import {
   AnimatedHeading,
   AnimatedDivider,
   AnimatedCard,
-  AnimatedImage,
 } from "@/components/ui/animated-section";
 import { Button } from "@/components/ui/button";
-import { Calendar, Users, BookOpen, Award, ChevronRight } from "lucide-react";
+import { Users, BookOpen, Award, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function AboutPage() {
   return (

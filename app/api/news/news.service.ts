@@ -1,36 +1,68 @@
-import { NewsArticle, NewsArticleResponse, NewsArticlesResponse } from "./types";
+import { NewsArticle, NewsArticleDB } from "./types";
+import pool from "@/app/api/db"; // Assuming pool is the default export
+import { parseStringArray } from "./types"; // Import parseStringArray from types
 
-const API_URL = "/api/news";
+// Helper function to convert DB row to NewsArticle
+function convertDBNewsArticleToNewsArticle(row: NewsArticleDB): NewsArticle {
+  return {
+    id: row.id,
+    title: row.title,
+    slug: row.slug,
+    category: row.category,
+    image: row.image || '', // Ensure image is string
+    content: row.content,
+    date: row.date, // Assuming date is string from DB
+    time: row.time || undefined, // time is optional string in NewsArticle
+    excerpt: row.excerpt || '', // Ensure excerpt is string
+    readTime: row.readTime || 0, // Ensure readTime is number
+    likes: row.likes || 0, // Ensure likes is number
+    comments: row.comments || 0, // Ensure comments is number
+    author: {
+      name: row.author_name || '',
+      role: row.author_role || '',
+      image: row.author_image || '',
+    }, // Assuming author maps to separate DB columns
+    tags: parseStringArray(row.tags), // Use parseStringArray for tags
+    views: row.views || 0, // Ensure views is number
+    created_at: new Date(row.created_at as string).toISOString(), // Cast to string for Date constructor
+    updated_at: new Date(row.updated_at as string).toISOString(), // Cast to string for Date constructor
+  };
+}
 
 export class NewsService {
   // Lấy tất cả tin tức (có hỗ trợ filter và search)
   static async getAllNews(category: string | "all" = "all", search: string = ""): Promise<NewsArticle[]> {
     console.log('NewsService.getAllNews called with:', { category, search });
 
+    let query = 'SELECT * FROM news';
+    const params: (string | number)[] = [];
+    const conditions: string[] = [];
+    let paramIndex = 1;
+
+    if (category !== "all") {
+      conditions.push('category = $' + paramIndex++);
+      params.push(category);
+    }
+
+    if (search) {
+      conditions.push(
+        `(title ILIKE $' + paramIndex + ' OR content ILIKE $' + (paramIndex + 1) + ')`
+      );
+      params.push(`%${search}%`);
+      params.push(`%${search}%`);
+      paramIndex += 2;
+    }
+
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    query += ' ORDER BY created_at DESC';
+
     try {
-      const queryParams = new URLSearchParams();
-      if (category !== "all") {
-        queryParams.append("category", category);
-      }
-      if (search) {
-        queryParams.append("search", search);
-      }
-
-      const url = `${API_URL}?${queryParams.toString()}`;
-      console.log('Fetching news from URL:', url);
-
-      const response = await fetch(url);
-      console.log('News API Response status:', response.status);
-
-      const result: NewsArticlesResponse = await response.json();
-      console.log('News API Response data (partial):', result?.data?.slice(0, 5)); // Log first 5 items
-
-      if (!response.ok) {
-        console.error('News API Error:', result);
-        throw new Error(result.details || result.error || "Failed to fetch news articles");
-      }
-
-      return result.data || [];
+      const result = await pool.query(query, params);
+      console.log('News DB Query Result (partial):', result.rows.slice(0, 5));
+      return result.rows.map(convertDBNewsArticleToNewsArticle);
     } catch (error) {
       console.error("Error in NewsService.getAllNews:", error);
       throw error;
@@ -41,43 +73,43 @@ export class NewsService {
   static async getNewsById(id: number): Promise<NewsArticle | null> {
     console.log(`NewsService.getNewsById called with ID: ${id}`);
 
+    const query = 'SELECT * FROM news WHERE id = $1 LIMIT 1';
+    const params = [id];
+
     try {
-      const response = await fetch(`${API_URL}/${id}`);
-      console.log('News API Response status:', response.status);
+      const result = await pool.query(query, params);
+      console.log('News DB Query Result:', result.rows[0]);
 
-      const result: NewsArticleResponse = await response.json();
-      console.log('News API Response data:', result?.data);
-
-      if (!response.ok) {
-         console.error('News API Error:', result);
-        throw new Error(result.details || result.error || "Failed to fetch news article");
+      if (result.rows.length > 0) {
+        return convertDBNewsArticleToNewsArticle(result.rows[0]);
+      } else {
+        return null;
       }
-
-      return result.data || null;
     } catch (error) {
       console.error("Error in NewsService.getNewsById:", error);
       throw error;
     }
   }
 
-  // Thêm tin tức mới (placeholder)
-  static async addNews(article: Omit<NewsArticle, "id" | "created_at" | "updated_at">): Promise<NewsArticle> {
-     console.log('NewsService.addNews called');
-     // Implement POST logic here similar to PartnersService
-     throw new Error("Add News not yet implemented");
-  }
+  // Lấy tin tức theo Slug
+  static async getNewsBySlug(slug: string): Promise<NewsArticle | null> {
+    console.log(`NewsService.getNewsBySlug called with slug: ${slug}`);
 
-  // Cập nhật tin tức (placeholder)
-  static async updateNews(id: number, article: Partial<NewsArticle>): Promise<NewsArticle> {
-     console.log(`NewsService.updateNews called with ID: ${id}`);
-     // Implement PUT logic here similar to PartnersService
-     throw new Error("Update News not yet implemented");
-  }
+    const query = 'SELECT * FROM news WHERE slug = $1 LIMIT 1';
+    const params = [slug];
 
-  // Xóa tin tức (placeholder)
-  static async deleteNews(id: number): Promise<void> {
-     console.log(`NewsService.deleteNews called with ID: ${id}`);
-     // Implement DELETE logic here similar to PartnersService
-     throw new Error("Delete News not yet implemented");
+    try {
+      const result = await pool.query(query, params);
+      console.log('News DB Query Result:', result.rows[0]);
+
+      if (result.rows.length > 0) {
+        return convertDBNewsArticleToNewsArticle(result.rows[0]);
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Error in NewsService.getNewsBySlug:", error);
+      throw error;
+    }
   }
-} 
+}

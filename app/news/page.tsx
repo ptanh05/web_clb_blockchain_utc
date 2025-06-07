@@ -14,37 +14,11 @@ import {
   BookmarkPlus,
   ArrowRight,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { AnimatedDivider } from "@/components/ui/animated-section";
-import { NewsService } from "@/app/api/news/news.service";
 import { NewsArticle } from "@/app/api/news/types";
 import { toast } from "sonner";
-
-// Define types for our news data
-interface Author {
-  name: string;
-  role: string;
-  image: string;
-}
-
-interface NewsItem {
-  id: number;
-  title: string;
-  slug: string;
-  date: string;
-  time: string;
-  image: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  tags: string[];
-  author: Author;
-  readTime: string;
-  views: number;
-  likes: number;
-  comments: number;
-}
 
 // Empty array to be populated with real data
 const initialNewsData: NewsArticle[] = [];
@@ -66,10 +40,15 @@ export default function NewsPage() {
       try {
         setIsLoading(true);
         setError(null);
-        const data = await NewsService.getAllNews(
-          selectedCategory,
-          searchQuery
+        const response = await fetch(
+          `/api/news?category=${selectedCategory}&search=${encodeURIComponent(
+            searchQuery
+          )}`
         );
+        if (!response.ok) {
+          throw new Error("Failed to fetch news");
+        }
+        const data = await response.json();
         setNewsData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch news");

@@ -3,7 +3,7 @@ export interface NewsArticle {
   title: string;
   slug: string;
   date: string; // Consider using Date type if possible
-  time: string; // Consider using Date type if possible
+  time?: string; // Changed to optional string
   image: string;
   excerpt: string;
   content: string;
@@ -14,7 +14,7 @@ export interface NewsArticle {
     role: string;
     image: string;
   };
-  readTime: string;
+  readTime: number; // Changed to number
   views: number;
   likes: number;
   comments: number;
@@ -40,6 +40,11 @@ export interface NewsArticleResponse {
 export interface NewsArticlesResponse {
   data?: NewsArticle[];
   error?: string;
+  details?: string;
+}
+
+export interface ErrorResponse {
+  error: string;
   details?: string;
 }
 

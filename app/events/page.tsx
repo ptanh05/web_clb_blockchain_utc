@@ -7,21 +7,17 @@ import { Button } from "@/components/ui/button";
 import {
   Calendar,
   MapPin,
-  Users,
   Clock,
   ChevronRight,
-  ExternalLink,
   Search,
-  Filter,
   Eye,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import {
   AnimatedSection,
   AnimatedHeading,
   AnimatedDivider,
-  AnimatedCard,
 } from "@/components/ui/animated-section";
 import { toast } from "sonner";
 

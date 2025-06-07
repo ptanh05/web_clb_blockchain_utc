@@ -13,16 +13,14 @@ import {
   ChevronRight,
   ExternalLink,
   ArrowRight,
-  Star,
   Award,
-  Users,
   Handshake,
   X,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { AnimatedDivider } from "@/components/ui/animated-section";
-import { Partner, PartnerType, PartnerStatus } from "@/app/api/partners/types";
+import { PartnerType, PartnerStatus } from "@/app/api/partners/types";
 import { PartnersService } from "@/app/api/partners/partners.service";
 import { toast } from "react-hot-toast";
 
@@ -149,87 +147,6 @@ export default function PartnersPage() {
         duration: 0.5,
       },
     },
-  };
-
-  // Xử lý filter partners
-  const handleFilter = async (type: PartnerType | "all", search: string) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const filteredPartners = await PartnersService.filterPartners(
-        type,
-        search
-      );
-      setPartners(filteredPartners);
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : PAGE_CONTENT.errors.loading;
-      setError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Xử lý thêm partner mới
-  const handleAddPartner = async (
-    partner: Omit<PartnerWithArrays, "id" | "created_at" | "updated_at">
-  ) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const newPartner = await PartnersService.addPartner(partner);
-      setPartners((prev) => [...prev, newPartner]);
-      toast.success("Thêm đối tác thành công");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : PAGE_CONTENT.errors.adding;
-      setError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Xử lý cập nhật partner
-  const handleUpdatePartner = async (
-    id: number,
-    partner: Partial<PartnerWithArrays>
-  ) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const updatedPartner = await PartnersService.updatePartner(id, partner);
-      setPartners((prev) =>
-        prev.map((p) => (p.id === id ? updatedPartner : p))
-      );
-      toast.success("Cập nhật đối tác thành công");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : PAGE_CONTENT.errors.updating;
-      setError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Xử lý xóa partner
-  const handleDeletePartner = async (id: number) => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      await PartnersService.deletePartner(id);
-      setPartners((prev) => prev.filter((p) => p.id !== id));
-      toast.success("Xóa đối tác thành công");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : PAGE_CONTENT.errors.deleting;
-      setError(errorMessage);
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (

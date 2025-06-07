@@ -8,20 +8,21 @@ import { Button } from "@/components/ui/button";
 import {
   Calendar,
   MapPin,
-  Users,
   Clock,
   ChevronRight,
-  ExternalLink,
   ArrowLeft,
   Share2,
   BookmarkPlus,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { toast } from "sonner";
-
-// Import Event types from API types
-import { Event, EventResponse } from "@/app/api/events/types";
+import {
+  EventResponse,
+  ErrorResponse,
+  Event,
+  EventScheduleItem,
+  EventSpeaker,
+} from "@/app/api/events/types";
 
 export default function EventDetailPage() {
   const params = useParams();
@@ -47,17 +48,13 @@ export default function EventDetailPage() {
         // Assuming the API endpoint for a single event by slug is /api/events/[slug]
         const response = await fetch(`/api/events/${eventSlug}`);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch event data");
+        if (response.ok) {
+          const result: EventResponse = await response.json();
+          setEvent(result.data || null);
+        } else {
+          const result: ErrorResponse = await response.json();
+          throw new Error(result.error || "Failed to fetch event data");
         }
-
-        const data: EventResponse = await response.json();
-
-        if (data.error) {
-          throw new Error(data.error);
-        }
-
-        setEvent(data.data || null); // data.data will be null if event not found
 
         // Note: Related events are not fetched by this endpoint.
         // We would need a separate API call or logic to get related events.
@@ -111,7 +108,7 @@ export default function EventDetailPage() {
       <section className="relative py-20 md:py-32 bg-gradient-to-b from-[#004987] to-[#0070b8] text-white overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src={event.image}
+            src={event.image || ""}
             alt={event.title}
             fill
             className="object-cover opacity-20"
@@ -230,26 +227,28 @@ export default function EventDetailPage() {
                       Lịch trình
                     </h2>
                     <div className="space-y-4">
-                      {event.schedule.map((item: any, index: number) => (
-                        <div
-                          key={index}
-                          className="flex gap-4 p-4 bg-gray-50 rounded-lg"
-                        >
-                          <div className="w-32 flex-shrink-0">
-                            <span className="text-sm font-medium text-[#004987]">
-                              {item.time}
-                            </span>
+                      {event.schedule.map(
+                        (item: EventScheduleItem, index: number) => (
+                          <div
+                            key={index}
+                            className="flex gap-4 p-4 bg-gray-50 rounded-lg"
+                          >
+                            <div className="w-32 flex-shrink-0">
+                              <span className="text-sm font-medium text-[#004987]">
+                                {item.time}
+                              </span>
+                            </div>
+                            <div>
+                              <h3 className="font-medium text-gray-900">
+                                {item.title}
+                              </h3>
+                              <p className="text-sm text-gray-600">
+                                {item.description}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium text-gray-900">
-                              {item.title}
-                            </h3>
-                            <p className="text-sm text-gray-600">
-                              {item.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        )
+                      )}
                     </div>
                   </>
                 )}
@@ -260,32 +259,34 @@ export default function EventDetailPage() {
                       Diễn giả
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {event.speakers.map((speaker: any, index: number) => (
-                        <div
-                          key={index}
-                          className="flex gap-4 p-4 bg-gray-50 rounded-lg"
-                        >
-                          <div className="relative w-20 h-20 flex-shrink-0">
-                            <Image
-                              src={speaker.image}
-                              alt={speaker.name}
-                              fill
-                              className="object-cover rounded-full"
-                            />
+                      {event.speakers.map(
+                        (speaker: EventSpeaker, index: number) => (
+                          <div
+                            key={index}
+                            className="flex gap-4 p-4 bg-gray-50 rounded-lg"
+                          >
+                            <div className="relative w-20 h-20 flex-shrink-0">
+                              <Image
+                                src={speaker.image || ""}
+                                alt={speaker.name}
+                                fill
+                                className="object-cover rounded-full"
+                              />
+                            </div>
+                            <div>
+                              <h3 className="font-medium text-gray-900">
+                                {speaker.name}
+                              </h3>
+                              <p className="text-sm text-[#004987] mb-2">
+                                {speaker.role}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {speaker.bio}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h3 className="font-medium text-gray-900">
-                              {speaker.name}
-                            </h3>
-                            <p className="text-sm text-[#004987] mb-2">
-                              {speaker.role}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              {speaker.bio}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
+                        )
+                      )}
                     </div>
                   </>
                 )}

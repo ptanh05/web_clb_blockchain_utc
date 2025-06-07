@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
@@ -46,6 +45,8 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+type FormFields = keyof FormData;
 
 export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -89,7 +90,7 @@ export default function JoinPage() {
       if (!response.ok) {
         if (result.errors) {
           result.errors.forEach((error: { field: string; message: string }) => {
-            form.setError(error.field as any, {
+            form.setError(error.field as FormFields, {
               type: "server",
               message: error.message,
             });

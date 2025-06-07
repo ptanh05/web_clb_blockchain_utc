@@ -1,6 +1,6 @@
 /* Gộp các định nghĩa kiểu từ app/types/partner.ts vào đây để tránh thừa file types riêng */
 
-import { PartnerType, PartnerStatus, Partner as PartnerFromTypes, PartnerResponse, PartnersResponse, parseStringArray } from "./types";
+import { PartnerType, PartnerStatus, Partner as PartnerFromTypes, PartnerResponse, PartnersResponse } from "./types";
 
 // Database types
 export interface PartnerDB {
@@ -59,13 +59,6 @@ export interface PartnerCTASectionProps {
 }
 
 /* Kết thúc phần gộp types */
-
-// Helper function to convert DB partner to frontend partner
-const convertDBPartnerToPartner = (dbPartner: PartnerDB): Partner => ({
-  ...dbPartner,
-  achievements: parseStringArray(dbPartner.achievements),
-  collaboration: parseStringArray(dbPartner.collaboration)
-});
 
 const API_URL = "/api/partners";
 

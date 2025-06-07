@@ -36,7 +36,7 @@ export interface DocumentMedia extends BaseMedia {
   downloads: number;
   file_size: string;
   file_type: string;
-  page_count?: number;
+  page_count: number | null;
 }
 
 export type Media = ImageMedia | VideoMedia | DocumentMedia;
@@ -73,6 +73,10 @@ export interface MediaDB {
   page_count: number | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface ErrorResponse {
+  error: string;
 }
 
 // Helper functions
@@ -118,7 +122,7 @@ export function convertDBMediaToMedia(dbMedia: MediaDB): Media {
         downloads: dbMedia.downloads || 0,
         file_size: dbMedia.file_size || '0 B',
         file_type: dbMedia.file_type || 'pdf',
-        page_count: dbMedia.page_count || null
+        page_count: dbMedia.page_count
       };
   }
 }

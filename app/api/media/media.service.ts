@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Media, MediaDB, MediaListResponse, MediaResponse, convertDBMediaToMedia, convertMediaToDBMedia } from "./types";
+import { Media, MediaDB, convertDBMediaToMedia, convertMediaToDBMedia } from "./types";
 
 export class MediaService {
   static async getAllMedia(
@@ -9,7 +9,7 @@ export class MediaService {
   ): Promise<Media[]> {
     try {
       let query = "SELECT * FROM media WHERE 1=1";
-      const params: any[] = [];
+      const params: string[] = [];
       let paramIndex = 1;
 
       if (type && type !== "all") {
@@ -37,7 +37,7 @@ export class MediaService {
       query += " ORDER BY created_at DESC";
 
       const result = await sql.query(query, params);
-      return result.rows.map(convertDBMediaToMedia);
+      return result.rows as Media[];
     } catch (error) {
       console.error("Error in MediaService.getAllMedia:", error);
       throw error;

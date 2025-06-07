@@ -1,22 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MediaService } from "../media.service";
-import { MediaResponse, Media } from "../types";
+
+type RouteSegment = {
+  params: { id: string }
+}
 
 // GET /api/media/[id]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse<MediaResponse>> {
-  const { id } = params;
+  segment: RouteSegment
+): Promise<NextResponse> {
+  const { id } = segment.params;
   console.log(`GET /api/media/${id} called`);
 
   if (!id) {
     return NextResponse.json(
-      { 
+      {
         data: null,
-        error: "Missing media ID", 
-        details: "Media ID is required" 
-      } as unknown as MediaResponse,
+        error: "Missing media ID",
+        details: "Media ID is required"
+      },
       { status: 400 }
     );
   }
@@ -24,15 +27,15 @@ export async function GET(
   try {
     const media = await MediaService.getMediaById(parseInt(id));
     await MediaService.incrementViews(parseInt(id));
-    return NextResponse.json({ data: media } as MediaResponse);
+    return NextResponse.json({ data: media });
   } catch (error) {
     console.error(`Error in GET /api/media/${id}:`, error);
     return NextResponse.json(
-      { 
+      {
         data: null,
         error: "Failed to fetch media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
-      } as unknown as MediaResponse,
+      },
       { status: 500 }
     );
   }
@@ -41,18 +44,18 @@ export async function GET(
 // PUT /api/media/[id]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse<MediaResponse>> {
-  const { id } = params;
+  segment: RouteSegment
+): Promise<NextResponse> {
+  const { id } = segment.params;
   console.log(`PUT /api/media/${id} called`);
 
   if (!id) {
     return NextResponse.json(
-      { 
+      {
         data: null,
-        error: "Missing media ID", 
-        details: "Media ID is required" 
-      } as unknown as MediaResponse,
+        error: "Missing media ID",
+        details: "Media ID is required"
+      },
       { status: 400 }
     );
   }
@@ -63,15 +66,15 @@ export async function PUT(
     });
 
     const media = await MediaService.updateMedia(parseInt(id), body);
-    return NextResponse.json({ data: media } as MediaResponse);
+    return NextResponse.json({ data: media });
   } catch (error) {
     console.error(`Error in PUT /api/media/${id}:`, error);
     return NextResponse.json(
-      { 
+      {
         data: null,
         error: "Failed to update media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
-      } as unknown as MediaResponse,
+      },
       { status: 500 }
     );
   }
@@ -80,9 +83,9 @@ export async function PUT(
 // DELETE /api/media/[id]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse<{ success: boolean } | { error: string; details: string }>> {
-  const { id } = params;
+  segment: RouteSegment
+): Promise<NextResponse> {
+  const { id } = segment.params;
   console.log(`DELETE /api/media/${id} called`);
 
   if (!id) {
@@ -98,7 +101,7 @@ export async function DELETE(
   } catch (error) {
     console.error(`Error in DELETE /api/media/${id}:`, error);
     return NextResponse.json(
-      { 
+      {
         error: "Failed to delete media item",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
       },
@@ -110,9 +113,9 @@ export async function DELETE(
 // POST /api/media/[id]/download
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
-): Promise<NextResponse<{ success: boolean } | { error: string; details: string }>> {
-  const { id } = params;
+  segment: RouteSegment
+): Promise<NextResponse> {
+  const { id } = segment.params;
   console.log(`POST /api/media/${id}/download called`);
 
   if (!id) {
@@ -128,11 +131,11 @@ export async function POST(
   } catch (error) {
     console.error(`Error in POST /api/media/${id}/download:`, error);
     return NextResponse.json(
-      { 
+      {
         error: "Failed to increment download count",
         details: error instanceof Error ? error.message : 'Unknown error occurred'
       },
       { status: 500 }
     );
   }
-} 
+}

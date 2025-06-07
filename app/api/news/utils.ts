@@ -69,7 +69,7 @@ export const validateNewsArticle = (article: Partial<NewsArticle>): string[] => 
 // Query builder functions
 export const buildNewsQuery = (category: string, search: string) => {
   let query = "SELECT * FROM news";
-  const params: any[] = [];
+  const params: (string | number)[] = [];
   const conditions: string[] = [];
   let paramIndex = 1;
 

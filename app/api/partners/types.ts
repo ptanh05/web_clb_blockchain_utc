@@ -18,6 +18,23 @@ export interface Partner {
   updated_at: string;
 }
 
+export interface PartnerDB {
+  id: number;
+  name: string;
+  logo: string;
+  type: PartnerType;
+  description: string;
+  website: string | null;
+  email: string | null;
+  phone: string | null;
+  address: string | null;
+  achievements: string;
+  collaboration: string;
+  status: PartnerStatus;
+  created_at: string;
+  updated_at: string;
+}
+
 // Types cho API responses
 export interface ApiResponse<T> {
   data?: T;

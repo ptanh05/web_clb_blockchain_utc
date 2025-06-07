@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Search,
@@ -135,21 +134,6 @@ export default function MediaPage() {
       opacity: 1,
       transition: {
         duration: 0.5,
-      },
-    },
-  };
-
-  // Infinite scroll animation for hero section
-  const infiniteScrollVariants = {
-    animate: {
-      x: [0, -1000],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 20,
-          ease: "linear",
-        },
       },
     },
   };

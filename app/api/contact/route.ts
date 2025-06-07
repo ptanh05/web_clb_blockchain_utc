@@ -13,7 +13,7 @@ export async function POST(req: Request): Promise<NextResponse<ContactSuccessRes
 
     // You might want more robust email validation here
 
-    const newContactMessage = await ContactService.createContactMessage(data);
+    await ContactService.createContactMessage(data);
     
     // Optionally return the created message or just a success indicator
     return NextResponse.json({ message: 'Contact message received successfully!' }, { status: 200 });

@@ -1,27 +1,45 @@
 // Define TypeScript types for Event data
 
+export interface EventScheduleItem {
+  time: string;
+  title: string;
+  description?: string;
+}
+
+export interface EventSpeaker {
+  name: string;
+  role?: string;
+  image?: string;
+  bio?: string;
+}
+
+// Consolidated and corrected Event interface
 export interface Event {
   id: number;
-  title: string;
   slug: string; // Unique identifier for URL
+  title: string;
   date: string; // e.g., 'YYYY-MM-DD'
   time?: string; // Optional time, e.g., 'HH:mm'
-  location: string;
-  description: string; // Full description
-  excerpt: string; // Short description for list view
-  image: string; // URL to event image
+  location?: string; // Made optional based on usage
+  description?: string; // Made optional based on usage
+  excerpt?: string; // Optional short description
+  image?: string; // Optional image URL
   category: string; // e.g., 'Workshop', 'Hackathon', 'Seminar'
-  tags: string[]; // e.g., ['Blockchain', 'Web3', 'Education']
-  organizer?: string; // Optional organizer
-  speakers?: string[]; // Optional list of speakers
+  tags?: string[]; // Optional array of tags
+  content?: string; // Optional full content
+  views?: number; // Optional number of views
+  likes?: number; // Optional number of likes
+  comments?: number; // Optional number of comments
+  status?: string; // Optional status
+  schedule?: EventScheduleItem[]; // Optional array of schedule items
+  speakers?: EventSpeaker[]; // Optional array of speakers
   registrationLink?: string; // Optional link to registration
-  views: number; // Number of views
-  createdAt: string; // Timestamp
-  updatedAt: string; // Timestamp
+  createdAt?: string; // Optional timestamp
+  updatedAt?: string; // Optional timestamp
 }
 
 export interface EventListResponse {
-  data: Event[];
+  data?: Event[]; // Data is optional
   pagination?: { // Optional pagination info
     total: number;
     page: number;
@@ -32,7 +50,23 @@ export interface EventListResponse {
 }
 
 export interface EventResponse {
-  data: Event | null; // Null if event not found
+  data?: Event | null; // Data is optional and can be null
   error?: string; // Optional error message
   details?: string; // Optional error details
-} 
+}
+
+export interface ErrorResponse {
+  error: string;
+  details?: string;
+}
+
+// Helper functions for string/array conversion (kept if used elsewhere, otherwise remove)
+// export function parseStringArray(str: string | null | undefined): string[] {
+//   if (!str) return [];
+//   return str.split(',').map(item => item.trim()).filter(Boolean);
+// }
+
+// export function stringifyArray(arr: string[] | null | undefined): string {
+//   if (!Array.isArray(arr)) return '';
+//   return arr.filter(Boolean).join(',');
+// } 

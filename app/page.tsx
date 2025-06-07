@@ -9,17 +9,11 @@ import {
   BookOpen,
   Users,
   Award,
-  ExternalLink,
   ArrowRight,
   LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-const Player = dynamic(
-  () => import("@lottiefiles/react-lottie-player").then((m) => m.Player),
-  { ssr: false }
-);
-import dynamic from "next/dynamic";
 
 // Define types for data structures
 interface IntroFeature {
@@ -115,13 +109,13 @@ export default function Home() {
 
         <div className="container relative z-10 px-4 md:px-6" ref={heroRef}>
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-12"
+            className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-12"
             initial={{ opacity: 0, y: 20 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             {/* LEFT: Content */}
-            <div className="text-white text-center md:text-left">
+            <div className="text-white text-center lg:text-left">
               <motion.p
                 className="text-sm md:text-base text-[#b3d8f5] uppercase tracking-widest mb-3"
                 initial={{ opacity: 0, y: 20 }}

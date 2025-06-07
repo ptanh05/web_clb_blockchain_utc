@@ -3,22 +3,13 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  ChevronRight,
-  X,
-  Search,
-  ChevronLeft,
-} from "lucide-react";
+import { Linkedin, ChevronRight, X, Search, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import {
   AnimatedSection,
   AnimatedHeading,
   AnimatedDivider,
   AnimatedCard,
-  AnimatedImage,
 } from "@/components/ui/animated-section";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Mail } from "lucide-react";
@@ -44,128 +35,138 @@ type Team = {
 };
 
 export default function TeamPage() {
-  const [advisorsPage, setAdvisorsPage] = useState(1);
-  const [technicalPage, setTechnicalPage] = useState(1);
-  const [communicationPage, setCommPage] = useState(1);
-  const [logisticsPage, setLogisticsPage] = useState(1);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const membersPerPage = 9; // Hiển thị 9 thành viên mỗi trang (3x3 grid)
 
-  // Số lượng thành viên hiển thị trên mỗi trang
-  const advisorsPerPage = 2;
-  const itemsPerPage = 6;
-
-  // Dữ liệu thành viên
-  const advisors = [
-    {
-      name: "TS. Nguyễn Văn R",
-      role: "Giảng viên Khoa CNTT",
-      org: "Trường Đại học Giao thông Vận tải",
-    },
-    {
-      name: "TS. Trần Thị S",
-      role: "Chuyên gia Blockchain",
-      org: "Viện Nghiên cứu Công nghệ",
-    },
-    {
-      name: "TS. Lê Văn A1",
-      role: "Giảng viên Khoa CNTT",
-      org: "Trường Đại học Bách Khoa Hà Nội",
-    },
-    {
-      name: "TS. Phạm Thị A2",
-      role: "Chuyên gia Blockchain",
-      org: "Viện Công nghệ Thông tin",
-    },
-    {
-      name: "TS. Hoàng Văn A3",
-      role: "Giảng viên",
-      org: "Đại học Quốc gia Hà Nội",
-    },
-    {
-      name: "TS. Vũ Thị A4",
-      role: "Chuyên gia Tài chính",
-      org: "Ngân hàng Nhà nước",
-    },
-  ];
-
-  const technicalMembers = [
-    { name: "Nguyễn Văn E", role: "Phó ban Kỹ thuật" },
-    { name: "Trần Văn F", role: "Thành viên" },
-    { name: "Lê Thị G", role: "Thành viên" },
-    { name: "Phạm Văn H", role: "Thành viên" },
-    { name: "Hoàng Thị I", role: "Thành viên" },
-    { name: "Vũ Văn K", role: "Thành viên" },
-    { name: "Nguyễn Văn X1", role: "Thành viên" },
-    { name: "Trần Văn X2", role: "Thành viên" },
-    { name: "Lê Thị X3", role: "Thành viên" },
-    { name: "Phạm Văn X4", role: "Thành viên" },
-    { name: "Hoàng Thị X5", role: "Thành viên" },
-    { name: "Vũ Văn X6", role: "Thành viên" },
-  ];
-
-  const commMembers = [
-    { name: "Nguyễn Thị L", role: "Phó ban Truyền thông" },
-    { name: "Trần Văn M", role: "Thành viên" },
-    { name: "Lê Văn N", role: "Thành viên" },
-    { name: "Phạm Thị O", role: "Thành viên" },
-    { name: "Hoàng Văn P", role: "Thành viên" },
-    { name: "Vũ Thị Q", role: "Thành viên" },
-    { name: "Nguyễn Thị Y1", role: "Thành viên" },
-    { name: "Trần Văn Y2", role: "Thành viên" },
-    { name: "Lê Văn Y3", role: "Thành viên" },
-    { name: "Phạm Thị Y4", role: "Thành viên" },
-    { name: "Hoàng Văn Y5", role: "Thành viên" },
-    { name: "Vũ Thị Y6", role: "Thành viên" },
-  ];
-
-  const logisticsMembers = [
-    { name: "Nguyễn Văn R", role: "Trưởng ban Hậu cần" },
-    { name: "Trần Thị S", role: "Phó ban Hậu cần" },
-    { name: "Lê Văn T", role: "Thành viên" },
-    { name: "Phạm Thị U", role: "Thành viên" },
-    { name: "Hoàng Văn V", role: "Thành viên" },
-    { name: "Vũ Thị X", role: "Thành viên" },
-    { name: "Nguyễn Văn Z1", role: "Thành viên" },
-    { name: "Trần Thị Z2", role: "Thành viên" },
-    { name: "Lê Văn Z3", role: "Thành viên" },
-    { name: "Phạm Thị Z4", role: "Thành viên" },
-    { name: "Hoàng Văn Z5", role: "Thành viên" },
-    { name: "Vũ Thị Z6", role: "Thành viên" },
-  ];
-
-  // Tính toán số trang
-  const totalAdvisorsPages = Math.ceil(advisors.length / advisorsPerPage);
-  const totalTechnicalPages = Math.ceil(technicalMembers.length / itemsPerPage);
-  const totalCommPages = Math.ceil(commMembers.length / itemsPerPage);
-  const totalLogisticsPages = Math.ceil(logisticsMembers.length / itemsPerPage);
-
-  // Lấy dữ liệu cho trang hiện tại
-  const currentAdvisors = advisors.slice(
-    (advisorsPage - 1) * advisorsPerPage,
-    advisorsPage * advisorsPerPage
+  // Bọc dữ liệu teams trong useMemo
+  const teams: Team[] = useMemo(
+    () => [
+      {
+        title: "Ban Chủ nhiệm",
+        description: "Đội ngũ lãnh đạo CLB Blockchain UTC nhiệm kỳ 2023-2024",
+        members: [
+          {
+            name: "Nguyễn Văn A",
+            role: "Chủ nhiệm CLB",
+            image: "/placeholder.svg?height=400&width=300&text=Nguyen+Van+A",
+            bio: "Sinh viên năm 4 ngành Công nghệ thông tin, chuyên sâu về Blockchain Development và Smart Contracts. Đam mê nghiên cứu và phát triển các ứng dụng phi tập trung (dApps).",
+            achievements: [
+              "Top 10 cuộc thi Hackathon Blockchain 2023",
+              "Chứng chỉ AWS Certified Blockchain Developer",
+              "Speaker tại các sự kiện Blockchain lớn",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+          {
+            name: "Trần Thị B",
+            role: "Phó Chủ nhiệm",
+            image: "/placeholder.svg?height=400&width=300&text=Tran+Thi+B",
+            bio: "Sinh viên năm 3 ngành Kỹ thuật phần mềm, chuyên sâu về Smart Contracts và DeFi. Có kinh nghiệm trong việc tổ chức và điều hành các sự kiện về Blockchain.",
+            achievements: [
+              "Giải Nhì cuộc thi Blockchain UTC 2023",
+              "Chứng chỉ Ethereum Developer",
+              "Thành viên tích cực trong các dự án DeFi",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+        ],
+      },
+      {
+        title: "Ban Kỹ thuật",
+        description: "Đội ngũ phát triển và nghiên cứu công nghệ Blockchain",
+        members: [
+          {
+            name: "Lê Văn C",
+            role: "Trưởng ban Kỹ thuật",
+            image: "/placeholder.svg?height=400&width=300&text=Le+Van+C",
+            bio: "Sinh viên năm 4 ngành Công nghệ thông tin, chuyên về Blockchain Development và Web3. Có kinh nghiệm trong việc phát triển các dự án NFT và DeFi.",
+            achievements: [
+              "Phát triển dApp NFT Marketplace",
+              "Chứng chỉ Solidity Developer",
+              "Mentor cho các workshop Blockchain",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+          {
+            name: "Phạm Thị D",
+            role: "Phó ban Kỹ thuật",
+            image: "/placeholder.svg?height=400&width=300&text=Pham+Thi+D",
+            bio: "Sinh viên năm 3 ngành Kỹ thuật phần mềm, chuyên về dApp Development và Smart Contract Security. Đam mê nghiên cứu về bảo mật trong Blockchain.",
+            achievements: [
+              "Chứng chỉ Smart Contract Auditor",
+              "Top 5 cuộc thi CTF Blockchain",
+              "Speaker tại các workshops về Smart Contract Security",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+        ],
+      },
+      {
+        title: "Ban Truyền thông",
+        description: "Đội ngũ phụ trách truyền thông, sự kiện và đối ngoại",
+        members: [
+          {
+            name: "Hoàng Văn E",
+            role: "Trưởng ban Truyền thông",
+            image: "/placeholder.svg?height=400&width=300&text=Hoang+Van+E",
+            bio: "Sinh viên năm 3 ngành Marketing, chuyên về Digital Marketing và Content Creation. Có kinh nghiệm trong việc tổ chức các sự kiện về Blockchain và Web3.",
+            achievements: [
+              "Quản lý cộng đồng Blockchain UTC",
+              "Tổ chức thành công 10+ sự kiện lớn",
+              "Chuyên gia Digital Marketing",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+          {
+            name: "Đỗ Thị F",
+            role: "Phó ban Truyền thông",
+            image: "/placeholder.svg?height=400&width=300&text=Do+Thi+F",
+            bio: "Sinh viên năm 3 ngành Truyền thông, chuyên về Social Media và Event Planning. Có kinh nghiệm trong việc xây dựng chiến lược truyền thông cho các dự án Blockchain.",
+            achievements: [
+              "Quản lý các kênh truyền thông của CLB",
+              "Tổ chức workshop Blockchain cho 500+ sinh viên",
+              "Content Creator về Blockchain và Web3",
+            ],
+            social: {
+              github: "https://github.com",
+              linkedin: "https://linkedin.com",
+              email: "mailto:example@email.com",
+            },
+          },
+        ],
+      },
+    ],
+    []
   );
-  const currentTechnical = technicalMembers.slice(
-    (technicalPage - 1) * itemsPerPage,
-    technicalPage * itemsPerPage
-  );
-  const currentComm = commMembers.slice(
-    (communicationPage - 1) * itemsPerPage,
-    communicationPage * itemsPerPage
-  );
-  const currentLogistics = logisticsMembers.slice(
-    (logisticsPage - 1) * itemsPerPage,
-    logisticsPage * itemsPerPage
-  );
 
-  const teams: Team[] = [
-    {
-      title: "Ban Chủ nhiệm",
-      description: "Đội ngũ lãnh đạo CLB Blockchain UTC nhiệm kỳ 2023-2024",
-      members: [
+  // Bọc dữ liệu thành viên đầy đủ cho mỗi ban trong useMemo
+  const allMembers = useMemo(
+    () => ({
+      "Ban Chủ nhiệm": [
+        // Chỉ giữ lại thành viên chính của Ban Chủ nhiệm
         {
           name: "Nguyễn Văn A",
           role: "Chủ nhiệm CLB",
@@ -199,158 +200,44 @@ export default function TeamPage() {
           },
         },
       ],
-    },
-    {
-      title: "Ban Kỹ thuật",
-      description: "Đội ngũ phát triển và nghiên cứu công nghệ Blockchain",
-      members: [
-        {
-          name: "Lê Văn C",
-          role: "Trưởng ban Kỹ thuật",
-          image: "/placeholder.svg?height=400&width=300&text=Le+Van+C",
-          bio: "Sinh viên năm 4 ngành Công nghệ thông tin, chuyên về Blockchain Development và Web3. Có kinh nghiệm trong việc phát triển các dự án NFT và DeFi.",
+      "Ban Kỹ thuật": [
+        ...teams[1].members,
+        // Thêm nhiều thành viên mẫu cho Ban Kỹ thuật
+        ...Array.from({ length: 25 }, (_, i) => ({
+          name: `Trần Văn ${String.fromCharCode(65 + i)}`,
+          role: "Thành viên",
+          image: `/placeholder.svg?height=400&width=300&text=Tech+${i + 1}`,
+          bio: "Sinh viên chuyên ngành Công nghệ thông tin, đam mê phát triển ứng dụng Blockchain.",
           achievements: [
-            "Phát triển dApp NFT Marketplace",
-            "Chứng chỉ Solidity Developer",
-            "Mentor cho các workshop Blockchain",
+            "Phát triển Smart Contract",
+            "Tham gia hackathon Blockchain",
           ],
           social: {
             github: "https://github.com",
             linkedin: "https://linkedin.com",
             email: "mailto:example@email.com",
           },
-        },
-        {
-          name: "Phạm Thị D",
-          role: "Phó ban Kỹ thuật",
-          image: "/placeholder.svg?height=400&width=300&text=Pham+Thi+D",
-          bio: "Sinh viên năm 3 ngành Kỹ thuật phần mềm, chuyên về dApp Development và Smart Contract Security. Đam mê nghiên cứu về bảo mật trong Blockchain.",
-          achievements: [
-            "Chứng chỉ Smart Contract Auditor",
-            "Top 5 cuộc thi CTF Blockchain",
-            "Speaker tại các workshops về Smart Contract Security",
-          ],
-          social: {
-            github: "https://github.com",
-            linkedin: "https://linkedin.com",
-            email: "mailto:example@email.com",
-          },
-        },
+        })),
       ],
-    },
-    {
-      title: "Ban Truyền thông",
-      description: "Đội ngũ phụ trách truyền thông, sự kiện và đối ngoại",
-      members: [
-        {
-          name: "Hoàng Văn E",
-          role: "Trưởng ban Truyền thông",
-          image: "/placeholder.svg?height=400&width=300&text=Hoang+Van+E",
-          bio: "Sinh viên năm 3 ngành Marketing, chuyên về Digital Marketing và Content Creation. Có kinh nghiệm trong việc tổ chức các sự kiện về Blockchain và Web3.",
-          achievements: [
-            "Quản lý cộng đồng Blockchain UTC",
-            "Tổ chức thành công 10+ sự kiện lớn",
-            "Chuyên gia Digital Marketing",
-          ],
+      "Ban Truyền thông": [
+        ...teams[2].members,
+        // Thêm nhiều thành viên mẫu cho Ban Truyền thông
+        ...Array.from({ length: 15 }, (_, i) => ({
+          name: `Lê Thị ${String.fromCharCode(65 + i)}`,
+          role: "Thành viên",
+          image: `/placeholder.svg?height=400&width=300&text=Comm+${i + 1}`,
+          bio: "Sinh viên chuyên ngành Marketing, đam mê truyền thông và tổ chức sự kiện.",
+          achievements: ["Quản lý fanpage", "Tổ chức workshop"],
           social: {
             github: "https://github.com",
             linkedin: "https://linkedin.com",
             email: "mailto:example@email.com",
           },
-        },
-        {
-          name: "Đỗ Thị F",
-          role: "Phó ban Truyền thông",
-          image: "/placeholder.svg?height=400&width=300&text=Do+Thi+F",
-          bio: "Sinh viên năm 3 ngành Truyền thông, chuyên về Social Media và Event Planning. Có kinh nghiệm trong việc xây dựng chiến lược truyền thông cho các dự án Blockchain.",
-          achievements: [
-            "Quản lý các kênh truyền thông của CLB",
-            "Tổ chức workshop Blockchain cho 500+ sinh viên",
-            "Content Creator về Blockchain và Web3",
-          ],
-          social: {
-            github: "https://github.com",
-            linkedin: "https://linkedin.com",
-            email: "mailto:example@email.com",
-          },
-        },
+        })),
       ],
-    },
-  ];
-
-  // Thêm dữ liệu thành viên đầy đủ cho mỗi ban
-  const allMembers = {
-    "Ban Chủ nhiệm": [
-      // Chỉ giữ lại thành viên chính của Ban Chủ nhiệm
-      {
-        name: "Nguyễn Văn A",
-        role: "Chủ nhiệm CLB",
-        image: "/placeholder.svg?height=400&width=300&text=Nguyen+Van+A",
-        bio: "Sinh viên năm 4 ngành Công nghệ thông tin, chuyên sâu về Blockchain Development và Smart Contracts. Đam mê nghiên cứu và phát triển các ứng dụng phi tập trung (dApps).",
-        achievements: [
-          "Top 10 cuộc thi Hackathon Blockchain 2023",
-          "Chứng chỉ AWS Certified Blockchain Developer",
-          "Speaker tại các sự kiện Blockchain lớn",
-        ],
-        social: {
-          github: "https://github.com",
-          linkedin: "https://linkedin.com",
-          email: "mailto:example@email.com",
-        },
-      },
-      {
-        name: "Trần Thị B",
-        role: "Phó Chủ nhiệm",
-        image: "/placeholder.svg?height=400&width=300&text=Tran+Thi+B",
-        bio: "Sinh viên năm 3 ngành Kỹ thuật phần mềm, chuyên sâu về Smart Contracts và DeFi. Có kinh nghiệm trong việc tổ chức và điều hành các sự kiện về Blockchain.",
-        achievements: [
-          "Giải Nhì cuộc thi Blockchain UTC 2023",
-          "Chứng chỉ Ethereum Developer",
-          "Thành viên tích cực trong các dự án DeFi",
-        ],
-        social: {
-          github: "https://github.com",
-          linkedin: "https://linkedin.com",
-          email: "mailto:example@email.com",
-        },
-      },
-    ],
-    "Ban Kỹ thuật": [
-      ...teams[1].members,
-      // Thêm nhiều thành viên mẫu cho Ban Kỹ thuật
-      ...Array.from({ length: 25 }, (_, i) => ({
-        name: `Trần Văn ${String.fromCharCode(65 + i)}`,
-        role: "Thành viên",
-        image: `/placeholder.svg?height=400&width=300&text=Tech+${i + 1}`,
-        bio: "Sinh viên chuyên ngành Công nghệ thông tin, đam mê phát triển ứng dụng Blockchain.",
-        achievements: [
-          "Phát triển Smart Contract",
-          "Tham gia hackathon Blockchain",
-        ],
-        social: {
-          github: "https://github.com",
-          linkedin: "https://linkedin.com",
-          email: "mailto:example@email.com",
-        },
-      })),
-    ],
-    "Ban Truyền thông": [
-      ...teams[2].members,
-      // Thêm nhiều thành viên mẫu cho Ban Truyền thông
-      ...Array.from({ length: 15 }, (_, i) => ({
-        name: `Lê Thị ${String.fromCharCode(65 + i)}`,
-        role: "Thành viên",
-        image: `/placeholder.svg?height=400&width=300&text=Comm+${i + 1}`,
-        bio: "Sinh viên chuyên ngành Marketing, đam mê truyền thông và tổ chức sự kiện.",
-        achievements: ["Quản lý fanpage", "Tổ chức workshop"],
-        social: {
-          github: "https://github.com",
-          linkedin: "https://linkedin.com",
-          email: "mailto:example@email.com",
-        },
-      })),
-    ],
-  };
+    }),
+    [teams]
+  );
 
   // Hàm tìm kiếm và lọc thành viên
   const filteredMembers = useMemo(() => {
@@ -366,14 +253,14 @@ export default function TeamPage() {
         member.role.toLowerCase().includes(query) ||
         member.bio.toLowerCase().includes(query)
     );
-  }, [selectedTeam, searchQuery]);
+  }, [selectedTeam, searchQuery, allMembers]);
 
   // Tính toán phân trang
   const totalPages = Math.ceil(filteredMembers.length / membersPerPage);
   const paginatedMembers = useMemo(() => {
     const start = (currentPage - 1) * membersPerPage;
     return filteredMembers.slice(start, start + membersPerPage);
-  }, [filteredMembers, currentPage]);
+  }, [filteredMembers, currentPage, membersPerPage]);
 
   const openModal = (team: Team) => {
     setSelectedTeam(team);
