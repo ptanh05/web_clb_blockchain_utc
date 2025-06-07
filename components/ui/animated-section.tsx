@@ -31,8 +31,8 @@ export function AnimatedSection({
 }: AnimatedSectionProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
-    threshold,
-    triggerOnce: once,
+    amount: threshold,
+    once,
   });
 
   return (
@@ -40,7 +40,11 @@ export function AnimatedSection({
       ref={ref}
       className={className}
       initial={directionMap[direction].initial}
-      animate={isInView ? directionMap[direction].animate : directionMap[direction].initial}
+      animate={
+        isInView
+          ? directionMap[direction].animate
+          : directionMap[direction].initial
+      }
       transition={{
         duration,
         delay,
@@ -217,4 +221,4 @@ export function AnimatedButton({
       {children}
     </motion.button>
   );
-} 
+}
