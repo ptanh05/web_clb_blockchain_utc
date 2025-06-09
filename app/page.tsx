@@ -31,6 +31,13 @@ interface Activity {
   linkHref: string;
 }
 
+interface Partner {
+  id: number;
+  name: string;
+  logo: string;
+  website: string;
+}
+
 export default function Home() {
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
@@ -45,6 +52,10 @@ export default function Home() {
     threshold: 0.1,
   });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const [partnersRef, partnersInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
 
   // Data for Quick Introduction features
   const introFeatures: IntroFeature[] = [
@@ -95,6 +106,34 @@ export default function Home() {
       description: "Phân tích thị trường tiền điện tử và xu hướng đầu tư 2023.",
       imageSrc: "/placeholder.svg?height=400&width=600&text=Event+3",
       linkHref: "/events/3",
+    },
+  ];
+
+  // Data for Partners
+  const partners: Partner[] = [
+    {
+      id: 1,
+      name: "Viettel",
+      logo: "/partners/viettel.png",
+      website: "https://viettel.com.vn",
+    },
+    {
+      id: 2,
+      name: "FPT",
+      logo: "/partners/fpt.png",
+      website: "https://fpt.com.vn",
+    },
+    {
+      id: 3,
+      name: "VNG",
+      logo: "/partners/vng.png",
+      website: "https://vng.com.vn",
+    },
+    {
+      id: 4,
+      name: "CMC",
+      logo: "/partners/cmc.png",
+      website: "https://cmc.com.vn",
     },
   ];
 
@@ -289,6 +328,60 @@ export default function Home() {
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-12 md:py-16 bg-white" ref={partnersRef}>
+        <div className="container px-4 md:px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={partnersInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
+              Đối tác của chúng tôi
+            </h2>
+            <motion.div
+              className="w-20 h-1 bg-[#004987] mx-auto mb-6"
+              initial={{ width: 0 }}
+              animate={partnersInView ? { width: 80 } : {}}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            />
+            <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-base">
+              CLB Blockchain UTC tự hào được hợp tác với các đối tác hàng đầu
+              trong lĩnh vực công nghệ
+            </p>
+          </motion.div>
+
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={partnersInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            {partners.map((partner, index) => (
+              <motion.a
+                key={partner.id}
+                href={partner.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full max-w-[200px] h-24 relative grayscale hover:grayscale-0 transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={partnersInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <Image
+                  src={partner.logo}
+                  alt={partner.name}
+                  fill
+                  className="object-contain p-4"
+                />
+              </motion.a>
+            ))}
           </motion.div>
         </div>
       </section>
