@@ -16,28 +16,13 @@ import {
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
+import type { Event } from "@/app/api/events/types";
 
 // Define types for data structures
 interface IntroFeature {
   icon: LucideIcon;
   title: string;
   description: string;
-}
-
-interface Activity {
-  id: number;
-  date: string;
-  title: string;
-  description: string;
-  imageSrc: string;
-  linkHref: string;
-}
-
-interface Partner {
-  id: number;
-  name: string;
-  logo: string;
-  website: string;
 }
 
 // Add SectionAnimation component
@@ -79,15 +64,11 @@ export default function Home() {
     threshold: 0.1,
   });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.1 });
-  const [partnersRef, partnersInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
 
   // Thêm state cho featuredEvents
-  const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
-  const [errorEvents, setErrorEvents] = useState(null);
+  const [errorEvents, setErrorEvents] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch 3 latest events from API
@@ -101,7 +82,7 @@ export default function Home() {
         } else {
           setFeaturedEvents([]);
         }
-      } catch (err) {
+      } catch {
         setErrorEvents("Không thể tải sự kiện mới nhất");
       } finally {
         setLoadingEvents(false);
@@ -129,34 +110,6 @@ export default function Home() {
       title: "Thực hành",
       description:
         "Tham gia các dự án thực tế, hackathon và cơ hội thực tập tại các công ty công nghệ hàng đầu",
-    },
-  ];
-
-  // Data for Partners
-  const partners: Partner[] = [
-    {
-      id: 1,
-      name: "Viettel",
-      logo: "/partners/viettel.png",
-      website: "https://viettel.com.vn",
-    },
-    {
-      id: 2,
-      name: "FPT",
-      logo: "/partners/fpt.png",
-      website: "https://fpt.com.vn",
-    },
-    {
-      id: 3,
-      name: "VNG",
-      logo: "/partners/vng.png",
-      website: "https://vng.com.vn",
-    },
-    {
-      id: 4,
-      name: "CMC",
-      logo: "/partners/cmc.png",
-      website: "https://cmc.com.vn",
     },
   ];
 
