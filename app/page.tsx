@@ -11,9 +11,11 @@ import {
   Award,
   ArrowRight,
   LucideIcon,
+  ExternalLink,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
 
 // Define types for data structures
 interface IntroFeature {
@@ -38,6 +40,31 @@ interface Partner {
   website: string;
 }
 
+// Add SectionAnimation component
+const SectionAnimation = ({
+  children,
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  delay?: number;
+}) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export default function Home() {
   const [heroRef, heroInView] = useInView({
     triggerOnce: true,
@@ -56,6 +83,32 @@ export default function Home() {
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Thêm state cho featuredEvents
+  const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+  const [errorEvents, setErrorEvents] = useState(null);
+
+  useEffect(() => {
+    // Fetch 3 latest events from API
+    const fetchEvents = async () => {
+      try {
+        setLoadingEvents(true);
+        const res = await fetch("/api/events");
+        const data = await res.json();
+        if (data && data.data) {
+          setFeaturedEvents(data.data.slice(0, 3));
+        } else {
+          setFeaturedEvents([]);
+        }
+      } catch (err) {
+        setErrorEvents("Không thể tải sự kiện mới nhất");
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
+    fetchEvents();
+  }, []);
 
   // Data for Quick Introduction features
   const introFeatures: IntroFeature[] = [
@@ -76,36 +129,6 @@ export default function Home() {
       title: "Thực hành",
       description:
         "Tham gia các dự án thực tế, hackathon và cơ hội thực tập tại các công ty công nghệ hàng đầu",
-    },
-  ];
-
-  // Data for Featured Activities (using mock data structure for now)
-  const featuredActivities: Activity[] = [
-    {
-      id: 1,
-      date: "20/04/2023",
-      title: "Workshop: Blockchain Fundamentals",
-      description:
-        "Tìm hiểu về công nghệ Blockchain từ cơ bản đến nâng cao với các chuyên gia hàng đầu.",
-      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+1",
-      linkHref: "/events/1",
-    },
-    {
-      id: 2,
-      date: "20/04/2023",
-      title: "Hackathon: Build Your First dApp",
-      description:
-        "Thử thách xây dựng ứng dụng phi tập trung đầu tiên của bạn trong 48 giờ.",
-      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+2",
-      linkHref: "/events/2",
-    },
-    {
-      id: 3,
-      date: "20/04/2023",
-      title: "Seminar: Crypto Market Insights",
-      description: "Phân tích thị trường tiền điện tử và xu hướng đầu tư 2023.",
-      imageSrc: "/placeholder.svg?height=400&width=600&text=Event+3",
-      linkHref: "/events/3",
     },
   ];
 
@@ -271,47 +294,61 @@ export default function Home() {
             />
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {featuredActivities.map((activity, index) => (
-              <motion.div
-                key={activity.id}
-                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                initial={{ opacity: 0, y: 20 }}
-                animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.2 * index }}
-              >
-                <div className="relative h-48 overflow-hidden group">
-                  <Image
-                    src={activity.imageSrc}
-                    alt={activity.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span>{activity.date}</span>
+          {/* Loading state */}
+          {loadingEvents && (
+            <div className="text-center py-8 text-gray-500">
+              Đang tải sự kiện...
+            </div>
+          )}
+          {/* Error state */}
+          {errorEvents && (
+            <div className="text-center py-8 text-red-500">{errorEvents}</div>
+          )}
+          {/* Events grid */}
+          {!loadingEvents && !errorEvents && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {featuredEvents.map((activity, index) => (
+                <motion.div
+                  key={activity.id}
+                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 * index }}
+                >
+                  <div className="relative h-48 overflow-hidden group">
+                    <Image
+                      src={activity.image || "/placeholder.svg"}
+                      alt={activity.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
-                  <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
-                    {activity.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm md:text-base mb-4">
-                    {activity.description}
-                  </p>
-                  <Link href={activity.linkHref}>
-                    <Button
-                      variant="outline"
-                      className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                    >
-                      Xem chi tiết
-                    </Button>
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <div className="p-6">
+                    <div className="flex items-center text-sm text-gray-500 mb-2">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span>{activity.date}</span>
+                    </div>
+                    <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
+                      {activity.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm md:text-base mb-4">
+                      {activity.excerpt || activity.description}
+                    </p>
+                    <Link href={`/events/${activity.slug}`}>
+                      <Button
+                        variant="outline"
+                        className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
+                      >
+                        Xem chi tiết
+                      </Button>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
           <motion.div
             className="text-center mt-10"
@@ -333,56 +370,69 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-12 md:py-16 bg-white" ref={partnersRef}>
+      <section className="py-16 bg-white">
         <div className="container px-4 md:px-6">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={partnersInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Đối tác của chúng tôi
-            </h2>
-            <motion.div
-              className="w-20 h-1 bg-[#004987] mx-auto mb-6"
-              initial={{ width: 0 }}
-              animate={partnersInView ? { width: 80 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-            <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-base">
-              CLB Blockchain UTC tự hào được hợp tác với các đối tác hàng đầu
-              trong lĩnh vực công nghệ
-            </p>
-          </motion.div>
+          <SectionAnimation>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-[#004987] mb-4">
+                Đối tác & Nhà tài trợ
+              </h2>
+              <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
+            </div>
+          </SectionAnimation>
 
-          <motion.div
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={partnersInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            {partners.map((partner, index) => (
-              <motion.a
-                key={partner.id}
-                href={partner.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full max-w-[200px] h-24 relative grayscale hover:grayscale-0 transition-all duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={partnersInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  fill
-                  className="object-contain p-4"
-                />
-              </motion.a>
-            ))}
-          </motion.div>
+          <div className="overflow-hidden whitespace-nowrap relative">
+            <div className="inline-flex animate-marquee">
+              {[...Array(8 * 8)].map((_, index) => (
+                <div
+                  key={`marquee1-${index}`}
+                  className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                >
+                  <Image
+                    src={`/placeholder.svg?height=100&width=200&text=Partner+${
+                      (index % 8) + 1
+                    }`}
+                    alt={`Partner ${(index % 8) + 1}`}
+                    width={200}
+                    height={100}
+                    className="object-contain grayscale hover:grayscale-0 transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="inline-flex animate-marquee2 absolute top-0">
+              {[...Array(8 * 8)].map((_, index) => (
+                <div
+                  key={`marquee2-${index}`}
+                  className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                >
+                  <Image
+                    src={`/placeholder.svg?height=100&width=200&text=Partner+${
+                      (index % 8) + 1
+                    }`}
+                    alt={`Partner ${(index % 8) + 1}`}
+                    width={200}
+                    height={100}
+                    className="object-contain grayscale hover:grayscale-0 transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <SectionAnimation delay={0.3}>
+            <div className="text-center mt-10">
+              <Link href="/partners">
+                <Button
+                  variant="link"
+                  className="text-[#004987] hover:scale-105 transition-transform duration-300"
+                >
+                  Xem tất cả đối tác
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          </SectionAnimation>
         </div>
       </section>
 

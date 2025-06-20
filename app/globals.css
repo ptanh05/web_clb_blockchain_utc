@@ -114,11 +114,11 @@
   }
 
   .animate-marquee {
-    animation: marquee 25s linear infinite;
+    /* animation: marquee 135s linear infinite; */
   }
 
   .animate-marquee2 {
-    animation: marquee2 25s linear infinite;
+    /* animation: marquee2 135s linear infinite; */
   }
 }
 
@@ -205,8 +205,6 @@
   }
 }
 
-
-
 @keyframes marquee2 {
   0% {
     transform: translateX(100%);
@@ -224,14 +222,3 @@
   }
 }
 
-.animate-marquee {
-  animation: marquee 4000s linear infinite;
-}
-
-.animate-marquee2 {
-  animation: marquee2 900s linear infinite;
-}
-.animate-marquee:hover,
-.animate-marquee2:hover {
-  animation-play-state: paused;
-}
