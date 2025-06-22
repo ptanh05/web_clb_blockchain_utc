@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import type { Event } from "@/app/api/events/types";
+import { useIsMobile } from "@/components/ui/use-mobile";
 
 // Define types for data structures
 interface IntroFeature {
@@ -70,6 +71,8 @@ export default function Home() {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState<string | null>(null);
 
+  const isMobile = useIsMobile();
+
   useEffect(() => {
     // Fetch 3 latest events from API
     const fetchEvents = async () => {
@@ -119,7 +122,12 @@ export default function Home() {
       <section className="w-full relative overflow-hidden py-20 md:py-40 min-h-[500px] md:min-h-[650px]">
         {/* Background image with parallax effect */}
         <div className="absolute inset-0">
-          <div className="w-full h-full bg-[url('/a8fd3637dcec6fb236fd.jpg?height=1080&width=1920')] bg-cover bg-center bg-fixed" />
+          <motion.div
+            initial={{ scale: isMobile ? 0.9 : 1.1, opacity: 0 }}
+            animate={{ scale: isMobile ? 0.8 : 1, opacity: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full h-full bg-[url('/a8fd3637dcec6fb236fd.jpg?height=1080&width=1920')] bg-cover bg-center bg-fixed"
+          />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6" ref={heroRef}>
@@ -270,7 +278,14 @@ export default function Home() {
                 >
                   <div className="relative h-48 overflow-hidden group">
                     <Image
-                      src={activity.image || "/placeholder.svg"}
+                      src={
+                        !activity.image
+                          ? "/placeholder.svg"
+                          : activity.image.startsWith("http") ||
+                            activity.image.startsWith("/")
+                          ? activity.image
+                          : "/" + activity.image
+                      }
                       alt={activity.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
@@ -416,6 +431,7 @@ export default function Home() {
             >
               <Button
                 size="lg"
+                variant="outline"
                 className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               >
                 Đăng ký tham gia CLB

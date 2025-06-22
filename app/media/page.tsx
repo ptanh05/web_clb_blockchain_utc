@@ -425,7 +425,12 @@ export default function MediaPage() {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-3">
-                      {media.tags.map((tag, index) => (
+                      {(Array.isArray(media.tags)
+                        ? media.tags
+                        : media.tags
+                        ? String(media.tags).split(",")
+                        : []
+                      ).map((tag, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
@@ -597,7 +602,12 @@ export default function MediaPage() {
                 </div>
                 {/* Tags in Modal */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {selectedMedia.tags.map((tag, index) => (
+                  {(Array.isArray(selectedMedia.tags)
+                    ? selectedMedia.tags
+                    : selectedMedia.tags
+                    ? String(selectedMedia.tags).split(",")
+                    : []
+                  ).map((tag, index) => (
                     <span
                       key={index}
                       className="px-2 py-1 text-sm font-medium bg-gray-100 text-gray-600 rounded-full"
