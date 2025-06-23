@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import type { Event } from "@/app/api/events/types";
 import { useIsMobile } from "@/components/ui/use-mobile";
 import JoinPopup from "@/components/join-popup";
+import { ParticlesBackground } from "@/components/particles-background";
 
 // Define types for data structures
 interface IntroFeature {
@@ -119,6 +120,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ParticlesBackground />
       {/* Hero Banner */}
       <section className="w-full bg-white">
         <div className="container px-4 md:px-6 mx-auto">
