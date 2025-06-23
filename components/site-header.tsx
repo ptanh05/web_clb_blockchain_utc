@@ -45,7 +45,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/[Logo] Artboard 1.png?height=60&width=60"
+              src="/logo.png"
               alt="Blockchain UTC Club Logo"
               width={60}
               height={60}

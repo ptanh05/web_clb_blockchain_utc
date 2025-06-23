@@ -18,7 +18,7 @@ export function SiteFooter() {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Image
-                src="/[Logo] Artboard 1.png?height=50&width=50"
+                src="/logo.png"
                 alt="Blockchain UTC Club Logo"
                 width={50}
                 height={50}
