@@ -9,7 +9,6 @@ import {
   BookOpen,
   Users,
   Award,
-  ArrowRight,
   LucideIcon,
   ExternalLink,
 } from "lucide-react";
@@ -17,7 +16,6 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import type { Event } from "@/app/api/events/types";
-import { useIsMobile } from "@/components/ui/use-mobile";
 import JoinPopup from "@/components/join-popup";
 import { ParticlesBackground } from "@/components/particles-background";
 
@@ -54,10 +52,6 @@ const SectionAnimation = ({
 };
 
 export default function Home() {
-  const [heroRef, heroInView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
   const [introRef, introInView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -72,8 +66,6 @@ export default function Home() {
   const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState<string | null>(null);
-
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Fetch 3 latest events from API

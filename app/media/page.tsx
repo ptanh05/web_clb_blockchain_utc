@@ -62,7 +62,7 @@ export default function MediaPage() {
   const [selectedType, setSelectedType] = useState<Media["type"] | "all">(
     "all"
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [selectedMedia, setSelectedMedia] = useState<Media | null>(null);
