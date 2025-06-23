@@ -298,24 +298,6 @@ export default function MediaPage() {
                   </Button>
                 ))}
               </div>
-
-              {/* Category Filter */}
-              <div className="flex gap-2">
-                {["all", "Sự kiện", "Giới thiệu", "Tài liệu"].map(
-                  (category) => (
-                    <Button
-                      key={category}
-                      variant={
-                        selectedCategory === category ? "default" : "outline"
-                      }
-                      onClick={() => setSelectedCategory(category)}
-                      className="transition-all duration-300"
-                    >
-                      {category === "all" ? "Tất cả danh mục" : category}
-                    </Button>
-                  )
-                )}
-              </div>
             </motion.div>
           </motion.div>
 

@@ -18,6 +18,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react";
 import type { Event } from "@/app/api/events/types";
 import { useIsMobile } from "@/components/ui/use-mobile";
+import JoinPopup from "@/components/join-popup";
 
 // Define types for data structures
 interface IntroFeature {
@@ -429,24 +430,16 @@ export default function Home() {
               animate={ctaInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <Button
-                size="lg"
-                variant="outline"
-                className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
-              >
-                Đăng ký tham gia CLB
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white hover:bg-white/10 hover:scale-105 transition-all duration-300 group relative overflow-hidden"
-              >
-                <span className="relative z-10 flex items-center gap-2 text-white font-semibold">
-                  Click đi ngại gì
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 text-white" />
-                </span>
-                <span className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-r from-white via-white/80 to-white/20"></span>
-              </Button>
+              <Link href="/join">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+                >
+                  Đăng ký tham gia CLB
+                </Button>
+              </Link>
+              <JoinPopup />
             </motion.div>
           </motion.div>
         </div>
