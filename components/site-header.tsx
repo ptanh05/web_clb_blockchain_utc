@@ -50,7 +50,7 @@ export function SiteHeader() {
               width={60}
               height={60}
             />
-            <span className="hidden md:inline-block font-bold text-[#004987]">
+            <span className="font-bold text-[#004987]">
               Blockchain Pioneer Student
             </span>
           </Link>

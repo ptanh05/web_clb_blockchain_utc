@@ -120,74 +120,43 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Banner */}
-      <section className="w-full relative overflow-hidden py-20 md:py-40 min-h-[500px] md:min-h-[650px]">
-        {/* Background image with parallax effect */}
-        <div className="absolute inset-0">
-          <motion.div
-            initial={{ scale: isMobile ? 0.9 : 1.1, opacity: 0 }}
-            animate={{ scale: isMobile ? 0.8 : 1, opacity: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="w-full h-full bg-[url('/a8fd3637dcec6fb236fd.jpg?height=1080&width=1920')] bg-cover bg-center bg-fixed"
-          />
-        </div>
-
-        <div className="container relative z-10 px-4 md:px-6" ref={heroRef}>
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            {/* LEFT: Content */}
-            <div className="text-white text-center lg:text-left">
-              <motion.p
-                className="text-sm md:text-base text-[#b3d8f5] uppercase tracking-widest mb-3"
-                initial={{ opacity: 0, y: 20 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
+      <section className="w-full bg-white">
+        <div className="container px-4 md:px-6 mx-auto">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center py-12 md:py-24">
+            <div className="space-y-4 text-center lg:text-left">
+              <p className="text-sm font-semibold tracking-widest uppercase text-[#004987]">
                 Cộng đồng Web3 tiên phong của sinh viên Việt Nam
-              </motion.p>
-              <motion.h1
-                className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 text-[#ffffff] drop-shadow-md"
-                initial={{ opacity: 0, y: 20 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
+              </p>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#002b52]">
                 Blockchain Pioneer Student
-              </motion.h1>
-              <motion.p
-                className="text-base md:text-lg lg:text-xl text-[#d8e5f7] mb-6 max-w-lg mx-auto md:mx-0 drop-shadow-sm"
-                initial={{ opacity: 0, y: 20 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
+              </h1>
+              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 mx-auto lg:mx-0">
                 Khám phá, học hỏi và phát triển cùng cộng đồng Blockchain tại
                 Trường Đại học Giao thông Vận tải.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={heroInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.8 }}
-              >
-                <Link href="/join">
-                  <Button
-                    size="lg"
-                    className="bg-white text-[#004987] hover:bg-gray-100 shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                  >
-                    Đăng ký tham gia CLB
-                    <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </Button>
-                </Link>
-              </motion.div>
+              </p>
+              <Link href="/join">
+                <Button
+                  size="lg"
+                  className="bg-[#004987] text-white hover:bg-[#003b6d] shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  Đăng ký tham gia CLB
+                  <ChevronRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
-            {/* RIGHT: Animation */}
-          </motion.div>
+            <Image
+              alt="Hero"
+              className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+              height={550}
+              src="/a8fd3637dcec6fb236fd.jpg"
+              width={550}
+            />
+          </div>
         </div>
       </section>
 
       {/* Quick Introduction */}
-      <section className="py-12 md:py-16 bg-white" ref={introRef}>
+      <section className="py-12 md:py-16 bg-gray-50" ref={introRef}>
         <div className="container px-4 md:px-6">
           <motion.div
             className="text-center mb-12"
