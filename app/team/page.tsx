@@ -706,6 +706,7 @@ export default function TeamPage() {
               <Link href="/join">
                 <Button
                   size="lg"
+                  variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
                   Đăng ký tham gia
@@ -716,7 +717,7 @@ export default function TeamPage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10 transition-all duration-300 hover:scale-105"
+                  className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
                   Liên hệ với chúng tôi
                 </Button>

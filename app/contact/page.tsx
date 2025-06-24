@@ -22,6 +22,8 @@ import {
   MessageSquare,
   ArrowRight,
   ExternalLink,
+  Linkedin,
+  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -289,8 +291,7 @@ export default function ContactPage() {
                           Địa chỉ
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                          Phòng 305, Nhà A9, Trường Đại học Giao thông Vận tải,
-                          Số 3 Cầu Giấy, Hà Nội
+                          Cập nhật sau
                         </p>
                       </div>
                     </div>
@@ -324,10 +325,10 @@ export default function ContactPage() {
                         </h3>
                         <p className="text-gray-600">
                           <Link
-                            href="tel:+84987654321"
+                            href="tel:+84972935189"
                             className="hover:text-[#00a1e0] transition-colors underline decoration-dotted underline-offset-4"
                           >
-                            +84 987 654 321
+                            +84 972935189
                           </Link>
                         </p>
                       </div>
@@ -340,7 +341,7 @@ export default function ContactPage() {
                     </h3>
                     <div className="flex gap-4">
                       <Link
-                        href="https://facebook.com"
+                        href="https://www.facebook.com/bpsclub.utc"
                         target="_blank"
                         className="w-10 h-10 bg-gradient-to-br from-[#004987] to-[#00a1e0] rounded-full flex items-center justify-center text-white hover:shadow-lg hover:scale-110 transition-all duration-300"
                         aria-label="Facebook"
@@ -348,23 +349,23 @@ export default function ContactPage() {
                         <Facebook className="h-5 w-5" />
                       </Link>
                       <Link
-                        href="https://twitter.com"
+                        href="https://www.linkedin.com/company/106421064/"
                         target="_blank"
                         className="w-10 h-10 bg-gradient-to-br from-[#004987] to-[#00a1e0] rounded-full flex items-center justify-center text-white hover:shadow-lg hover:scale-110 transition-all duration-300"
-                        aria-label="Twitter"
+                        aria-label="LinkedIn"
                       >
-                        <Twitter className="h-5 w-5" />
+                        <Linkedin className="h-5 w-5" />
                       </Link>
                       <Link
-                        href="https://instagram.com"
+                        href="#"
                         target="_blank"
                         className="w-10 h-10 bg-gradient-to-br from-[#004987] to-[#00a1e0] rounded-full flex items-center justify-center text-white hover:shadow-lg hover:scale-110 transition-all duration-300"
-                        aria-label="Instagram"
+                        aria-label="Telegram"
                       >
-                        <Instagram className="h-5 w-5" />
+                        <MessageCircle className="h-5 w-5" />
                       </Link>
                       <Link
-                        href="https://youtube.com"
+                        href="https://www.youtube.com/@BlockchainPioneerStudent"
                         target="_blank"
                         className="w-10 h-10 bg-gradient-to-br from-[#004987] to-[#00a1e0] rounded-full flex items-center justify-center text-white hover:shadow-lg hover:scale-110 transition-all duration-300"
                         aria-label="Youtube"
@@ -671,14 +672,14 @@ export default function ContactPage() {
           <path
             fill="url(#gradient5)"
             fillOpacity="0.2"
-            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,117.3C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,117.3C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
           >
             <animate
               attributeName="d"
               dur="12s"
               repeatCount="indefinite"
-              values="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,117.3C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z;
-                     M0,64L48,96C96,128,192,192,288,192C384,192,480,128,576,106.7C672,85,768,107,864,144C960,181,1056,235,1152,224C1248,213,1344,139,1392,101.3L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z;
+              values="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,117.3C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,170.7L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z;
+                     M0,64L48,96C96,128,192,192,288,186.7C384,181,480,139,576,138.7C672,139,768,181,864,197.3C960,213,1056,203,1152,181.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z;
                      M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,117.3C960,139,1056,181,1152,181.3C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
             />
           </path>
