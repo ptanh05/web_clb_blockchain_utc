@@ -16,7 +16,6 @@ const nextConfig = {
     }
     return config;
   },
-  serverExternalPackages: ['pg', 'pg-connection-string'],
   images: {
     domains: ['example.com'],
   },
