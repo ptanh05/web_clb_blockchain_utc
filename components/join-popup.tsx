@@ -12,11 +12,11 @@ export default function JoinPopup() {
         size="lg"
         variant="outline"
         onClick={() => setOpen(true)}
-        className="border-white hover:bg-white/10 hover:scale-105 transition-all duration-300 group relative overflow-hidden"
+        className="bg-white text-[#004987] hover:text-black hover:bg-gray-100 transition-all duration-300 hover:scale-105"
       >
-        <span className="relative z-10 flex items-center gap-2 text-white font-semibold">
+        <span className="relative z-10 flex items-center gap-2 font-semibold">
           Click đi ngại gì
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 text-white" />
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
         <span className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-r from-white via-white/80 to-white/20"></span>
       </Button>

@@ -41,6 +41,8 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState("");
+  const [members, setMembers] = useState([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -49,6 +51,17 @@ export default function ContactPage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const res = await fetch(
+        "/api/members?team=" + encodeURIComponent(selectedTeam)
+      );
+      const data = await res.json();
+      setMembers(data.data);
+    };
+    fetchMembers();
+  }, [selectedTeam]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
