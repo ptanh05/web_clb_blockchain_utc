@@ -196,14 +196,6 @@ export default function NewsDetailPage() {
                       <p className="text-gray-900">{news.time}</p>
                     </div>
                   )}
-                  {news.location && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-600">
-                        Địa điểm
-                      </p>
-                      <p className="text-gray-900">{news.location}</p>
-                    </div>
-                  )}
                   <div>
                     <p className="text-sm font-medium text-gray-600">
                       Danh mục
