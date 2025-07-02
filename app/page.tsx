@@ -11,6 +11,7 @@ import {
   Award,
   LucideIcon,
   ExternalLink,
+  Clock,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -50,6 +51,19 @@ const SectionAnimation = ({
     </motion.div>
   );
 };
+
+// Helper: format date as dd/MM/yyyy
+function formatDate(dateString?: string) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("vi-VN");
+}
+
+// Helper: format time as HH:mm
+function formatTime(timeString?: string) {
+  if (!timeString || timeString === "00:00") return "";
+  return timeString.slice(0, 5);
+}
 
 export default function Home() {
   const [introRef, introInView] = useInView({
@@ -286,18 +300,41 @@ export default function Home() {
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 text-xs font-medium bg-[#004987] text-white rounded-full">
+                          {activity.category}
+                        </span>
+                      </div>
                     </div>
                     <div className="p-6">
-                      <div className="flex items-center text-sm text-gray-500 mb-2">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        <span>{activity.date}</span>
+                      {/* Date and Time Row */}
+                      <div className="flex items-center text-sm text-gray-500 mb-2 gap-4">
+                        <div className="flex items-center">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          <span>{formatDate(activity.date)}</span>
+                        </div>
+                        {formatTime(activity.time) && (
+                          <>
+                            <span className="mx-1 text-gray-400">|</span>
+                            <div className="flex items-center">
+                              <Clock className="w-4 h-4 mr-1" />
+                              <span>{formatTime(activity.time)}</span>
+                            </div>
+                          </>
+                        )}
                       </div>
-                      <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
+                      <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987] line-clamp-2">
                         {activity.title}
                       </h3>
-                      <p className="text-gray-600 text-sm md:text-base mb-4">
+                      <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
                         {activity.excerpt || activity.description}
                       </p>
+                      <div className="flex items-center text-sm text-gray-500 mb-2">
+                        <span>{activity.location}</span>
+                      </div>
+                      <div className="flex items-center text-sm text-gray-500 mb-4">
+                        <span>{activity.views || 0} lượt xem</span>
+                      </div>
                       <Link href={`/events/${activity.id}`}>
                         <Button
                           variant="outline"
