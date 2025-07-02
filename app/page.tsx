@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import type { Event } from "@/app/api/events/types";
 import JoinPopup from "@/components/join-popup";
 import { ParticlesBackground } from "@/components/particles-background";
@@ -66,6 +66,10 @@ export default function Home() {
   const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+
+  // Danh sách category
+  const categories = ["all", "Workshop", "Hackathon", "Seminar", "Community"];
 
   useEffect(() => {
     // Fetch 3 latest events from API
@@ -87,6 +91,26 @@ export default function Home() {
     };
     fetchEvents();
   }, []);
+
+  // Lọc sự kiện theo category (dùng cho thẻ con)
+  const getSubEvents = (parentEvent: Event) => {
+    let filtered = featuredEvents.filter((e) => e.id !== parentEvent.id);
+    if (selectedCategory !== "all") {
+      filtered = filtered.filter(
+        (e) => e.category === parentEvent.category && e.id !== parentEvent.id
+      );
+    }
+    // Nếu không đủ 3, lấy thêm từ các event khác (không trùng chính nó)
+    if (filtered.length < 3) {
+      const others = featuredEvents.filter(
+        (e) => e.id !== parentEvent.id && !filtered.includes(e)
+      );
+      filtered = filtered.concat(others).slice(0, 3);
+    } else {
+      filtered = filtered.slice(0, 3);
+    }
+    return filtered;
+  };
 
   // Data for Quick Introduction features
   const introFeatures: IntroFeature[] = [
@@ -232,53 +256,59 @@ export default function Home() {
           {/* Events grid */}
           {!loadingEvents && !errorEvents && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {featuredEvents.map((activity, index) => (
-                <motion.div
-                  key={activity.id}
-                  className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 * index }}
-                >
-                  <div className="relative h-48 overflow-hidden group">
-                    <Image
-                      src={
-                        !activity.image
-                          ? "/placeholder.svg"
-                          : activity.image.startsWith("http") ||
-                            activity.image.startsWith("/")
-                          ? activity.image
-                          : "/" + activity.image
-                      }
-                      alt={activity.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-2">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{activity.date}</span>
+              {featuredEvents
+                .filter(
+                  (ev) =>
+                    selectedCategory === "all" ||
+                    ev.category === selectedCategory
+                )
+                .map((activity, index) => (
+                  <motion.div
+                    key={activity.id}
+                    className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.2 * index }}
+                  >
+                    <div className="relative h-48 overflow-hidden group">
+                      <Image
+                        src={
+                          !activity.image
+                            ? "/placeholder.svg"
+                            : activity.image.startsWith("http") ||
+                              activity.image.startsWith("/")
+                            ? activity.image
+                            : "/" + activity.image
+                        }
+                        alt={activity.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                    <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
-                      {activity.title}
-                    </h3>
-                    <p className="text-gray-600 text-sm md:text-base mb-4">
-                      {activity.excerpt || activity.description}
-                    </p>
-                    <Link href={`/events/${activity.slug}`}>
-                      <Button
-                        variant="outline"
-                        className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                      >
-                        Xem chi tiết
-                      </Button>
-                    </Link>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="p-6">
+                      <div className="flex items-center text-sm text-gray-500 mb-2">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>{activity.date}</span>
+                      </div>
+                      <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987]">
+                        {activity.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm md:text-base mb-4">
+                        {activity.excerpt || activity.description}
+                      </p>
+                      <Link href={`/events/${activity.id}`}>
+                        <Button
+                          variant="outline"
+                          className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
+                        >
+                          Xem chi tiết
+                        </Button>
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))}
             </div>
           )}
 

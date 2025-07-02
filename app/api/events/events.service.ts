@@ -179,7 +179,30 @@ export const EventService = {
       console.error('Error in createEvent:', error);
       throw error; // Re-throw the error after logging
     }
-  }
+  },
+
+  // Get a single event by id
+  async getEventById(id: number): Promise<Event | undefined> {
+    console.log(`Fetching event by id: ${id}`);
+    const query = 'SELECT * FROM events WHERE id = $1';
+    const values = [id];
+
+    try {
+      const result = await pool.query(query, values);
+      if (result.rows.length === 0) {
+        return undefined; // Event not found
+      }
+      // Map database row to Event type
+      const row = result.rows[0];
+      return {
+        ...row,
+        tags: row.tags || [], // Ensure tags is an array
+      };
+    } catch (error) {
+      console.error(`Error in getEventById for id ${id}:`, error);
+      throw error; // Re-throw the error after logging
+    }
+  },
 
   // Add other methods for updating, deleting events as needed
   // async updateEvent(id: number, eventData: Partial<Event>): Promise<Event | undefined> { ... }

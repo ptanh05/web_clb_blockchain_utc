@@ -49,7 +49,7 @@ export default function NewsPage() {
           throw new Error("Failed to fetch news");
         }
         const data = await response.json();
-        setNewsData(data);
+        setNewsData(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch news");
         toast.error("Failed to fetch news articles");
@@ -271,10 +271,12 @@ export default function NewsPage() {
                           <Calendar className="w-4 h-4 mr-1" />
                           <span>{news.date}</span>
                         </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          <span>{news.readTime}</span>
-                        </div>
+                        {news.time && (
+                          <div className="flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            <span>{news.time}</span>
+                          </div>
+                        )}
                       </div>
                       <div className="flex items-center gap-2">
                         <span>{news.views} lượt xem</span>
@@ -294,7 +296,7 @@ export default function NewsPage() {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <Link href={`/news/${news.slug}`}>
+                      <Link href={`/news/${news.id}`}>
                         <Button
                           variant="outline"
                           className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

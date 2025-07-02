@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const search = searchParams.get('search') || '';
 
     const news = await NewsService.getAllNews(category, search);
-    return NextResponse.json(news);
+    return NextResponse.json({ data: news });
   } catch (error) {
     console.error('Error fetching news:', error);
     return NextResponse.json(

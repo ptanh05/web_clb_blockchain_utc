@@ -24,6 +24,19 @@ import { toast } from "sonner";
 // Import Event types from API types
 import { Event, EventListResponse } from "@/app/api/events/types";
 
+// Helper: format date as dd/MM/yyyy
+function formatDate(dateString?: string) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("vi-VN");
+}
+
+// Helper: format time as HH:mm
+function formatTime(timeString?: string) {
+  if (!timeString || timeString === "00:00") return "";
+  return timeString.slice(0, 5);
+}
+
 export default function EventsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -246,45 +259,37 @@ export default function EventsPage() {
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-2">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>{event.date}</span>
-                      {event.time && (
-                        <div className="flex items-center ml-4">
-                          <Clock className="w-4 h-4 mr-1" />
-                          <span>{event.time}</span>
-                        </div>
+                    {/* Date and Time Row */}
+                    <div className="flex items-center text-sm text-gray-500 mb-2 gap-4">
+                      <div className="flex items-center">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>{formatDate(event.date)}</span>
+                      </div>
+                      {formatTime(event.time) && (
+                        <>
+                          <span className="mx-1 text-gray-400">|</span>
+                          <div className="flex items-center">
+                            <Clock className="w-4 h-4 mr-1" />
+                            <span>{formatTime(event.time)}</span>
+                          </div>
+                        </>
                       )}
                     </div>
                     <h3 className="text-lg md:text-xl font-semibold mb-2 text-[#004987] line-clamp-2">
                       {event.title}
                     </h3>
                     <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
-                      {event.excerpt}
+                      {event.excerpt || event.description}
                     </p>
-                    <div className="flex items-center text-sm text-gray-500 mb-4">
+                    <div className="flex items-center text-sm text-gray-500 mb-2">
                       <MapPin className="h-4 w-4 mr-1" />
                       <span>{event.location}</span>
                     </div>
-                    {event.tags &&
-                      Array.isArray(event.tags) &&
-                      event.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {event.tags.map((tag, tagIndex) => (
-                            <span
-                              key={tagIndex}
-                              className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
                     <div className="flex items-center text-sm text-gray-500 mb-4">
                       <Eye className="h-4 w-4 mr-1" />
-                      <span>{event.views} lượt xem</span>
+                      <span>{event.views || 0} lượt xem</span>
                     </div>
-                    <Link href={`/events/${event.slug}`}>
+                    <Link href={`/events/${event.id}`}>
                       <Button
                         variant="outline"
                         className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

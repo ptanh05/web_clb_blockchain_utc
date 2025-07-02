@@ -131,10 +131,7 @@ export function SiteFooter() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 shrink-0 mt-0.5" />
-                <span className="text-white/80">
-                  Phòng 305, Nhà A9, Trường Đại học Giao thông Vận tải, Số 3 Cầu
-                  Giấy, Hà Nội
-                </span>
+                <span className="text-white/80">Cập nhật sau</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
