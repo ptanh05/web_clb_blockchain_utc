@@ -8,6 +8,7 @@ const joinSchema = z.object({
   ma_sinh_vien: z.string().min(5, "Mã sinh viên không hợp lệ"),
   email: z.string().email("Email không hợp lệ"),
   so_dien_thoai: z.string().optional(),
+  truong: z.string().min(1, "Vui lòng chọn trường/đơn vị"),
   khoa_nganh: z.string().min(1, "Vui lòng chọn khoa/ngành"),
   nam_hoc: z.string().min(1, "Vui lòng chọn năm học"),
   linh_vuc_quan_tam: z.string(),
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       // Đảm bảo các trường optional được xử lý đúng
       so_dien_thoai: validatedData.so_dien_thoai || undefined,
       kinh_nghiem_blockchain: validatedData.kinh_nghiem_blockchain || undefined,
+      truong: validatedData.truong,
     });
     
     return NextResponse.json(

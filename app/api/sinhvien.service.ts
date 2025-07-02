@@ -5,6 +5,7 @@ export interface SinhVien {
   ma_sinh_vien: string;
   email: string;
   so_dien_thoai?: string;
+  truong?: string;
   khoa_nganh?: string;
   nam_hoc?: string;
   linh_vuc_quan_tam?: string;
@@ -33,15 +34,17 @@ export async function themSinhVien(data: SinhVien): Promise<void> {
     await client.query(
       `INSERT INTO sinh_vien (
         ho_ten, ma_sinh_vien, email, so_dien_thoai,
+        truong,
         khoa_nganh, nam_hoc, linh_vuc_quan_tam,
         ban_tham_gia, kinh_nghiem_blockchain, ly_do_tham_gia,
         created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW())`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())`,
       [
         data.ho_ten,
         data.ma_sinh_vien,
         data.email,
         data.so_dien_thoai,
+        data.truong,
         data.khoa_nganh,
         data.nam_hoc,
         data.linh_vuc_quan_tam,

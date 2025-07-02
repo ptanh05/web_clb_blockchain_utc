@@ -42,6 +42,7 @@ const formSchema = z.object({
   ban_tham_gia: z.string().min(1, "Vui lòng chọn ban muốn tham gia"),
   kinh_nghiem_blockchain: z.string().optional(),
   ly_do_tham_gia: z.string().min(10, "Lý do tham gia phải có ít nhất 10 ký tự"),
+  truong: z.string().min(1, "Vui lòng chọn trường/đơn vị"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -64,6 +65,7 @@ export default function JoinPage() {
       ban_tham_gia: "",
       kinh_nghiem_blockchain: "",
       ly_do_tham_gia: "",
+      truong: "",
     },
   });
 
@@ -293,6 +295,58 @@ export default function JoinPage() {
 
                   <FormField
                     control={form.control}
+                    name="truong"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Trường/Đơn vị</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn trường/đơn vị của bạn" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="dai_hoc_gtvt">
+                              Đại học GTVT
+                            </SelectItem>
+                            <SelectItem value="bach_khoa">
+                              Đại học Bách Khoa
+                            </SelectItem>
+                            <SelectItem value="ngoai_thuong">
+                              Đại học Ngoại Thương
+                            </SelectItem>
+                            <SelectItem value="kinh_te_quoc_dan">
+                              Đại học Kinh tế Quốc dân
+                            </SelectItem>
+                            <SelectItem value="fpt">Đại học FPT</SelectItem>
+                            <SelectItem value="hust">
+                              Đại học Bách Khoa Hà Nội (HUST)
+                            </SelectItem>
+                            <SelectItem value="hanu">
+                              Đại học Hà Nội (HANU)
+                            </SelectItem>
+                            <SelectItem value="huflit">
+                              Đại học HUFLIT
+                            </SelectItem>
+                            <SelectItem value="ton_duc_thang">
+                              Đại học Tôn Đức Thắng
+                            </SelectItem>
+                            <SelectItem value="van_lang">
+                              Đại học Văn Lang
+                            </SelectItem>
+                            <SelectItem value="other">Khác</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
                     name="khoa_nganh"
                     render={({ field }) => (
                       <FormItem>
@@ -472,14 +526,7 @@ export default function JoinPage() {
                                 Ban Truyền thông
                               </FormLabel>
                             </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
-                              <FormControl>
-                                <RadioGroupItem value="ban_doi_ngoai" />
-                              </FormControl>
-                              <FormLabel className="font-normal">
-                                Ban Đối ngoại
-                              </FormLabel>
-                            </FormItem>
+
                             <FormItem className="flex items-center space-x-3 space-y-0">
                               <FormControl>
                                 <RadioGroupItem value="ban_noi_bo" />
