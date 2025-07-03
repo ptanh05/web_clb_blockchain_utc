@@ -197,7 +197,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Giới thiệu về CLB Blockchain UTC
+              Giới thiệu về CLB Blockchain Pioneer Student
             </h2>
             <motion.div
               className="w-20 h-1 bg-[#004987] mx-auto mb-6"
@@ -206,10 +206,10 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.3 }}
             />
             <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-base">
-              Câu lạc bộ Blockchain UTC là nơi quy tụ những sinh viên đam mê
-              công nghệ Blockchain và Web3. Chúng tôi tạo ra môi trường học tập,
-              nghiên cứu và thực hành, giúp các bạn sinh viên tiếp cận với công
-              nghệ đang thay đổi tương lai.
+              Câu lạc bộ Blockchain Pioneer Student là nơi quy tụ những sinh
+              viên đam mê công nghệ Blockchain và Web3. Chúng tôi tạo ra môi
+              trường học tập, nghiên cứu và thực hành, giúp các bạn sinh viên
+              tiếp cận với công nghệ đang thay đổi tương lai.
             </p>
           </motion.div>
 
@@ -452,7 +452,8 @@ export default function Home() {
             </h2>
             <p className="text-base md:text-lg mb-8 text-white/80">
               Đăng ký ngay hôm nay để trở thành thành viên của CLB Blockchain
-              UTC và bắt đầu hành trình khám phá công nghệ đột phá này!
+              Pioneer Student và bắt đầu hành trình khám phá công nghệ đột phá
+              này!
             </p>
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"

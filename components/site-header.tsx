@@ -43,17 +43,13 @@ export function SiteHeader() {
     >
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/logo.png"
-              alt="Blockchain UTC Club Logo"
-              width={60}
-              height={60}
-            />
-            <span className="font-bold text-[#004987]">
-              Blockchain Pioneer Student
-            </span>
-          </Link>
+          <Image
+            src="/logo3.png"
+            alt="Blockchain Pioneer Student Logo"
+            width={220}
+            height={0}
+            style={{ height: "auto" }}
+          />
         </div>
 
         {isMobile ? (
@@ -153,7 +149,8 @@ export function SiteHeader() {
         ) : (
           <>
             <div className="flex-1 flex justify-center">
-              <nav className="flex items-center gap-6">
+              {/* Desktop & large tablet menu */}
+              <nav className="hidden md:flex items-center gap-6">
                 <Link
                   href="/"
                   scroll={true}
@@ -241,6 +238,91 @@ export function SiteHeader() {
                   }`}
                 >
                   Liên hệ
+                </Link>
+              </nav>
+
+              {/* Mobile & iPad menu (Sheet) */}
+              <nav className="flex md:hidden flex-col gap-4 mt-8">
+                <Link
+                  href="/"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Trang chủ
+                </Link>
+                <Link
+                  href="/about"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/about" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Giới thiệu
+                </Link>
+                <Link
+                  href="/events"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/events" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Sự kiện & Dự án
+                </Link>
+                <Link
+                  href="/news"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/news" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Tin tức
+                </Link>
+                <Link
+                  href="/media"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/media" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Thư viện
+                </Link>
+                <Link
+                  href="/partners"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/partners" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Đối tác
+                </Link>
+                <Link
+                  href="/team"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/team" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Thành viên
+                </Link>
+                <Link
+                  href="/contact"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/contact" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Liên hệ
+                </Link>
+                <Link
+                  href="/join"
+                  scroll={true}
+                  className={`text-lg font-medium hover:text-[#004987] ${
+                    pathname === "/join" ? "text-[#004987] font-bold" : ""
+                  }`}
+                >
+                  Tham gia CLB
                 </Link>
               </nav>
             </div>

@@ -155,8 +155,8 @@ export default function ContactPage() {
             className="text-lg max-w-2xl animate-slide-in"
             style={{ animationDelay: "200ms" }}
           >
-            Kết nối với CLB Blockchain UTC - Chúng tôi luôn sẵn sàng lắng nghe
-            và hỗ trợ bạn
+            Kết nối với CLB Blockchain Pioneer Student - Chúng tôi luôn sẵn sàng
+            lắng nghe và hỗ trợ bạn
           </p>
         </div>
       </section>
@@ -304,7 +304,8 @@ export default function ContactPage() {
                           Địa chỉ
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                          Cập nhật sau
+                          Blockchain Labs, Trường Đại Học Giao Thông Vận Tải, Số
+                          03 Cầu Giấy, Phường Láng, Thành phố Hà Nội
                         </p>
                       </div>
                     </div>
@@ -742,7 +743,7 @@ export default function ContactPage() {
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Tìm đường đến CLB Blockchain UTC
+              Tìm đường đến Blockchain Pioneer Student
             </p>
           </div>
 
@@ -798,7 +799,7 @@ export default function ContactPage() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Bản đồ đến CLB Blockchain UTC"
+              title="Bản đồ đến CLB Blockchain Pioneer Student"
               className="rounded-lg"
             ></iframe>
 
@@ -891,7 +892,7 @@ export default function ContactPage() {
             {[
               {
                 question:
-                  "CLB Blockchain UTC hoạt động vào những ngày nào trong tuần?",
+                  "CLB Blockchain Pioneer Student hoạt động vào những ngày nào trong tuần?",
                 answer:
                   "CLB thường tổ chức các buổi sinh hoạt vào tối thứ 4 và sáng thứ 7 hàng tuần. Ngoài ra, còn có các sự kiện đặc biệt được thông báo trước trên các kênh truyền thông của CLB.",
               },
@@ -925,7 +926,7 @@ export default function ContactPage() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/faq">
+            <Link href="/#">
               <Button className="bg-gradient-to-r from-[#004987] to-[#00a1e0] hover:from-[#003b6d] hover:to-[#0081c2] text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
                 <span className="flex items-center gap-2">
                   Xem tất cả câu hỏi

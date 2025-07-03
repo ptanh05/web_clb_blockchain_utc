@@ -36,7 +36,7 @@ export default function JoinPopup() {
             {/* Nội dung bên trong */}
             <div className="text-gray-800 space-y-4">
               <h2 className="text-xl font-bold text-blue-700 text-center">
-                🤖 Xin chào bạn đến với Blockchain UTC Club!
+                🤖 Xin chào bạn đến với Blockchain Pioneer Student!
               </h2>
               <p className="text-center">
                 Chúng mình là cộng đồng sinh viên đam mê Blockchain & Web3!

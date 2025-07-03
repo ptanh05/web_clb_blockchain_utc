@@ -8,6 +8,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Twitter,
 } from "lucide-react";
 
 export function SiteFooter() {
@@ -16,20 +17,19 @@ export function SiteFooter() {
       <div className="container px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full justify-center bg-[#004987] pt-4 pb-0">
               <Image
-                src="/logo.png"
-                alt="Blockchain UTC Club Logo"
-                width={50}
-                height={50}
-                className="bg-white rounded-full p-1"
+                src="/logo2.png"
+                alt="Blockchain Pioneer Student Logo"
+                width={0}
+                height={0}
+                sizes="100vw"
+                style={{ width: "100%", height: "auto", maxWidth: 700 }}
               />
-              <span className="font-bold text-xl">Blockchain UTC Club</span>
             </div>
             <p className="text-white/80 text-sm">
-              Câu lạc bộ Blockchain UTC là nơi quy tụ những sinh viên đam mê
-              công nghệ Blockchain và Web3 tại Trường Đại học Giao thông Vận
-              tải.
+              Câu lạc bộ tiên phong phát lĩnh vực Blockchain trong cộng đồng
+              sinh viên Việt Nam.
             </p>
             <div className="flex gap-4">
               <Link
@@ -52,6 +52,16 @@ export function SiteFooter() {
                 <MessageCircle className="h-5 w-5" />
                 <span className="sr-only">Telegram</span>
               </Link>
+
+              <Link
+                href="https://x.com/bps_club"
+                target="_blank"
+                className="hover:text-white/80"
+              >
+                <Twitter className="h-5 w-5" />
+                <span className="sr-only">X (Twitter)</span>
+              </Link>
+
               <Link
                 href="https://www.youtube.com/@BlockchainPioneerStudent"
                 target="_blank"
@@ -131,7 +141,10 @@ export function SiteFooter() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 shrink-0 mt-0.5" />
-                <span className="text-white/80">Cập nhật sau</span>
+                <span className="text-white/80">
+                  Blockchain Labs, Trường Đại Học Giao Thông Vận Tải, Số 03 Cầu
+                  Giấy, Phường Láng, Thành phố Hà Nội
+                </span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
@@ -157,8 +170,8 @@ export function SiteFooter() {
 
         <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60 text-sm">
           <p>
-            © {new Date().getFullYear()} Blockchain UTC Club. Tất cả các quyền
-            được bảo lưu.
+            © {new Date().getFullYear()} Blockchain Pioneer Student. Tất cả các
+            quyền được bảo lưu.
           </p>
         </div>
       </div>

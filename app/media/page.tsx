@@ -201,7 +201,7 @@ export default function MediaPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               Khám phá hình ảnh, video và tài liệu về hoạt động của CLB
-              Blockchain UTC
+              Blockchain Pioneer Student
             </motion.p>
           </motion.div>
         </div>

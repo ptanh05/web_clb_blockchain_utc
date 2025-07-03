@@ -18,12 +18,12 @@ export default function AboutPage() {
         <div className="container px-4 md:px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <AnimatedHeading className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Về Câu lạc bộ Blockchain UTC
+              Về Câu lạc bộ Blockchain Pioneer Student
             </AnimatedHeading>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
             <p className="text-lg md:text-xl text-white/90 mb-8">
-              Nơi kết nối và phát triển cộng đồng sinh viên đam mê công nghệ
-              Blockchain tại Trường Đại học Giao thông Vận tải
+              Câu lạc bộ tiên phong phát lĩnh vực Blockchain trong cộng đồng
+              sinh viên Việt Nam
             </p>
             <AnimatedSection delay={0.3}>
               <Link href="/join">
@@ -85,10 +85,10 @@ export default function AboutPage() {
               </p>
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { number: "500+", label: "Thành viên" },
+                  { number: "100+", label: "Thành viên" },
                   { number: "50+", label: "Sự kiện" },
                   { number: "20+", label: "Đối tác" },
-                  { number: "10+", label: "Dự án" },
+                  { number: "20+", label: "Dự án" },
                 ].map((stat, index) => (
                   <AnimatedCard
                     key={index}
@@ -170,19 +170,43 @@ export default function AboutPage() {
             <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-[#004987]/20" />
             {[
               {
-                year: "2023",
+                year: "04/2024",
                 title: "Thành lập CLB",
                 description: "CLB Blockchain UTC chính thức được thành lập",
               },
               {
-                year: "2023",
-                title: "Workshop đầu tiên",
-                description: "Tổ chức workshop Blockchain Fundamentals",
+                year: "06/2024",
+                title: "Hội thảo",
+                description: "Sinh viên khởi nghiệp trên nền tảng Blockchain",
               },
               {
-                year: "2024",
-                title: "Mở rộng cộng đồng",
-                description: "Đạt 500+ thành viên và tổ chức 20+ sự kiện",
+                year: "06/2024",
+                title: "Workshop",
+                description: "Công nghệ Web3 và Định danh phi tập trung (DID)",
+              },
+              {
+                year: "07/2024",
+                title: "Cardano Blockchain Hackathon 2024",
+                description:
+                  "Cuộc thi Hackathon đầu tiên CLB tham gia tổ chức cùng với đội ngũ chuyên gia đến từ cộng đồng Cardano",
+              },
+              {
+                year: "10/2024",
+                title: "Tổ chức khóa học",
+                description:
+                  "Khóa học cấp tốc Cardano Blockchain - Nắm bắt Blockchain trong 9 buổi học",
+              },
+              {
+                year: "01/2025",
+                title: "Đổi tên CLB",
+                description:
+                  "CLB Blockchain chính thức đổi tên thành Blockchain Pioneer Student Club",
+              },
+              {
+                year: "03/2025",
+                title: "Cardano Blockchain Hackathon 2025",
+                description:
+                  "Cuộc thi Hackathon lớn nhất trong cộng đồng sinh viên với giải thưởng 350.000.000 VNĐ tiền mặt, mở ra sân chơi hội tụ những bộ óc sáng tạo và đam mê công nghệ Blockchain, nơi mọi ý tưởng đều có thể trở thành hiện thực",
               },
             ].map((milestone, index) => (
               <AnimatedSection

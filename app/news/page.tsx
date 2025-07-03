@@ -145,7 +145,7 @@ export default function NewsPage() {
 
             <p className="text-lg md:text-xl text-white/90 mb-8">
               Cập nhật những tin tức mới nhất về hoạt động của CLB Blockchain
-              UTC
+              Pioneer Student
             </p>
           </motion.div>
         </div>
@@ -375,7 +375,7 @@ export default function NewsPage() {
             </h2>
             <p className="text-gray-600 mb-8">
               Nhận thông báo về tin tức và sự kiện mới nhất từ CLB Blockchain
-              UTC
+              Pioneer Student
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input

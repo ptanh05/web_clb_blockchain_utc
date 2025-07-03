@@ -131,8 +131,8 @@ export default function JoinPage() {
             Tham gia CLB
           </h1>
           <p className="text-lg max-w-2xl">
-            Trở thành thành viên của CLB Blockchain UTC và bắt đầu hành trình
-            khám phá công nghệ đột phá
+            Trở thành thành viên của CLB Blockchain Pioneer Student và bắt đầu
+            hành trình khám phá công nghệ đột phá
           </p>
         </div>
       </section>
@@ -146,8 +146,8 @@ export default function JoinPage() {
             </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Tham gia CLB Blockchain UTC mang đến cho bạn nhiều cơ hội học tập,
-              phát triển và kết nối
+              Tham gia CLB Blockchain Pioneer Student mang đến cho bạn nhiều cơ
+              hội học tập, phát triển và kết nối
             </p>
           </div>
 
@@ -205,7 +205,7 @@ export default function JoinPage() {
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
               Điền thông tin vào mẫu đơn dưới đây để đăng ký trở thành thành
-              viên CLB Blockchain UTC
+              viên CLB Blockchain Pioneer Student
             </p>
           </div>
 
@@ -570,7 +570,7 @@ export default function JoinPage() {
                         <FormLabel>Lý do tham gia CLB</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain UTC..."
+                            placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain Pioneer Student..."
                             className="resize-none"
                             {...field}
                           />
@@ -607,7 +607,7 @@ export default function JoinPage() {
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
-                question: "Ai có thể tham gia CLB Blockchain UTC?",
+                question: "Ai có thể tham gia CLB Blockchain Pioneer Student?",
                 answer:
                   "Tất cả sinh viên đang học tại Trường Đại học Giao thông Vận tải đều có thể đăng ký tham gia CLB, không phân biệt khoa, ngành hay năm học.",
               },

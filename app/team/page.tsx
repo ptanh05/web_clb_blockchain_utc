@@ -104,7 +104,7 @@ export default function TeamPage() {
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
             <p className="text-lg md:text-xl text-white/90 mb-8">
               Gặp gỡ những người đang xây dựng và phát triển cộng đồng
-              Blockchain UTC
+              Blockchain Pioneer Student
             </p>
           </AnimatedSection>
         </div>

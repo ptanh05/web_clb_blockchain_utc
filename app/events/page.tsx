@@ -144,7 +144,7 @@ export default function EventsPage() {
         <div className="container relative z-10 px-4 md:px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <AnimatedHeading className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Sự kiện Blockchain UTC
+              Sự kiện Blockchain Pioneer Student
             </AnimatedHeading>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
             <p className="text-lg md:text-xl text-white/90 mb-8">

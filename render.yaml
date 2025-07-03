@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: web-clb-blockchain-utc
+    name: web-clb-blockchain-pioneer-student
     env: node
     buildCommand: npm install && npm run build
     startCommand: npm start
