@@ -17,14 +17,13 @@ export function SiteFooter() {
       <div className="container px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center gap-2 w-full justify-center bg-[#004987] pt-4 pb-0">
+            <div className="flex items-center gap-2 w-full bg-[#004987] pt-4 pb-0">
               <Image
                 src="/logo2.png"
                 alt="Blockchain Pioneer Student Logo"
-                width={0}
+                width={180}
                 height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "auto", maxWidth: 700 }}
+                style={{ height: "auto" }}
               />
             </div>
             <p className="text-white/80 text-sm">

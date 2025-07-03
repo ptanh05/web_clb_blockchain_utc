@@ -169,7 +169,7 @@ export default function Home() {
               <Link href="/join">
                 <Button
                   size="lg"
-                  className="bg-[#004987] text-white hover:bg-[#003b6d] shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  className="bg-[#004987] text-white hover:bg-[#003b6d] shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg mt-3"
                 >
                   Đăng ký tham gia CLB
                   <ChevronRight className="ml-2 h-4 w-4" />

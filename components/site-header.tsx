@@ -46,7 +46,7 @@ export function SiteHeader() {
           <Image
             src="/logo3.png"
             alt="Blockchain Pioneer Student Logo"
-            width={220}
+            width={160}
             height={0}
             style={{ height: "auto" }}
           />
