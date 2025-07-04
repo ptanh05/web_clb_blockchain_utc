@@ -309,34 +309,67 @@ export default function JoinPage() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="dai_hoc_gtvt">
-                              Đại học GTVT
+                            <SelectItem value="truong_dai_hoc_bach_khoa_ha_noi">
+                              Đại học Bách khoa Hà Nội
                             </SelectItem>
-                            <SelectItem value="bach_khoa">
-                              Đại học Bách Khoa
+                            <SelectItem value="truong_dai_hoc_ngoai_thuong">
+                              Trường Đại học Ngoại thương
                             </SelectItem>
-                            <SelectItem value="ngoai_thuong">
-                              Đại học Ngoại Thương
+                            <SelectItem value="truong_dai_hoc_kinh_te_quoc_dan">
+                              Trường Đại học Kinh tế Quốc dân
                             </SelectItem>
-                            <SelectItem value="kinh_te_quoc_dan">
-                              Đại học Kinh tế Quốc dân
+                            <SelectItem value="truong_dai_hoc_giao_thong_van_tai">
+                              Trường Đại học Giao thông Vận tải
                             </SelectItem>
-                            <SelectItem value="fpt">Đại học FPT</SelectItem>
-                            <SelectItem value="hust">
-                              Đại học Bách Khoa Hà Nội (HUST)
+                            <SelectItem value="truong_dai_hoc_fpt">
+                              Trường Đại học FPT
                             </SelectItem>
-                            <SelectItem value="hanu">
-                              Đại học Hà Nội (HANU)
+                            <SelectItem value="truong_dai_hoc_ha_noi">
+                              Trường Đại học Hà Nội
                             </SelectItem>
-                            <SelectItem value="huflit">
-                              Đại học HUFLIT
+                            <SelectItem value="truong_dai_hoc_huflit">
+                              Trường Đại học Ngoại ngữ – Tin học TP.HCM (HUFLIT)
                             </SelectItem>
-                            <SelectItem value="ton_duc_thang">
-                              Đại học Tôn Đức Thắng
+                            <SelectItem value="truong_dai_hoc_ton_duc_thang">
+                              Trường Đại học Tôn Đức Thắng
                             </SelectItem>
-                            <SelectItem value="van_lang">
-                              Đại học Văn Lang
+                            <SelectItem value="truong_dai_hoc_van_lang">
+                              Trường Đại học Văn Lang
                             </SelectItem>
+                            <SelectItem value="truong_dai_hoc_cong_nghe_dhqg_ha_noi">
+                              Trường Đại học Công nghệ – Đại học Quốc gia Hà Nội
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_bach_khoa_tp_hcm">
+                              Trường Đại học Bách khoa TP.HCM – Đại học Quốc gia
+                              TP.HCM
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_cong_nghiep_ha_noi">
+                              Trường Đại học Công nghiệp Hà Nội
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_cong_nghiep_tp_hcm">
+                              Trường Đại học Công nghiệp TP.HCM
+                            </SelectItem>
+                            <SelectItem value="hoc_vien_cong_nghe_buu_chinh_vien_thong">
+                              Học viện Công nghệ Bưu chính Viễn thông
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_su_pham_ky_thuat_tp_hcm">
+                              Trường Đại học Sư phạm Kỹ thuật TP.HCM
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_su_pham_ky_thuat_vinh_long">
+                              Trường Đại học Sư phạm Kỹ thuật Vĩnh Long
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_cong_nghe_thong_tin_dhqg_tp_hcm">
+                              Trường Đại học Công nghệ Thông tin – Đại học Quốc
+                              gia TP.HCM
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_cong_nghe_giao_thong_van_tai">
+                              Trường Đại học Công nghệ Giao thông Vận tải
+                            </SelectItem>
+                            <SelectItem value="truong_dai_hoc_ky_thuat_cong_nghiep_thai_nguyen">
+                              Trường Đại học Kỹ thuật Công nghiệp – Đại học Thái
+                              Nguyên
+                            </SelectItem>
+
                             <SelectItem value="other">Khác</SelectItem>
                           </SelectContent>
                         </Select>

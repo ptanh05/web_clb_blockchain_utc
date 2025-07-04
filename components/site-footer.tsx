@@ -57,7 +57,13 @@ export function SiteFooter() {
                 target="_blank"
                 className="hover:text-white/80"
               >
-                <Twitter className="h-5 w-5" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 1200 1227"
+                  className="h-4 w-4 mt-0.5 fill-current"
+                >
+                  <path d="M1101 0H891L600 428 309 0H0l480 678L0 1227h309l291-428 291 428h309L720 678z" />
+                </svg>
                 <span className="sr-only">X (Twitter)</span>
               </Link>
 
@@ -157,10 +163,10 @@ export function SiteFooter() {
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
                 <Link
-                  href="tel:+84987654321"
+                  href="tel:+84972935189"
                   className="text-white/80 hover:text-white"
                 >
-                  +84 987 654 321
+                  +84 972 935 189
                 </Link>
               </li>
             </ul>
