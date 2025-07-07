@@ -118,16 +118,16 @@ export default function TeamPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-8 text-center border-b border-blue-200 pb-2">
                 {team}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 justify-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 justify-center text-center">
                 {(showAll
                   ? membersByTeam[team]
                   : membersByTeam[team]?.slice(0, 5) || []
                 ).map((member) => (
                   <div
                     key={member.id}
-                    className="flex flex-col items-center bg-white rounded-2xl p-6 shadow-lg border border-blue-700 w-full max-w-[280px] mx-auto"
+                    className="flex flex-col items-center bg-white rounded-2xl p-6 shadow-lg border border-blue-700 w-full max-w-[280px] mx-auto justify-center text-center"
                   >
-                    <div className="w-32 h-32 rounded-full border-4 border-blue-700 overflow-hidden mb-4 flex items-center justify-center">
+                    <div className="w-32 h-32 rounded-full border-4 border-blue-700 overflow-hidden mb-4 flex items-center justify-center mx-auto">
                       <Image
                         src={member.image_url}
                         alt={member.name}
@@ -142,7 +142,7 @@ export default function TeamPage() {
                     <div className="uppercase text-sm text-gray-800 mb-2 text-center tracking-widest">
                       {member.role}
                     </div>
-                    <div className="flex gap-4 mt-3">
+                    <div className="flex gap-4 mt-3 justify-center">
                       {member.github && (
                         <a
                           href={member.github}
