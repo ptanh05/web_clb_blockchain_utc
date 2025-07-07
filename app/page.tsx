@@ -406,7 +406,7 @@ export default function Home() {
                   className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
                 >
                   <Image
-                    src={`/placeholder.svg?height=100&width=200&text=Partner+${
+                    src={`/https://res.cloudinary.com/dux2ct0ho/image/upload/v1751126123/f1dd472b3aa980f7d9b8_zdujco.jpg?height=100&width=200&text=Partner+${
                       (index % 8) + 1
                     }`}
                     alt={`Partner ${(index % 8) + 1}`}

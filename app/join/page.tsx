@@ -27,6 +27,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Image from "next/image";
 
 // Schema validation
 const formSchema = z.object({
