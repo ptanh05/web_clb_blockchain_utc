@@ -95,82 +95,109 @@ export default function TeamPage() {
 
   return (
     <div className="min-h-screen bg-white text-black">
-      <section className="py-20 md:py-32 text-center bg-white">
-        <div className="container px-4 md:px-6">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-10 text-[#004987]">
+      {/* Hero Section giống ảnh mẫu */}
+      <section className="relative py-20 md:py-32 bg-gradient-to-b from-[#004987] to-[#0070b8] text-white overflow-hidden">
+        <div className="container relative z-10 px-4 md:px-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
             Đội ngũ của chúng tôi
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-center">
-            {(showAll ? members : members.slice(0, 3)).map((member) => (
-              <div
-                key={member.id}
-                className="flex flex-col items-center bg-white rounded-2xl p-8 shadow-lg border border-blue-700"
-              >
-                <div className="w-32 h-32 rounded-full border-4 border-blue-700 overflow-hidden mb-4 flex items-center justify-center">
-                  <Image
-                    src={member.image_url}
-                    alt={member.name}
-                    width={128}
-                    height={128}
-                    className="object-cover w-32 h-32"
-                  />
-                </div>
-                <div className="text-lg font-semibold text-blue-500 mb-1 text-center">
-                  {member.name}
-                </div>
-                <div className="uppercase text-sm text-gray-800 mb-2 text-center tracking-widest">
-                  {member.role}
-                </div>
-                <div className="flex gap-4 mt-3">
-                  {member.github && (
-                    <a
-                      href={member.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="GitHub"
-                    >
-                      <Github className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
-                    </a>
-                  )}
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
-                    </a>
-                  )}
-                  {member.email && (
-                    <a href={`mailto:${member.email}`} aria-label="Email">
-                      <Mail className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+          <div className="flex justify-center">
+            <div className="w-24 h-1 bg-white rounded mb-8" />
           </div>
-          {members.length > 3 && !showAll && (
-            <div className="flex justify-center mt-8">
-              <button
-                className="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition"
-                onClick={() => setShowAll(true)}
-              >
-                Xem thêm thành viên
-              </button>
+          <p className="text-lg md:text-xl text-white/90 text-center max-w-2xl mx-auto">
+            Cùng với các thành viên tâm huyết, chúng tôi xây dựng cộng đồng
+            Blockchain Pioneer Student mạnh mẽ
+          </p>
+        </div>
+      </section>
+      <section className="py-20 md:py-32 text-center bg-white">
+        <div className="container px-4 md:px-6">
+          {/* Hiển thị từng ban với tên ban ở trên */}
+          {teams.map((team) => (
+            <div key={team} className="mb-16">
+              <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-8 text-center border-b border-blue-200 pb-2">
+                {team}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 justify-center">
+                {(showAll
+                  ? membersByTeam[team]
+                  : membersByTeam[team]?.slice(0, 5) || []
+                ).map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex flex-col items-center bg-white rounded-2xl p-6 shadow-lg border border-blue-700 w-full max-w-[280px] mx-auto"
+                  >
+                    <div className="w-32 h-32 rounded-full border-4 border-blue-700 overflow-hidden mb-4 flex items-center justify-center">
+                      <Image
+                        src={member.image_url}
+                        alt={member.name}
+                        width={128}
+                        height={128}
+                        className="object-cover w-32 h-32"
+                      />
+                    </div>
+                    <div className="text-lg font-semibold text-blue-500 mb-1 text-center">
+                      {member.name}
+                    </div>
+                    <div className="uppercase text-sm text-gray-800 mb-2 text-center tracking-widest">
+                      {member.role}
+                    </div>
+                    <div className="flex gap-4 mt-3">
+                      {member.github && (
+                        <a
+                          href={member.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="GitHub"
+                        >
+                          <Github className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="LinkedIn"
+                        >
+                          <Linkedin className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                      {member.email && (
+                        <a href={`mailto:${member.email}`} aria-label="Email">
+                          <Mail className="w-5 h-5 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {membersByTeam[team] &&
+                membersByTeam[team].length > 5 &&
+                !showAll && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      className="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition"
+                      onClick={() => setShowAll(true)}
+                    >
+                      Xem thêm thành viên
+                    </button>
+                  </div>
+                )}
+              {showAll &&
+                membersByTeam[team] &&
+                membersByTeam[team].length > 5 && (
+                  <div className="flex justify-center mt-8">
+                    <button
+                      className="px-6 py-2 rounded-lg bg-gray-200 text-blue-700 font-semibold hover:bg-gray-300 transition"
+                      onClick={() => setShowAll(false)}
+                    >
+                      Ẩn bớt
+                    </button>
+                  </div>
+                )}
             </div>
-          )}
-          {showAll && (
-            <div className="flex justify-center mt-8">
-              <button
-                className="px-6 py-2 rounded-lg bg-gray-200 text-blue-700 font-semibold hover:bg-gray-300 transition"
-                onClick={() => setShowAll(false)}
-              >
-                Ẩn bớt
-              </button>
-            </div>
-          )}
+          ))}
         </div>
       </section>
     </div>
