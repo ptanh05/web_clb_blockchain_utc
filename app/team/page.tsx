@@ -57,6 +57,7 @@ export default function TeamPage() {
     "Ban Chuyên môn",
     "Ban Truyền thông",
     "Ban Hậu cần",
+    "Ban Ngoại giao",
   ];
 
   // Lấy danh sách các ban từ dữ liệu members, giữ thứ tự ưu tiên, các ban khác xếp sau
@@ -118,7 +119,7 @@ export default function TeamPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-8 text-center border-b border-blue-200 pb-2">
                 {team}
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 justify-center text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 justify-items-center text-center">
                 {(showAll
                   ? membersByTeam[team]
                   : membersByTeam[team]?.slice(0, 5) || []
