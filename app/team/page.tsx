@@ -173,34 +173,135 @@ export default function TeamPage() {
                   </div>
                 ))}
               </div>
-              {membersByTeam[team] &&
-                membersByTeam[team].length > 5 &&
-                !showAll && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      className="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition"
-                      onClick={() => setShowAll(true)}
-                    >
-                      Xem thêm thành viên
-                    </button>
-                  </div>
-                )}
-              {showAll &&
-                membersByTeam[team] &&
-                membersByTeam[team].length > 5 && (
-                  <div className="flex justify-center mt-8">
-                    <button
-                      className="px-6 py-2 rounded-lg bg-gray-200 text-blue-700 font-semibold hover:bg-gray-300 transition"
-                      onClick={() => setShowAll(false)}
-                    >
-                      Ẩn bớt
-                    </button>
-                  </div>
-                )}
+              {membersByTeam[team] && membersByTeam[team].length > 5 && (
+                <div className="flex justify-center mt-8">
+                  <button
+                    className="px-6 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 transition"
+                    onClick={() => {
+                      setModalTeam(team);
+                      setModalPage(1);
+                    }}
+                  >
+                    Xem thêm thành viên
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </section>
+      {/* Modal hiển thị tất cả thành viên của một ban */}
+      {modalTeam && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-4xl w-full relative h-[80vh] overflow-y-auto">
+            <button
+              className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-500"
+              onClick={() => setModalTeam(null)}
+              aria-label="Đóng"
+            >
+              ×
+            </button>
+            <h3 className="text-2xl font-bold mb-6 text-blue-700 text-center">
+              {modalTeam}
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+              {membersByTeam[modalTeam]
+                .slice(
+                  (modalPage - 1) * modalMembersPerPage,
+                  modalPage * modalMembersPerPage
+                )
+                .map((member) => (
+                  <div
+                    key={member.id}
+                    className="flex flex-col items-center bg-white rounded-2xl p-4 shadow border border-blue-700 w-full max-w-[220px] mx-auto"
+                  >
+                    <div className="w-20 h-20 rounded-full border-4 border-blue-700 overflow-hidden mb-2 flex items-center justify-center mx-auto">
+                      <Image
+                        src={member.image_url}
+                        alt={member.name}
+                        width={80}
+                        height={80}
+                        className="object-cover w-20 h-20"
+                      />
+                    </div>
+                    <div className="text-base font-semibold text-blue-500 mb-1 text-center">
+                      {member.name}
+                    </div>
+                    <div className="uppercase text-xs text-gray-800 mb-2 text-center tracking-widest">
+                      {member.role}
+                    </div>
+                    <div className="flex gap-2 mt-2 justify-center">
+                      {member.github && (
+                        <a
+                          href={member.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="GitHub"
+                        >
+                          <Github className="w-4 h-4 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label="LinkedIn"
+                        >
+                          <Linkedin className="w-4 h-4 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                      {member.email && (
+                        <a href={`mailto:${member.email}`} aria-label="Email">
+                          <Mail className="w-4 h-4 text-gray-700 hover:text-blue-500 transition" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+            </div>
+            {/* Phân trang nếu cần */}
+            {membersByTeam[modalTeam].length > modalMembersPerPage && (
+              <div className="flex justify-center mt-6 gap-4">
+                <button
+                  className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+                  onClick={() => setModalPage((p) => Math.max(1, p - 1))}
+                  disabled={modalPage === 1}
+                >
+                  &lt;
+                </button>
+                <span>
+                  Trang {modalPage} /{" "}
+                  {Math.ceil(
+                    membersByTeam[modalTeam].length / modalMembersPerPage
+                  )}
+                </span>
+                <button
+                  className="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
+                  onClick={() =>
+                    setModalPage((p) =>
+                      Math.min(
+                        Math.ceil(
+                          membersByTeam[modalTeam].length / modalMembersPerPage
+                        ),
+                        p + 1
+                      )
+                    )
+                  }
+                  disabled={
+                    modalPage ===
+                    Math.ceil(
+                      membersByTeam[modalTeam].length / modalMembersPerPage
+                    )
+                  }
+                >
+                  &gt;
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
