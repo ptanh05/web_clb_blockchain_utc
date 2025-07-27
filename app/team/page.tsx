@@ -54,10 +54,10 @@ export default function TeamPage() {
   const teamOrder = [
     "Ban Cố vấn",
     "Ban Chủ nhiệm",
-    "Ban Ngoại giao",
     "Ban Chuyên môn",
     "Ban Truyền thông",
     "Ban Hậu cần",
+    "Ban Ngoại giao",
   ];
 
   // Lấy danh sách các ban từ dữ liệu members, giữ thứ tự ưu tiên, các ban khác xếp sau
