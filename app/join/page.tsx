@@ -672,7 +672,7 @@ export default function JoinPage() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/faq">
+            <Link href="/#">
               <Button
                 variant="outline"
                 className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"

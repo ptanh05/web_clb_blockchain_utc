@@ -18,7 +18,6 @@ export default function JoinPopup() {
           Click đi ngại gì
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
-        <span className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-r from-white via-white/80 to-white/20"></span>
       </Button>
 
       {/* Popup khung bo góc */}
