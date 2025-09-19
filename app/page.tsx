@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState, useMemo } from "react";
 import type { Event } from "@/app/api/events/types";
+import type { Partner } from "@/app/api/partners/types";
 import JoinPopup from "@/components/join-popup";
 import { ParticlesBackground } from "@/components/particles-background";
 
@@ -45,7 +46,7 @@ const SectionAnimation = ({
       ref={ref}
       initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay }}
+      transition={{ duration: 0.6, delay }}
     >
       {children}
     </motion.div>
@@ -81,6 +82,37 @@ export default function Home() {
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const partnersToShow = useMemo(() => partners.slice(0, 24), [partners]);
+  // Build a repeated list so marquee loops seamlessly even with few logos
+  const marqueeItems = useMemo(() => {
+    const base = partnersToShow.length > 0 ? partnersToShow : [];
+    const minItems = 12;
+    const targetLength = Math.max(minItems, base.length * 2);
+    const repeated: Partner[] = [];
+    for (let i = 0; i < targetLength; i++) {
+      repeated.push(
+        base[i % (base.length || 1)] || {
+          // Fallback in case base is empty
+          id: -1,
+          name: "",
+          logo: "/placeholder.svg",
+          type: "business" as any,
+          description: "",
+          website: null,
+          email: null,
+          phone: null,
+          address: null,
+          achievements: [],
+          collaboration: [],
+          status: "active" as any,
+          created_at: "",
+          updated_at: "",
+        }
+      );
+    }
+    return repeated;
+  }, [partnersToShow]);
 
   // Danh sách category
   const categories = ["all", "Workshop", "Hackathon", "Seminar", "Community"];
@@ -104,6 +136,20 @@ export default function Home() {
       }
     };
     fetchEvents();
+  }, []);
+
+  // Fetch partners logos for marquee
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const res = await fetch("/api/partners");
+        const data = await res.json();
+        setPartners(Array.isArray(data?.data) ? data.data : []);
+      } catch (e) {
+        setPartners([]);
+      }
+    };
+    fetchPartners();
   }, []);
 
   // Lọc sự kiện theo category (dùng cho thẻ con)
@@ -182,6 +228,7 @@ export default function Home() {
               height={550}
               src="/a8fd3637dcec6fb236fd.jpg"
               width={550}
+              priority
             />
           </div>
         </div>
@@ -194,7 +241,7 @@ export default function Home() {
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={introInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
               Giới thiệu về CLB Blockchain Pioneer Student
@@ -203,7 +250,7 @@ export default function Home() {
               className="w-20 h-1 bg-[#004987] mx-auto mb-6"
               initial={{ width: 0 }}
               animate={introInView ? { width: 80 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             />
             <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-base">
               Câu lạc bộ Blockchain Pioneer Student là nơi quy tụ những sinh
@@ -244,7 +291,7 @@ export default function Home() {
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
               Hoạt động nổi bật
@@ -253,7 +300,7 @@ export default function Home() {
               className="w-20 h-1 bg-[#004987] mx-auto mb-6"
               initial={{ width: 0 }}
               animate={activitiesInView ? { width: 80 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             />
           </motion.div>
 
@@ -353,7 +400,7 @@ export default function Home() {
             className="text-center mt-10"
             initial={{ opacity: 0, y: 20 }}
             animate={activitiesInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
             <Link href="/events">
               <Button
@@ -380,46 +427,54 @@ export default function Home() {
             </div>
           </SectionAnimation>
 
-          <div className="overflow-hidden whitespace-nowrap relative">
-            <div className="inline-flex animate-marquee">
-              {[...Array(8 * 8)].map((_, index) => (
-                <div
-                  key={`marquee1-${index}`}
-                  className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
-                >
-                  <Image
-                    src={`/placeholder.svg?height=100&width=200&text=Partner+${
-                      (index % 8) + 1
-                    }`}
-                    alt={`Partner ${(index % 8) + 1}`}
-                    width={200}
-                    height={100}
-                    className="object-contain grayscale hover:grayscale-0 transition-all"
-                  />
-                </div>
-              ))}
+          {partners.length > 0 && (
+            <div className="overflow-hidden whitespace-nowrap relative">
+              <div className="inline-flex animate-marquee">
+                {marqueeItems.map((p, index) => (
+                  <div
+                    key={`marquee1-${p.id}-${index}`}
+                    className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                  >
+                    <Image
+                      src={
+                        p.logo?.startsWith("http") || p.logo?.startsWith("/")
+                          ? p.logo
+                          : "/" + p.logo
+                      }
+                      alt={p.name}
+                      width={200}
+                      height={100}
+                      className="object-contain transition-all"
+                      sizes="200px"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="inline-flex animate-marquee2 absolute top-0">
+                {marqueeItems.map((p, index) => (
+                  <div
+                    key={`marquee2-${p.id}-${index}`}
+                    className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                  >
+                    <Image
+                      src={
+                        p.logo?.startsWith("http") || p.logo?.startsWith("/")
+                          ? p.logo
+                          : "/" + p.logo
+                      }
+                      alt={p.name}
+                      width={200}
+                      height={100}
+                      className="object-contain transition-all"
+                      sizes="200px"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="inline-flex animate-marquee2 absolute top-0">
-              {[...Array(8 * 8)].map((_, index) => (
-                <div
-                  key={`marquee2-${index}`}
-                  className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
-                >
-                  <Image
-                    src={`/https://res.cloudinary.com/dux2ct0ho/image/upload/v1751126123/f1dd472b3aa980f7d9b8_zdujco.jpg?height=100&width=200&text=Partner+${
-                      (index % 8) + 1
-                    }`}
-                    alt={`Partner ${(index % 8) + 1}`}
-                    width={200}
-                    height={100}
-                    className="object-contain grayscale hover:grayscale-0 transition-all"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
+          )}
 
-          <SectionAnimation delay={0.3}>
+          <SectionAnimation delay={0.1}>
             <div className="text-center mt-10">
               <Link href="/partners">
                 <Button
@@ -445,7 +500,7 @@ export default function Home() {
             className="max-w-3xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={ctaInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
               Sẵn sàng tham gia cùng chúng tôi?
@@ -459,7 +514,7 @@ export default function Home() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={ctaInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
               <Link href="/join">
                 <Button
