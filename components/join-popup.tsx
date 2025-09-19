@@ -12,7 +12,7 @@ export default function JoinPopup() {
         size="lg"
         variant="outline"
         onClick={() => setOpen(true)}
-        className="bg-white text-[#004987] hover:text-black hover:bg-gray-100 transition-all duration-300 hover:scale-105"
+        className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105 w-auto self-center"
       >
         <span className="relative z-10 flex items-center gap-2 font-semibold">
           Click đi ngại gì
