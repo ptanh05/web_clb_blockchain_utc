@@ -89,6 +89,7 @@ export function SiteHeader() {
                 >
                   Sự kiện & Dự án
                 </Link>
+                {/* 
                 <Link
                   href="/news"
                   scroll={true}
@@ -98,6 +99,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                */}
                 {/* 
                 <Link
                   href="/media"
@@ -188,6 +190,7 @@ export function SiteHeader() {
                 >
                   Sự kiện & Dự án
                 </Link>
+                {/* 
                 <Link
                   href="/news"
                   scroll={true}
@@ -199,6 +202,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                */}
                 {/* 
                 <Link
                   href="/media"
@@ -278,6 +282,7 @@ export function SiteHeader() {
                 >
                   Sự kiện & Dự án
                 </Link>
+                {/* 
                 <Link
                   href="/news"
                   scroll={true}
@@ -287,6 +292,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                */}
                 {/* 
                 <Link
                   href="/media"
