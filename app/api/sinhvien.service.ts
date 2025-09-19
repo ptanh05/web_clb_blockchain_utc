@@ -20,14 +20,24 @@ export async function themSinhVien(data: SinhVien): Promise<void> {
   try {
     await client.query('BEGIN');
 
-    // Kiểm tra trùng lặp email hoặc mã sinh viên
-    const checkResult = await client.query(
-      `SELECT 1 FROM sinh_vien WHERE email = $1 OR ma_sinh_vien = $2`,
-      [data.email, data.ma_sinh_vien]
+    // Kiểm tra trùng lặp email
+    const emailCheck = await client.query(
+      `SELECT 1 FROM sinh_vien WHERE email = $1`,
+      [data.email]
     );
 
-    if (checkResult.rows.length > 0) {
-      throw new Error('duplicate key');
+    if (emailCheck.rows.length > 0) {
+      throw new Error('duplicate email');
+    }
+
+    // Kiểm tra trùng lặp mã sinh viên
+    const maSinhVienCheck = await client.query(
+      `SELECT 1 FROM sinh_vien WHERE ma_sinh_vien = $1`,
+      [data.ma_sinh_vien]
+    );
+
+    if (maSinhVienCheck.rows.length > 0) {
+      throw new Error('duplicate ma_sinh_vien');
     }
 
     // Thêm sinh viên mới

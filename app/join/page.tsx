@@ -31,18 +31,55 @@ import Image from "next/image";
 
 // Schema validation
 const formSchema = z.object({
-  ho_ten: z.string().min(2, "Họ tên phải có ít nhất 2 ký tự"),
-  ma_sinh_vien: z.string().min(5, "Mã sinh viên không hợp lệ"),
-  email: z.string().email("Email không hợp lệ"),
-  so_dien_thoai: z.string().optional(),
+  ho_ten: z
+    .string()
+    .min(2, "Họ tên phải có ít nhất 2 ký tự")
+    .max(50, "Họ tên không được quá 50 ký tự")
+    .regex(
+      /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯưăâđêôơư\s]+$/,
+      "Họ tên chỉ được chứa chữ cái và khoảng trắng"
+    ),
+  ma_sinh_vien: z
+    .string()
+    .min(5, "Mã sinh viên phải có ít nhất 5 ký tự")
+    .max(15, "Mã sinh viên không được quá 15 ký tự")
+    .regex(/^[A-Za-z0-9]+$/, "Mã sinh viên chỉ được chứa chữ cái và số"),
+  email: z
+    .string()
+    .email("Email không hợp lệ")
+    .min(5, "Email phải có ít nhất 5 ký tự")
+    .max(100, "Email không được quá 100 ký tự"),
+  so_dien_thoai: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val || val.trim() === "") return true;
+      // Đếm số chữ số trong chuỗi
+      const digitCount = (val.match(/\d/g) || []).length;
+      return /^[0-9+\-\s()]+$/.test(val) && digitCount >= 8 && digitCount <= 15;
+    }, "Số điện thoại phải có ít nhất 8 chữ số và tối đa 15 chữ số"),
   khoa_nganh: z.string().min(1, "Vui lòng chọn khoa/ngành"),
   nam_hoc: z.string().min(1, "Vui lòng chọn năm học"),
   linh_vuc_quan_tam: z
     .array(z.string())
-    .min(1, "Vui lòng chọn ít nhất một lĩnh vực"),
+    .min(1, "Vui lòng chọn ít nhất một lĩnh vực")
+    .max(6, "Bạn chỉ có thể chọn tối đa 6 lĩnh vực"),
   ban_tham_gia: z.string().min(1, "Vui lòng chọn ban muốn tham gia"),
-  kinh_nghiem_blockchain: z.string().optional(),
-  ly_do_tham_gia: z.string().min(10, "Lý do tham gia phải có ít nhất 10 ký tự"),
+  kinh_nghiem_blockchain: z
+    .string()
+    .optional()
+    .refine((val) => {
+      if (!val || val.trim() === "") return true;
+      return val.length <= 500;
+    }, "Kinh nghiệm không được quá 500 ký tự"),
+  ly_do_tham_gia: z
+    .string()
+    .min(10, "Lý do tham gia phải có ít nhất 10 ký tự")
+    .max(1000, "Lý do tham gia không được quá 1000 ký tự")
+    .refine(
+      (val) => val.trim().length >= 10,
+      "Lý do tham gia không được chỉ chứa khoảng trắng"
+    ),
   truong: z.string().min(1, "Vui lòng chọn trường/đơn vị"),
 });
 
@@ -74,6 +111,11 @@ export default function JoinPage() {
     try {
       setIsSubmitting(true);
 
+      // Hiển thị thông báo đang xử lý
+      toast.loading("Đang xử lý đơn đăng ký của bạn...", {
+        id: "submitting-form",
+      });
+
       // Chuyển đổi mảng lĩnh vực quan tâm thành chuỗi
       const submitData = {
         ...data,
@@ -91,6 +133,9 @@ export default function JoinPage() {
       const result = await response.json();
 
       if (!response.ok) {
+        // Dismiss loading toast
+        toast.dismiss("submitting-form");
+
         if (result.errors) {
           result.errors.forEach((error: { field: string; message: string }) => {
             form.setError(error.field as FormFields, {
@@ -98,22 +143,100 @@ export default function JoinPage() {
               message: error.message,
             });
           });
-          throw new Error("Vui lòng kiểm tra lại thông tin");
+          toast.error("Vui lòng kiểm tra lại thông tin đã nhập", {
+            description: "Có một số trường chưa đúng định dạng",
+          });
+          return;
         }
+
+        // Xử lý lỗi duplicate email
+        if (result.errorType === "duplicate_email") {
+          form.setError("email", {
+            type: "server",
+            message: "Email này đã được đăng ký",
+          });
+          toast.error("📧 Email đã được đăng ký", {
+            description:
+              "Vui lòng sử dụng email khác hoặc liên hệ ban chủ nhiệm CLB nếu bạn đã đăng ký trước đó.",
+            duration: 6000,
+          });
+          return;
+        }
+
+        // Xử lý lỗi duplicate mã sinh viên
+        if (result.errorType === "duplicate_ma_sinh_vien") {
+          form.setError("ma_sinh_vien", {
+            type: "server",
+            message: "Mã sinh viên này đã được đăng ký",
+          });
+          toast.error("🆔 Mã sinh viên đã được đăng ký", {
+            description:
+              "Vui lòng kiểm tra lại mã sinh viên hoặc liên hệ ban chủ nhiệm CLB.",
+            duration: 6000,
+          });
+          return;
+        }
+
         throw new Error(result.message || "Đăng ký thất bại");
       }
 
-      toast.success(
-        result.message ||
-          "Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm."
-      );
+      // Dismiss loading toast
+      toast.dismiss("submitting-form");
+
+      // Hiển thị thông báo thành công chi tiết
+      toast.success("🎉 Đăng ký thành công!", {
+        description: `Xin chào ${data.ho_ten}! Chúng tôi đã nhận được đơn đăng ký của bạn. Ban chủ nhiệm CLB sẽ xem xét và liên hệ với bạn qua email ${data.email} trong vòng 3-5 ngày làm việc.`,
+        duration: 8000,
+      });
+
+      // Reset form sau khi thành công
       form.reset();
+
+      // Scroll lên đầu trang để người dùng thấy thông báo
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
+      // Dismiss loading toast
+      toast.dismiss("submitting-form");
+
+      // Xử lý các loại lỗi khác nhau
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        // Lỗi kết nối mạng
+        toast.error("🌐 Lỗi kết nối mạng", {
+          description:
+            "Không thể kết nối đến server. Vui lòng kiểm tra kết nối internet và thử lại.",
+          duration: 6000,
+        });
+      } else if (error instanceof Error) {
+        // Lỗi từ server hoặc validation
+        if (error.message.includes("Failed to fetch")) {
+          toast.error("🔌 Không thể kết nối", {
+            description:
+              "Server hiện đang bảo trì hoặc không khả dụng. Vui lòng thử lại sau ít phút.",
+            duration: 6000,
+          });
+        } else if (error.message.includes("timeout")) {
+          toast.error("⏰ Hết thời gian chờ", {
+            description:
+              "Yêu cầu của bạn mất quá nhiều thời gian để xử lý. Vui lòng thử lại.",
+            duration: 5000,
+          });
+        } else {
+          toast.error("❌ Đăng ký thất bại", {
+            description:
+              error.message ||
+              "Có lỗi xảy ra trong quá trình xử lý. Vui lòng thử lại sau.",
+            duration: 6000,
+          });
+        }
       } else {
-        toast.error("Có lỗi xảy ra. Vui lòng thử lại sau.");
+        // Lỗi không xác định
+        toast.error("⚠️ Lỗi không xác định", {
+          description:
+            "Đã xảy ra lỗi không mong muốn. Vui lòng làm mới trang và thử lại, hoặc liên hệ ban chủ nhiệm CLB nếu vấn đề vẫn tiếp diễn.",
+          duration: 7000,
+        });
       }
+
       console.error("Form submission error:", error);
     } finally {
       setIsSubmitting(false);
@@ -211,6 +334,24 @@ export default function JoinPage() {
           </div>
 
           <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
+            {/* Thông báo hướng dẫn */}
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <h4 className="text-sm font-semibold text-blue-800 mb-2">
+                📝 Hướng dẫn điền form
+              </h4>
+              <ul className="text-sm text-blue-700 space-y-1">
+                <li>• Các trường có dấu * là bắt buộc</li>
+                <li>• Vui lòng điền đầy đủ và chính xác thông tin</li>
+                <li>• Sau khi gửi, bạn sẽ nhận được email xác nhận</li>
+                <li>
+                  • Ban chủ nhiệm sẽ liên hệ với bạn trong 3-5 ngày làm việc
+                </li>
+                <li>
+                  • Nếu gặp lỗi, vui lòng kiểm tra kết nối mạng và thử lại
+                </li>
+              </ul>
+            </div>
+
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -227,11 +368,19 @@ export default function JoinPage() {
                       name="ho_ten"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Họ và tên</FormLabel>
+                          <FormLabel>Họ và tên *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Nhập họ và tên của bạn"
+                              placeholder="Ví dụ: Nguyễn Văn A"
                               {...field}
+                              onChange={(e) => {
+                                // Chỉ cho phép chữ cái và khoảng trắng
+                                const value = e.target.value.replace(
+                                  /[^a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯưăâđêôơư\s]/g,
+                                  ""
+                                );
+                                field.onChange(value);
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -244,11 +393,19 @@ export default function JoinPage() {
                       name="ma_sinh_vien"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mã sinh viên</FormLabel>
+                          <FormLabel>Mã sinh viên *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Nhập mã sinh viên của bạn"
+                              placeholder="Ví dụ: 2021001234"
                               {...field}
+                              onChange={(e) => {
+                                // Chỉ cho phép chữ cái và số
+                                const value = e.target.value.replace(
+                                  /[^A-Za-z0-9]/g,
+                                  ""
+                                );
+                                field.onChange(value);
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -263,11 +420,11 @@ export default function JoinPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel>Email *</FormLabel>
                           <FormControl>
                             <Input
                               type="email"
-                              placeholder="Nhập địa chỉ email của bạn"
+                              placeholder="Ví dụ: nguyenvana@email.com"
                               {...field}
                             />
                           </FormControl>
@@ -281,11 +438,19 @@ export default function JoinPage() {
                       name="so_dien_thoai"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Số điện thoại</FormLabel>
+                          <FormLabel>Số điện thoại (tùy chọn)</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Nhập số điện thoại của bạn"
+                              placeholder="Ví dụ: 0123456789 hoặc +84 123 456 789"
                               {...field}
+                              onChange={(e) => {
+                                // Chỉ cho phép số, dấu +, -, (), khoảng trắng
+                                const value = e.target.value.replace(
+                                  /[^0-9+\-\s()]/g,
+                                  ""
+                                );
+                                field.onChange(value);
+                              }}
                             />
                           </FormControl>
                           <FormMessage />
@@ -299,7 +464,7 @@ export default function JoinPage() {
                     name="truong"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Trường/Đơn vị</FormLabel>
+                        <FormLabel>Trường/Đơn vị *</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -384,7 +549,7 @@ export default function JoinPage() {
                     name="khoa_nganh"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Khoa/Ngành</FormLabel>
+                        <FormLabel>Khoa/Ngành *</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -420,7 +585,7 @@ export default function JoinPage() {
                     name="nam_hoc"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Năm học</FormLabel>
+                        <FormLabel>Năm học *</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -455,8 +620,11 @@ export default function JoinPage() {
                     render={() => (
                       <FormItem>
                         <FormLabel>
-                          Bạn quan tâm đến lĩnh vực nào trong Blockchain?
+                          Bạn quan tâm đến lĩnh vực nào trong Blockchain? *
                         </FormLabel>
+                        <p className="text-sm text-gray-500 mb-2">
+                          Chọn ít nhất 1 và tối đa 6 lĩnh vực
+                        </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {[
                             {
@@ -536,7 +704,7 @@ export default function JoinPage() {
                     render={({ field }) => (
                       <FormItem className="space-y-3">
                         <FormLabel>
-                          Bạn muốn tham gia ban nào trong CLB?
+                          Bạn muốn tham gia ban nào trong CLB? *
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
@@ -549,7 +717,7 @@ export default function JoinPage() {
                                 <RadioGroupItem value="ban_ky_thuat" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Ban Kỹ thuật
+                                Ban Chuyên môn
                               </FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">
@@ -566,7 +734,15 @@ export default function JoinPage() {
                                 <RadioGroupItem value="ban_noi_bo" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Ban Nội bộ
+                                Ban Hậu cần
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="ban_quan_he_doi_tac_tai_tro" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Ban Quan hệ đối tác và tài trợ
                               </FormLabel>
                             </FormItem>
                           </RadioGroup>
@@ -601,7 +777,11 @@ export default function JoinPage() {
                     name="ly_do_tham_gia"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Lý do tham gia CLB</FormLabel>
+                        <FormLabel>Lý do tham gia CLB *</FormLabel>
+                        <p className="text-sm text-gray-500 mb-2">
+                          Viết ít nhất 10 ký tự để chia sẻ lý do bạn muốn tham
+                          gia CLB
+                        </p>
                         <FormControl>
                           <Textarea
                             placeholder="Chia sẻ lý do bạn muốn tham gia CLB Blockchain Pioneer Student..."
@@ -672,7 +852,7 @@ export default function JoinPage() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/#">
+            <Link href="#">
               <Button
                 variant="outline"
                 className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"

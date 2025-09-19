@@ -59,12 +59,25 @@ export async function POST(request: Request) {
       );
     }
     
-    // Xử lý lỗi database
-    if (error instanceof Error && error.message.includes('duplicate key')) {
+    // Xử lý lỗi database - Email đã tồn tại
+    if (error instanceof Error && error.message === 'duplicate email') {
       return NextResponse.json(
         { 
           success: false,
-          message: "Email hoặc mã sinh viên đã được đăng ký" 
+          message: "Email này đã được đăng ký. Vui lòng sử dụng email khác hoặc liên hệ ban chủ nhiệm CLB nếu bạn đã đăng ký trước đó.",
+          errorType: "duplicate_email"
+        },
+        { status: 400 }
+      );
+    }
+
+    // Xử lý lỗi database - Mã sinh viên đã tồn tại
+    if (error instanceof Error && error.message === 'duplicate ma_sinh_vien') {
+      return NextResponse.json(
+        { 
+          success: false,
+          message: "Mã sinh viên này đã được đăng ký. Vui lòng kiểm tra lại mã sinh viên hoặc liên hệ ban chủ nhiệm CLB.",
+          errorType: "duplicate_ma_sinh_vien"
         },
         { status: 400 }
       );
