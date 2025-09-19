@@ -197,16 +197,10 @@ export default function AboutPage() {
                   "Khóa học cấp tốc Cardano Blockchain - Nắm bắt Blockchain trong 9 buổi học",
               },
               {
-                year: "01/2025",
-                title: "Đổi tên CLB",
-                description:
-                  "CLB Blockchain chính thức đổi tên thành Blockchain Pioneer Student Club",
-              },
-              {
                 year: "03/2025",
                 title: "Cardano Blockchain Hackathon 2025",
                 description:
-                  "Cuộc thi Hackathon lớn nhất trong cộng đồng sinh viên với giải thưởng 350.000.000 VNĐ tiền mặt, mở ra sân chơi hội tụ những bộ óc sáng tạo và đam mê công nghệ Blockchain, nơi mọi ý tưởng đều có thể trở thành hiện thực",
+                  "Cuộc thi Hackathon dành cho các lập trình viên, sinh viên với giải thưởng 350.000.000 VNĐ tiền mặt, mở ra sân chơi hội tụ những bộ óc sáng tạo và đam mê công nghệ Blockchain, nơi mọi ý tưởng đều có thể trở thành hiện thực",
               },
             ].map((milestone, index) => (
               <AnimatedSection

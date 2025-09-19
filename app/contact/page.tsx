@@ -320,10 +320,10 @@ export default function ContactPage() {
                         </h3>
                         <p className="text-gray-600">
                           <Link
-                            href="mailto:blockchain.utc@gmail.com"
+                            href="mailto:blockchainutc@gmail.com"
                             className="hover:text-[#00a1e0] transition-colors underline decoration-dotted underline-offset-4"
                           >
-                            blockchain.utc@gmail.com
+                            blockchainutc@gmail.com
                           </Link>
                         </p>
                       </div>
@@ -339,10 +339,10 @@ export default function ContactPage() {
                         </h3>
                         <p className="text-gray-600">
                           <Link
-                            href="tel:+84972935189"
+                            href="tel:+84325045633"
                             className="hover:text-[#00a1e0] transition-colors underline decoration-dotted underline-offset-4"
                           >
-                            +84 972935189
+                            +84 325045633
                           </Link>
                         </p>
                       </div>
@@ -389,7 +389,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="mt-10 pt-8 border-t border-gray-100">
+                  {/* <div className="mt-10 pt-8 border-t border-gray-100">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
                       Giờ làm việc
                     </h3>
@@ -403,7 +403,7 @@ export default function ContactPage() {
                         <span className="font-medium">Đóng cửa</span>
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
@@ -926,7 +926,7 @@ export default function ContactPage() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/#">
+            <Link href="#">
               <Button className="bg-gradient-to-r from-[#004987] to-[#00a1e0] hover:from-[#003b6d] hover:to-[#0081c2] text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
                 <span className="flex items-center gap-2">
                   Xem tất cả câu hỏi

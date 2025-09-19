@@ -27,8 +27,8 @@ export function SiteFooter() {
               />
             </div>
             <p className="text-white/80 text-sm">
-              Câu lạc bộ tiên phong phát lĩnh vực Blockchain trong cộng đồng
-              sinh viên Việt Nam.
+              Câu lạc bộ tiên phong phát triển lĩnh vực Blockchain trong cộng
+              đồng sinh viên Việt Nam.
             </p>
             <div className="flex gap-4">
               <Link
@@ -154,19 +154,19 @@ export function SiteFooter() {
               <li className="flex items-center gap-2">
                 <Mail className="h-5 w-5" />
                 <Link
-                  href="mailto:blockchain.utc@gmail.com"
+                  href="mailto:blockchainutc@gmail.com"
                   className="text-white/80 hover:text-white"
                 >
-                  blockchain.utc@gmail.com
+                  blockchainutc@gmail.com
                 </Link>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-5 w-5" />
                 <Link
-                  href="tel:+84972935189"
+                  href="tel:+84325045633"
                   className="text-white/80 hover:text-white"
                 >
-                  +84 972 935 189
+                  +84325045633
                 </Link>
               </li>
             </ul>

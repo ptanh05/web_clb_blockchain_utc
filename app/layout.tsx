@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Blockchain Pioneer Student",
-  description: "Câu lạc bộ Blockchain thuộc Trường Đại học Giao thông Vận tải",
+  description: "Câu lạc bộ Blockchain Trường Đại học Giao thông Vận tải",
   generator: "theanh.dev",
 };
 
