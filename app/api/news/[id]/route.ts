@@ -47,6 +47,39 @@ export async function GET(
   }
 }
 
+// POST /api/news/[id] - increment views
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+): Promise<NextResponse<{ views: number } | { error: string; details?: string }>> {
+  const { id } = await context.params;
+  try {
+    if (!process.env.POSTGRES_URL) {
+      throw new Error("Database connection string is not configured");
+    }
+
+    const result = await sql.query(
+      "UPDATE news SET views = COALESCE(views, 0) + 1, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING views",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return NextResponse.json(
+        { error: "News article not found", details: `No article found with ID ${id}` },
+        { status: 404 }
+      );
+    }
+
+    const views = Number(result.rows[0].views) || 0;
+    return NextResponse.json({ views });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to increment views", details: error instanceof Error ? error.message : "Unknown error" },
+      { status: 500 }
+    );
+  }
+}
+
 // PUT /api/news/[id]
 export async function PUT(
   request: NextRequest,

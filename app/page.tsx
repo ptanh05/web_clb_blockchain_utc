@@ -382,7 +382,16 @@ export default function Home() {
                       <div className="flex items-center text-sm text-gray-500 mb-4">
                         <span>{activity.views || 0} lượt xem</span>
                       </div>
-                      <Link href={`/events/${activity.id}`}>
+                      <Link
+                        href={`/events/${activity.id}`}
+                        onClick={async (e) => {
+                          // Fire-and-forget increment, don't block navigation
+                          try {
+                            navigator.sendBeacon?.(`/api/events/${activity.id}`, new Blob([], { type: 'application/json' })) ||
+                              fetch(`/api/events/${activity.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                          } catch {}
+                        }}
+                      >
                         <Button
                           variant="outline"
                           className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

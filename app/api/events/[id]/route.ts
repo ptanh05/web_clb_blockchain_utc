@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { EventService } from '../events.service';
 import type { EventResponse } from '../types';
+import type { ErrorResponse } from '../types';
 
 export async function GET(
   request: NextRequest,
@@ -27,3 +28,17 @@ export async function GET(
     );
   }
 } 
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse<{ views: number } | ErrorResponse>> {
+  const { id } = params;
+  try {
+    const newViews = await EventService.incrementViews(Number(id));
+    return NextResponse.json({ views: newViews });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: 'Failed to increment views', details: message }, { status: 500 });
+  }
+}

@@ -289,7 +289,15 @@ export default function EventsPage() {
                       <Eye className="h-4 w-4 mr-1" />
                       <span>{event.views || 0} lượt xem</span>
                     </div>
-                    <Link href={`/events/${event.id}`}>
+                    <Link
+                      href={`/events/${event.id}`}
+                      onClick={() => {
+                        try {
+                          navigator.sendBeacon?.(`/api/events/${event.id}`, new Blob([], { type: 'application/json' })) ||
+                            fetch(`/api/events/${event.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                        } catch {}
+                      }}
+                    >
                       <Button
                         variant="outline"
                         className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

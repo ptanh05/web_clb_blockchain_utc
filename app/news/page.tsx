@@ -296,7 +296,15 @@ export default function NewsPage() {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <Link href={`/news/${news.id}`}>
+                      <Link
+                        href={`/news/${news.id}`}
+                        onClick={() => {
+                          try {
+                            navigator.sendBeacon?.(`/api/news/${news.id}`, new Blob([], { type: 'application/json' })) ||
+                              fetch(`/api/news/${news.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                          } catch {}
+                        }}
+                      >
                         <Button
                           variant="outline"
                           className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"

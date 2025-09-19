@@ -208,4 +208,19 @@ export const EventService = {
   // async updateEvent(id: number, eventData: Partial<Event>): Promise<Event | undefined> { ... }
   // async deleteEvent(id: number): Promise<boolean> { ... }
 
+  // Increment view count for an event and return the new views value
+  async incrementViews(id: number): Promise<number> {
+    const query = 'UPDATE events SET views = COALESCE(views, 0) + 1, updated_at = CURRENT_TIMESTAMP WHERE id = $1 RETURNING views';
+    try {
+      const result = await pool.query(query, [id]);
+      if (result.rows.length === 0) {
+        throw new Error('Event not found');
+      }
+      return Number(result.rows[0].views) || 0;
+    } catch (error) {
+      console.error(`Error incrementing views for event ${id}:`, error);
+      throw error;
+    }
+  },
+
 }; 
