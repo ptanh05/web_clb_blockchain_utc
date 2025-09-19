@@ -98,6 +98,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                {/* 
                 <Link
                   href="/media"
                   scroll={true}
@@ -107,6 +108,8 @@ export function SiteHeader() {
                 >
                   Thư viện
                 </Link>
+                */}
+                {/* 
                 <Link
                   href="/partners"
                   scroll={true}
@@ -116,6 +119,7 @@ export function SiteHeader() {
                 >
                   Đối tác
                 </Link>
+                */}
                 <Link
                   href="/team"
                   scroll={true}
@@ -195,6 +199,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                {/* 
                 <Link
                   href="/media"
                   scroll={true}
@@ -206,6 +211,8 @@ export function SiteHeader() {
                 >
                   Thư viện
                 </Link>
+                */}
+                {/* 
                 <Link
                   href="/partners"
                   scroll={true}
@@ -217,6 +224,7 @@ export function SiteHeader() {
                 >
                   Đối tác
                 </Link>
+                */}
                 <Link
                   href="/team"
                   scroll={true}
@@ -279,6 +287,7 @@ export function SiteHeader() {
                 >
                   Tin tức
                 </Link>
+                {/* 
                 <Link
                   href="/media"
                   scroll={true}
@@ -288,6 +297,8 @@ export function SiteHeader() {
                 >
                   Thư viện
                 </Link>
+                */}
+                {/* 
                 <Link
                   href="/partners"
                   scroll={true}
@@ -297,6 +308,7 @@ export function SiteHeader() {
                 >
                   Đối tác
                 </Link>
+                */}
                 <Link
                   href="/team"
                   scroll={true}

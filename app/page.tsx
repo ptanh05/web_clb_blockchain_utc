@@ -178,7 +178,7 @@ export default function Home() {
       icon: BookOpen,
       title: "Học tập",
       description:
-        "Workshop, seminar và khóa học từ cơ bản đến chuyên sâu về Blockchain, Crypto và Web3",
+        "Workshop, seminar và khóa học từ cơ bản đến chuyên sâu về Blockchain và Web3",
     },
     {
       icon: Users,
@@ -387,8 +387,14 @@ export default function Home() {
                         onClick={async (e) => {
                           // Fire-and-forget increment, don't block navigation
                           try {
-                            navigator.sendBeacon?.(`/api/events/${activity.id}`, new Blob([], { type: 'application/json' })) ||
-                              fetch(`/api/events/${activity.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                            navigator.sendBeacon?.(
+                              `/api/events/${activity.id}`,
+                              new Blob([], { type: "application/json" })
+                            ) ||
+                              fetch(`/api/events/${activity.id}`, {
+                                method: "POST",
+                                keepalive: true,
+                              }).catch(() => {});
                           } catch {}
                         }}
                       >
