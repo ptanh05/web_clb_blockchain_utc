@@ -456,7 +456,21 @@ export default function MediaPage() {
                       <Button
                         variant="outline"
                         className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
-                        onClick={() => setSelectedMedia(media)}
+                        onClick={async () => {
+                          try {
+                            // Trigger server-side view increment via GET which increments views
+                            fetch(`/api/media/${media.id}`, {
+                              method: "GET",
+                              cache: "no-store",
+                              keepalive: true,
+                            }).catch(() => {});
+                          } catch {}
+                          // Optimistically update local state for immediate UI feedback
+                          setSelectedMedia({
+                            ...media,
+                            views: (media.views || 0) + 1,
+                          } as any);
+                        }}
                       >
                         {media.type === "video" ? "Xem video" : "Xem chi tiết"}
                         <ChevronRight className="ml-2 h-4 w-4" />
