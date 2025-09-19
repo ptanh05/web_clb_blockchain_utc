@@ -8,7 +8,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    domains: ['example.com'],
+    domains: ['example.com', 'res.cloudinary.com'],
   },
 }
 
