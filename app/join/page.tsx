@@ -36,9 +36,11 @@ const formSchema = z.object({
     .min(2, "Họ tên phải có ít nhất 2 ký tự")
     .max(50, "Họ tên không được quá 50 ký tự")
     .regex(
-      /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯưăâđêôơư\s]+$/,
-      "Họ tên chỉ được chứa chữ cái và khoảng trắng"
-    ),
+      /^[\p{L}\s-]+$/u,
+      "Họ tên chỉ được chứa chữ cái, khoảng trắng và dấu gạch nối"
+    )
+    .transform((val) => val.normalize("NFC")),
+
   ma_sinh_vien: z
     .string()
     .min(5, "Mã sinh viên phải có ít nhất 5 ký tự")
@@ -374,12 +376,7 @@ export default function JoinPage() {
                               placeholder="Ví dụ: Nguyễn Văn A"
                               {...field}
                               onChange={(e) => {
-                                // Chỉ cho phép chữ cái và khoảng trắng
-                                const value = e.target.value.replace(
-                                  /[^a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯưăâđêôơư\s]/g,
-                                  ""
-                                );
-                                field.onChange(value);
+                                field.onChange(e.target.value);
                               }}
                             />
                           </FormControl>
