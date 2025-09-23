@@ -22,7 +22,6 @@ import {
   ErrorResponse,
   Event,
   EventScheduleItem,
-  EventSpeaker,
 } from "@/app/api/events/types";
 
 function formatDate(dateString?: string) {
@@ -228,43 +227,7 @@ export default function EventDetailPage() {
                   </>
                 )}
 
-                {Array.isArray(event.speakers) && event.speakers.length > 0 && (
-                  <>
-                    <h2 className="text-2xl font-bold text-[#004987] mt-12 mb-6">
-                      Diễn giả
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {event.speakers.map(
-                        (speaker: EventSpeaker, index: number) => (
-                          <div
-                            key={index}
-                            className="flex gap-4 p-4 bg-gray-50 rounded-lg"
-                          >
-                            <div className="relative w-20 h-20 flex-shrink-0">
-                              <Image
-                                src={speaker.image || ""}
-                                alt={speaker.name}
-                                fill
-                                className="object-cover rounded-full"
-                              />
-                            </div>
-                            <div>
-                              <h3 className="font-medium text-gray-900">
-                                {speaker.name}
-                              </h3>
-                              <p className="text-sm text-[#004987] mb-2">
-                                {speaker.role}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                {speaker.bio}
-                              </p>
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </>
-                )}
+                {/* Speakers section removed as requested */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   <div className="flex items-center text-white/90">
@@ -368,43 +331,7 @@ export default function EventDetailPage() {
                   </>
                 )}
 
-                {Array.isArray(event.speakers) && event.speakers.length > 0 && (
-                  <>
-                    <h2 className="text-2xl font-bold text-[#004987] mt-12 mb-6">
-                      Diễn giả
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {event.speakers.map(
-                        (speaker: EventSpeaker, index: number) => (
-                          <div
-                            key={index}
-                            className="flex gap-4 p-4 bg-gray-50 rounded-lg"
-                          >
-                            <div className="relative w-20 h-20 flex-shrink-0">
-                              <Image
-                                src={speaker.image || ""}
-                                alt={speaker.name}
-                                fill
-                                className="object-cover rounded-full"
-                              />
-                            </div>
-                            <div>
-                              <h3 className="font-medium text-gray-900">
-                                {speaker.name}
-                              </h3>
-                              <p className="text-sm text-[#004987] mb-2">
-                                {speaker.role}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                {speaker.bio}
-                              </p>
-                            </div>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </>
-                )}
+                {/* Speakers section removed as requested */}
               </motion.div>
             </div>
 
