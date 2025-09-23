@@ -148,9 +148,9 @@ export default function EventDetailPage() {
             src={event.image || ""}
             alt={event.title}
             fill
-            className="object-cover opacity-20"
+            className="object-cover opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#004987]/90 to-[#0070b8]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#004987]/50 to-[#0070b8]/40" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
