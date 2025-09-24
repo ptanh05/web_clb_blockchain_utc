@@ -235,11 +235,11 @@ export default function AboutPage() {
         <div className="container px-4 md:px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <AnimatedHeading className="text-2xl md:text-3xl font-bold mb-4">
-              Sẵn sàng tham gia cùng chúng tôi?
+              Ready to join us?
             </AnimatedHeading>
             <p className="text-lg mb-8 text-white/90">
-              Hãy trở thành một phần của cộng đồng Blockchain UTC và cùng chúng
-              tôi xây dựng tương lai của công nghệ Blockchain
+              Become part of the Blockchain UTC community and help us build the
+              future of Blockchain technology
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/join">
@@ -248,7 +248,7 @@ export default function AboutPage() {
                   variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
-                  Đăng ký tham gia
+                  Join the club
                 </Button>
               </Link>
               <Link href="/contact">
@@ -257,7 +257,7 @@ export default function AboutPage() {
                   variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
-                  Liên hệ với chúng tôi
+                  Contact us
                 </Button>
               </Link>
             </div>

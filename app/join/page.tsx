@@ -254,11 +254,11 @@ export default function JoinPage() {
         </div>
         <div className="container relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-            Tham gia CLB
+            Join the Club
           </h1>
           <p className="text-lg max-w-2xl">
-            Trở thành thành viên của CLB Blockchain Pioneer Student và bắt đầu
-            hành trình khám phá công nghệ đột phá
+            Become a member of the Blockchain Pioneer Student Club and start
+            your journey exploring breakthrough technology
           </p>
         </div>
       </section>
@@ -268,12 +268,12 @@ export default function JoinPage() {
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-[#004987] mb-4">
-              Tại sao nên tham gia CLB?
+              Why join the club?
             </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Tham gia CLB Blockchain Pioneer Student mang đến cho bạn nhiều cơ
-              hội học tập, phát triển và kết nối
+              Joining the Blockchain Pioneer Student Club brings you
+              opportunities to learn, grow, and connect.
             </p>
           </div>
 
@@ -283,12 +283,11 @@ export default function JoinPage() {
                 <BookOpen className="h-8 w-8 text-[#004987]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-[#004987]">
-                Học tập & Phát triển
+                Learning & Growth
               </h3>
               <p className="text-gray-600">
-                Tiếp cận kiến thức mới nhất về Blockchain và Web3 thông qua các
-                workshop, seminar và khóa học do chuyên gia trong ngành giảng
-                dạy.
+                Access the latest Blockchain & Web3 knowledge via workshops,
+                seminars, and expert-led courses.
               </p>
             </div>
 
@@ -297,11 +296,11 @@ export default function JoinPage() {
                 <Users className="h-8 w-8 text-[#004987]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-[#004987]">
-                Kết nối & Networking
+                Community & Networking
               </h3>
               <p className="text-gray-600">
-                Gặp gỡ và kết nối với cộng đồng sinh viên, chuyên gia và doanh
-                nghiệp trong lĩnh vực Blockchain và công nghệ.
+                Meet and connect with students, professionals, and companies in
+                Blockchain and tech.
               </p>
             </div>
 
@@ -310,11 +309,11 @@ export default function JoinPage() {
                 <Award className="h-8 w-8 text-[#004987]" />
               </div>
               <h3 className="text-xl font-semibold mb-2 text-[#004987]">
-                Cơ hội việc làm
+                Career opportunities
               </h3>
               <p className="text-gray-600">
-                Tiếp cận với các cơ hội thực tập, việc làm và dự án thực tế từ
-                các đối tác doanh nghiệp của CLB.
+                Access internships, jobs, and real-world projects from our
+                industry partners.
               </p>
             </div>
           </div>
@@ -326,31 +325,29 @@ export default function JoinPage() {
         <div className="container px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-[#004987] mb-4">
-              Đăng ký tham gia
+              Registration
             </h2>
             <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Điền thông tin vào mẫu đơn dưới đây để đăng ký trở thành thành
-              viên CLB Blockchain Pioneer Student
+              Fill in the form below to apply for membership in the Blockchain
+              Pioneer Student Club
             </p>
           </div>
 
           <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 md:p-8">
-            {/* Thông báo hướng dẫn */}
+            {/* Notice */}
             <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <h4 className="text-sm font-semibold text-blue-800 mb-2">
-                📝 Hướng dẫn điền form
+                📝 Form guidelines
               </h4>
               <ul className="text-sm text-blue-700 space-y-1">
-                <li>• Các trường có dấu * là bắt buộc</li>
-                <li>• Vui lòng điền đầy đủ và chính xác thông tin</li>
-                <li>• Sau khi gửi, bạn sẽ nhận được email xác nhận</li>
+                <li>• Fields marked * are required</li>
+                <li>• Please provide accurate information</li>
                 <li>
-                  • Ban chủ nhiệm sẽ liên hệ với bạn trong 3-5 ngày làm việc
+                  • You will receive a confirmation email after submission
                 </li>
-                <li>
-                  • Nếu gặp lỗi, vui lòng kiểm tra kết nối mạng và thử lại
-                </li>
+                <li>• The board will contact you within 3–5 business days</li>
+                <li>• If issues occur, check your connection and retry</li>
               </ul>
             </div>
 
@@ -361,7 +358,7 @@ export default function JoinPage() {
               >
                 <div className="space-y-4">
                   <h3 className="text-xl font-semibold text-[#004987]">
-                    Thông tin cá nhân
+                    Personal information
                   </h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -370,10 +367,10 @@ export default function JoinPage() {
                       name="ho_ten"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Họ và tên *</FormLabel>
+                          <FormLabel>Full name *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Ví dụ: Nguyễn Văn A"
+                              placeholder="e.g., John Doe"
                               {...field}
                               onChange={(e) => {
                                 field.onChange(e.target.value);
@@ -390,10 +387,10 @@ export default function JoinPage() {
                       name="ma_sinh_vien"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mã sinh viên *</FormLabel>
+                          <FormLabel>Student ID *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Ví dụ: 2021001234"
+                              placeholder="e.g., 2021001234"
                               {...field}
                               onChange={(e) => {
                                 // Chỉ cho phép chữ cái và số
@@ -435,10 +432,10 @@ export default function JoinPage() {
                       name="so_dien_thoai"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Số điện thoại (tùy chọn)</FormLabel>
+                          <FormLabel>Phone (optional)</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Ví dụ: 0123456789 hoặc +84 123 456 789"
+                              placeholder="e.g., 0123456789 or +84 123 456 789"
                               {...field}
                               onChange={(e) => {
                                 // Chỉ cho phép số, dấu +, -, (), khoảng trắng
