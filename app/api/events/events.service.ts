@@ -5,8 +5,13 @@ import pool from '../db'; // Import the database pool
 // const mockEvents: Event[] = [ ... ];
 
 export const EventService = {
-  // Get a list of events with optional filtering and searching
-  async getAllEvents(category?: string, search?: string): Promise<Event[]> {
+  // Get a list of events with optional filtering/searching and sorting/limit
+  async getAllEvents(
+    category?: string,
+    search?: string,
+    sort?: 'views_desc' | 'date_desc',
+    limit?: number,
+  ): Promise<Event[]> {
     console.log(`Fetching events - Category: ${category || 'all'}, Search: ${search || ''}`);
     
     let query = 'SELECT * FROM events WHERE 1=1';
@@ -88,8 +93,17 @@ export const EventService = {
           // Note: The parameter indexing here ($finalParamIndex and $finalParamIndex + 1) is specific to this OR structure.
           // If the structure changes, the indices must be updated.
        }
-      
-       query += ' ORDER BY date DESC, time DESC'; // Order by date and time
+      // Sorting
+      if (sort === 'views_desc') {
+        query += ' ORDER BY views DESC NULLS LAST, date DESC, time DESC';
+      } else {
+        query += ' ORDER BY date DESC, time DESC'; // default
+      }
+
+      // Limit
+      if (typeof limit === 'number' && Number.isFinite(limit) && limit > 0) {
+        query += ` LIMIT ${Math.floor(limit)}`;
+      }
 
     try {
       const result = await pool.query(query, finalValues);

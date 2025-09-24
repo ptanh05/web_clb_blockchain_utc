@@ -7,9 +7,13 @@ export async function GET(request: NextRequest): Promise<NextResponse<EventListR
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category') || undefined;
   const search = searchParams.get('search') || undefined;
+  const sortParam = searchParams.get('sort') || undefined; // views_desc | date_desc
+  const limitParam = searchParams.get('limit');
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
+  const sort = sortParam === 'views_desc' ? 'views_desc' : undefined;
 
   try {
-    const events = await EventService.getAllEvents(category, search);
+    const events = await EventService.getAllEvents(category, search, sort, limit);
     return NextResponse.json({ data: events });
   } catch (error) {
     console.error('Error fetching events:', error);

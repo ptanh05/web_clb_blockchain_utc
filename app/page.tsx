@@ -122,10 +122,10 @@ export default function Home() {
     const fetchEvents = async () => {
       try {
         setLoadingEvents(true);
-        const res = await fetch("/api/events");
+        const res = await fetch("/api/events?sort=views_desc&limit=3");
         const data = await res.json();
         if (data && data.data) {
-          setFeaturedEvents(data.data.slice(0, 3));
+          setFeaturedEvents(data.data);
         } else {
           setFeaturedEvents([]);
         }
