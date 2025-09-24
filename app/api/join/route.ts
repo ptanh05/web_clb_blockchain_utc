@@ -2,19 +2,19 @@ import { NextResponse } from "next/server";
 import { themSinhVien } from "../sinhvien.service";
 import { z } from "zod";
 
-// Schema validation cho dữ liệu đăng ký
+// Schema validation for registration payload
 const joinSchema = z.object({
-  ho_ten: z.string().min(2, "Họ tên phải có ít nhất 2 ký tự"),
-  ma_sinh_vien: z.string().min(5, "Mã sinh viên không hợp lệ"),
-  email: z.string().email("Email không hợp lệ"),
+  ho_ten: z.string().min(2, "Full name must be at least 2 characters"),
+  ma_sinh_vien: z.string().min(5, "Invalid student ID"),
+  email: z.string().email("Invalid email"),
   so_dien_thoai: z.string().optional(),
-  truong: z.string().min(1, "Vui lòng chọn trường/đơn vị"),
-  khoa_nganh: z.string().min(1, "Vui lòng chọn khoa/ngành"),
-  nam_hoc: z.string().min(1, "Vui lòng chọn năm học"),
+  truong: z.string().min(1, "Please select your university/organization"),
+  khoa_nganh: z.string().min(1, "Please select faculty/major"),
+  nam_hoc: z.string().min(1, "Please select your year of study"),
   linh_vuc_quan_tam: z.string(),
-  ban_tham_gia: z.string().min(1, "Vui lòng chọn ban muốn tham gia"),
+  ban_tham_gia: z.string().min(1, "Please choose a division to join"),
   kinh_nghiem_blockchain: z.string().optional(),
-  ly_do_tham_gia: z.string().min(10, "Lý do tham gia phải có ít nhất 10 ký tự"),
+  ly_do_tham_gia: z.string().min(10, "Reason must be at least 10 characters"),
 });
 
 export async function POST(request: Request) {
@@ -22,13 +22,13 @@ export async function POST(request: Request) {
     // Parse request body
     const body = await request.json();
     
-    // Validate dữ liệu với schema
+    // Validate data with schema
     const validatedData = joinSchema.parse(body);
     
     // Thêm vào database
     await themSinhVien({
       ...validatedData,
-      // Đảm bảo các trường optional được xử lý đúng
+      // Ensure optional fields handled correctly
       so_dien_thoai: validatedData.so_dien_thoai || undefined,
       kinh_nghiem_blockchain: validatedData.kinh_nghiem_blockchain || undefined,
       truong: validatedData.truong,
@@ -37,19 +37,19 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { 
         success: true,
-        message: "Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm." 
+        message: "Registration successful! We will contact you soon." 
       },
       { status: 201 }
     );
   } catch (error) {
     console.error("Error in join API:", error);
     
-    // Xử lý lỗi validation
+    // Handle validation errors
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { 
           success: false,
-          message: "Dữ liệu không hợp lệ", 
+          message: "Invalid data", 
           errors: error.errors.map(err => ({
             field: err.path.join('.'),
             message: err.message
@@ -59,35 +59,35 @@ export async function POST(request: Request) {
       );
     }
     
-    // Xử lý lỗi database - Email đã tồn tại
+    // DB error - duplicate email
     if (error instanceof Error && error.message === 'duplicate email') {
       return NextResponse.json(
         { 
           success: false,
-          message: "Email này đã được đăng ký. Vui lòng sử dụng email khác hoặc liên hệ ban chủ nhiệm CLB nếu bạn đã đăng ký trước đó.",
+          message: "This email has already been registered. Please use a different email or contact the club board if you registered before.",
           errorType: "duplicate_email"
         },
         { status: 400 }
       );
     }
 
-    // Xử lý lỗi database - Mã sinh viên đã tồn tại
+    // DB error - duplicate student id
     if (error instanceof Error && error.message === 'duplicate ma_sinh_vien') {
       return NextResponse.json(
         { 
           success: false,
-          message: "Mã sinh viên này đã được đăng ký. Vui lòng kiểm tra lại mã sinh viên hoặc liên hệ ban chủ nhiệm CLB.",
+          message: "This student ID has already been registered. Please verify your student ID or contact the club board.",
           errorType: "duplicate_ma_sinh_vien"
         },
         { status: 400 }
       );
     }
     
-    // Xử lý các lỗi khác
+    // Generic error
     return NextResponse.json(
       { 
         success: false,
-        message: "Có lỗi xảy ra, vui lòng thử lại sau" 
+        message: "An error occurred, please try again later" 
       },
       { status: 500 }
     );
