@@ -139,13 +139,13 @@ export default function NewsPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Tin tức & Sự kiện
+              News & Events
             </h1>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
 
             <p className="text-lg md:text-xl text-white/90 mb-8">
-              Cập nhật những tin tức mới nhất về hoạt động của CLB Blockchain
-              Pioneer Student
+              Stay updated with the latest news and activities of the Blockchain
+              Pioneer Student Club
             </p>
           </motion.div>
         </div>
@@ -161,7 +161,7 @@ export default function NewsPage() {
               <div className="relative w-full md:w-96">
                 <input
                   type="text"
-                  placeholder="Tìm kiếm tin tức..."
+                  placeholder="Search news..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent"
@@ -171,7 +171,7 @@ export default function NewsPage() {
 
               {/* Category Filter */}
               <div className="flex gap-2">
-                {["all", "Tin tức", "Sự kiện", "Thông báo"].map((category) => (
+                {["all", "News", "Events", "Announcements"].map((category) => (
                   <Button
                     key={category}
                     variant={
@@ -179,7 +179,7 @@ export default function NewsPage() {
                     }
                     onClick={() => setSelectedCategory(category)}
                   >
-                    {category === "all" ? "Tất cả" : category}
+                    {category === "all" ? "All" : category}
                   </Button>
                 ))}
               </div>
@@ -279,7 +279,7 @@ export default function NewsPage() {
                         )}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span>{news.views} lượt xem</span>
+                        <span>{news.views} views</span>
                       </div>
                     </div>
 
@@ -300,8 +300,14 @@ export default function NewsPage() {
                         href={`/news/${news.id}`}
                         onClick={() => {
                           try {
-                            navigator.sendBeacon?.(`/api/news/${news.id}`, new Blob([], { type: 'application/json' })) ||
-                              fetch(`/api/news/${news.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                            navigator.sendBeacon?.(
+                              `/api/news/${news.id}`,
+                              new Blob([], { type: "application/json" })
+                            ) ||
+                              fetch(`/api/news/${news.id}`, {
+                                method: "POST",
+                                keepalive: true,
+                              }).catch(() => {});
                           } catch {}
                         }}
                       >
@@ -309,7 +315,7 @@ export default function NewsPage() {
                           variant="outline"
                           className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
                         >
-                          Đọc tiếp
+                          Read more
                           <ChevronRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>
@@ -344,7 +350,7 @@ export default function NewsPage() {
               className="text-center py-12"
             >
               <p className="text-gray-600 text-lg">
-                Không tìm thấy tin tức phù hợp với tiêu chí tìm kiếm.
+                No news match your search criteria.
               </p>
             </motion.div>
           )}
@@ -361,7 +367,7 @@ export default function NewsPage() {
               size="lg"
               className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-all duration-300"
             >
-              Xem thêm tin tức
+              View more news
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
@@ -379,20 +385,19 @@ export default function NewsPage() {
             className="max-w-3xl mx-auto text-center"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Đăng ký nhận tin tức
+              Subscribe to news
             </h2>
             <p className="text-gray-600 mb-8">
-              Nhận thông báo về tin tức và sự kiện mới nhất từ CLB Blockchain
-              Pioneer Student
+              Get updates on the latest news and events from the club
             </p>
             <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
-                placeholder="Nhập email của bạn"
+                placeholder="Enter your email"
                 className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent"
               />
               <Button className="bg-[#004987] text-white hover:bg-[#003d6d]">
-                Đăng ký
+                Subscribe
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>

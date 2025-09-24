@@ -448,7 +448,7 @@ export default function PartnersPage() {
                   <div>
                     <h4 className="text-lg font-semibold text-[#004987] mb-3 flex items-center gap-2">
                       <Award className="w-5 h-5" />
-                      Thành tựu nổi bật
+                      Key achievements
                     </h4>
                     {selectedPartner.achievements &&
                     selectedPartner.achievements.length > 0 ? (
@@ -466,7 +466,7 @@ export default function PartnersPage() {
                       </div>
                     ) : (
                       <p className="text-gray-500 text-sm">
-                        Không có thành tựu nổi bật.
+                        No notable achievements.
                       </p>
                     )}
                   </div>
@@ -474,7 +474,7 @@ export default function PartnersPage() {
                   <div>
                     <h4 className="text-lg font-semibold text-[#004987] mb-3 flex items-center gap-2">
                       <Handshake className="w-5 h-5" />
-                      Hợp tác
+                      Collaboration
                     </h4>
                     {selectedPartner.collaboration &&
                     selectedPartner.collaboration.length > 0 ? (
@@ -490,7 +490,7 @@ export default function PartnersPage() {
                       </div>
                     ) : (
                       <p className="text-gray-500 text-sm">
-                        Không có thông tin hợp tác.
+                        No collaboration information.
                       </p>
                     )}
                   </div>

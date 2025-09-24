@@ -34,9 +34,9 @@ export default function NewsDetailPage() {
       .then((res) => res.json())
       .then((data: NewsArticleResponse) => {
         if (data && data.data) setNews(data.data);
-        else setError("Không tìm thấy tin tức");
+        else setError("News not found");
       })
-      .catch(() => setError("Không tìm thấy tin tức"))
+      .catch(() => setError("News not found"))
       .finally(() => setIsLoading(false));
   }, [newsId]);
 
@@ -61,20 +61,20 @@ export default function NewsDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
-        <p className="mt-4 text-gray-600">Đang tải thông tin tin tức...</p>
+        <p className="mt-4 text-gray-600">Loading article...</p>
       </div>
     );
   }
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-red-600 mb-4">Lỗi: {error}</p>
+        <p className="text-red-600 mb-4">Error: {error}</p>
         <Button
           variant="outline"
           onClick={() => window.location.reload()}
           className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
         >
-          Thử lại
+          Retry
         </Button>
       </div>
     );
@@ -82,7 +82,7 @@ export default function NewsDetailPage() {
   if (!news) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Không tìm thấy tin tức.</p>
+        <p className="text-gray-600">News not found.</p>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function NewsDetailPage() {
                 className="text-white hover:bg-white/10 mb-8"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Quay lại trang tin tức
+                Back to news
               </Button>
             </Link>
             <div className="flex items-center gap-2 mb-4">
@@ -130,10 +130,10 @@ export default function NewsDetailPage() {
               </div>
               <div className="flex items-center">
                 <Eye className="w-5 h-5 mr-2" />
-                <span>{news.views} lượt xem</span>
+                <span>{news.views} views</span>
               </div>
               <div className="flex items-center">
-                <span>Tác giả: {news.author?.name}</span>
+                <span>Author: {news.author?.name}</span>
               </div>
             </div>
             {/* Action Buttons */}
@@ -144,7 +144,7 @@ export default function NewsDetailPage() {
                 className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               >
                 <Share2 className="mr-2 h-4 w-4" />
-                Chia sẻ
+                Share
               </Button>
               <Button
                 size="lg"
@@ -152,7 +152,7 @@ export default function NewsDetailPage() {
                 className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
               >
                 <BookmarkPlus className="mr-2 h-4 w-4" />
-                Lưu lại
+                Save
               </Button>
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function NewsDetailPage() {
             {/* Main Content */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-[#004987] mb-6">
-                Nội dung bài viết
+                Article content
               </h2>
               <div
                 className="prose max-w-none mb-8"
@@ -179,26 +179,24 @@ export default function NewsDetailPage() {
             <div className="lg:col-span-1">
               <div className="bg-gray-50 rounded-lg p-6 shadow-md">
                 <h3 className="text-lg font-semibold text-[#004987] mb-4">
-                  Thông tin bài viết
+                  Article info
                 </h3>
                 <div className="space-y-4">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
-                      Ngày đăng
+                      Published
                     </p>
                     <p className="text-gray-900">{news.date}</p>
                   </div>
                   {news.time && (
                     <div>
-                      <p className="text-sm font-medium text-gray-600">
-                        Thời gian
-                      </p>
+                      <p className="text-sm font-medium text-gray-600">Time</p>
                       <p className="text-gray-900">{news.time}</p>
                     </div>
                   )}
                   <div>
                     <p className="text-sm font-medium text-gray-600">
-                      Danh mục
+                      Category
                     </p>
                     <p className="text-gray-900">{news.category}</p>
                   </div>
@@ -214,7 +212,7 @@ export default function NewsDetailPage() {
         <section className="py-12 bg-white">
           <div className="container px-4 md:px-6">
             <h2 className="text-xl font-semibold mb-4 text-[#004987]">
-              Các bài viết khác
+              Other articles
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {otherNews.map((item) => (
@@ -275,7 +273,7 @@ export default function NewsDetailPage() {
                         )}
                       </div>
                       <div className="flex items-center gap-2">
-                        <span>{item.views} lượt xem</span>
+                        <span>{item.views} views</span>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -295,7 +293,7 @@ export default function NewsDetailPage() {
                           variant="outline"
                           className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
                         >
-                          Đọc tiếp
+                          Read more
                           <ChevronRight className="ml-2 h-4 w-4" />
                         </Button>
                       </Link>

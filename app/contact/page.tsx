@@ -390,17 +390,15 @@ export default function ContactPage() {
                   </div>
 
                   {/* <div className="mt-10 pt-8 border-t border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                      Giờ làm việc
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Working hours</h3>
                     <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 shadow-inner">
                       <p className="text-gray-600 mb-2 flex justify-between">
-                        <span>Thứ Hai - Thứ Sáu:</span>
+                        <span>Monday - Friday:</span>
                         <span className="font-medium">9:00 - 17:00</span>
                       </p>
                       <p className="text-gray-600 flex justify-between">
-                        <span>Thứ Bảy, Chủ Nhật:</span>
-                        <span className="font-medium">Đóng cửa</span>
+                        <span>Saturday, Sunday:</span>
+                        <span className="font-medium">Closed</span>
                       </p>
                     </div>
                   </div> */}
