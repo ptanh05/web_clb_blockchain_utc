@@ -711,7 +711,7 @@ export default function JoinPage() {
                                 <RadioGroupItem value="ban_ky_thuat" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Technical Division
+                                Technical Department
                               </FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">
@@ -719,7 +719,7 @@ export default function JoinPage() {
                                 <RadioGroupItem value="ban_truyen_thong" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Media Division
+                                Media Department
                               </FormLabel>
                             </FormItem>
 
@@ -728,7 +728,7 @@ export default function JoinPage() {
                                 <RadioGroupItem value="ban_noi_bo" />
                               </FormControl>
                               <FormLabel className="font-normal">
-                                Operations Division
+                                Logistics Department
                               </FormLabel>
                             </FormItem>
                             <FormItem className="flex items-center space-x-3 space-y-0">
