@@ -264,7 +264,7 @@ export default function Home() {
             {introFeatures.map((item, index) => (
               <motion.div
                 key={index}
-                className="bg-gray-50 p-6 rounded-lg text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="relative bg-gray-50 p-6 rounded-lg text-center border border-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_24px_rgba(0,73,135,0.35)] hover:border-[#004987] hover:ring-2 hover:ring-[#2b74aa]/50"
                 initial={{ opacity: 0, y: 20 }}
                 animate={introInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 * index }}
