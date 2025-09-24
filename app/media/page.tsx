@@ -190,7 +190,7 @@ export default function MediaPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Thư viện Media
+              Media Library
             </motion.h1>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
 
@@ -200,8 +200,7 @@ export default function MediaPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Khám phá hình ảnh, video và tài liệu về hoạt động của CLB
-              Blockchain Pioneer Student
+              Explore photos, videos, and documents about the club's activities
             </motion.p>
           </motion.div>
         </div>
@@ -227,7 +226,7 @@ export default function MediaPage() {
               >
                 <input
                   type="text"
-                  placeholder="Tìm kiếm media..."
+                  placeholder="Search media..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent transition-all duration-300"
@@ -289,12 +288,12 @@ export default function MediaPage() {
                       <FileText className="w-4 h-4" />
                     )}
                     {type === "all"
-                      ? "Tất cả"
+                      ? "All"
                       : type === "image"
-                      ? "Hình ảnh"
+                      ? "Images"
                       : type === "video"
                       ? "Video"
-                      : "Tài liệu"}
+                      : "Documents"}
                   </Button>
                 ))}
               </div>
@@ -305,7 +304,7 @@ export default function MediaPage() {
           {isLoading && (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
-              <p className="mt-4 text-gray-600">Đang tải dữ liệu...</p>
+              <p className="mt-4 text-gray-600">Loading data...</p>
             </div>
           )}
 
@@ -318,7 +317,7 @@ export default function MediaPage() {
                 onClick={() => window.location.reload()}
                 className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
               >
-                Thử lại
+                Retry
               </Button>
             </div>
           )}
@@ -380,10 +379,10 @@ export default function MediaPage() {
                       )}
                       <span className="text-sm text-gray-500">
                         {media.type === "image"
-                          ? "Hình ảnh"
+                          ? "Image"
                           : media.type === "video"
                           ? "Video"
-                          : "Tài liệu"}
+                          : "Document"}
                       </span>
                     </div>
 
@@ -426,7 +425,7 @@ export default function MediaPage() {
                     <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
                       <div className="flex items-center">
                         <Eye className="w-4 h-4 mr-1" />
-                        <span>{media.views} lượt xem</span>
+                        <span>{media.views} views</span>
                       </div>
                       {media.type === "image" && (
                         <div className="flex items-center">
@@ -438,7 +437,7 @@ export default function MediaPage() {
                         <>
                           <div className="flex items-center">
                             <Download className="w-4 h-4 mr-1" />
-                            <span>{media.downloads} lượt tải</span>
+                            <span>{media.downloads} downloads</span>
                           </div>
                           <span>{media.fileSize}</span>
                         </>
@@ -472,7 +471,9 @@ export default function MediaPage() {
                           } as any);
                         }}
                       >
-                        {media.type === "video" ? "Xem video" : "Xem chi tiết"}
+                        {media.type === "video"
+                          ? "Watch video"
+                          : "View details"}
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
                       <div className="flex gap-2">
@@ -509,7 +510,7 @@ export default function MediaPage() {
               className="text-center py-12"
             >
               <p className="text-gray-600 text-lg">
-                Không tìm thấy media phù hợp với tiêu chí tìm kiếm.
+                No media match your search criteria.
               </p>
             </motion.div>
           )}
@@ -526,7 +527,7 @@ export default function MediaPage() {
               size="lg"
               className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-all duration-300 hover:scale-105"
             >
-              Xem thêm
+              Load more
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
@@ -617,7 +618,7 @@ export default function MediaPage() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center">
                       <Eye className="w-4 h-4 mr-1" />
-                      <span>{selectedMedia.views} lượt xem</span>
+                      <span>{selectedMedia.views} views</span>
                     </div>
                     {selectedMedia.type === "image" && (
                       <div className="flex items-center">
@@ -629,7 +630,7 @@ export default function MediaPage() {
                       <>
                         <div className="flex items-center">
                           <Download className="w-4 h-4 mr-1" />
-                          <span>{selectedMedia.downloads} lượt tải</span>
+                          <span>{selectedMedia.downloads} downloads</span>
                         </div>
                         <span>{selectedMedia.fileSize}</span>
                       </>

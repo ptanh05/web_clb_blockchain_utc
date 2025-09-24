@@ -100,20 +100,20 @@ export default function TeamPage() {
       <section className="relative py-20 md:py-32 bg-gradient-to-b from-[#004987] to-[#0070b8] text-white overflow-hidden">
         <div className="container relative z-10 px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center">
-            Đội ngũ của chúng tôi
+            Our team
           </h1>
           <div className="flex justify-center">
             <div className="w-24 h-1 bg-white rounded mb-8" />
           </div>
           <p className="text-lg md:text-xl text-white/90 text-center max-w-2xl mx-auto">
-            Cùng với các thành viên tâm huyết, chúng tôi xây dựng cộng đồng
-            Blockchain Pioneer Student mạnh mẽ
+            With dedicated members, we are building a strong Blockchain Pioneer
+            Student community
           </p>
         </div>
       </section>
       <section className="py-20 md:py-32 text-center bg-white">
         <div className="container px-4 md:px-6">
-          {/* Hiển thị từng ban với tên ban ở trên */}
+          {/* Render each division with its name */}
           {teams.map((team) => (
             <div key={team} className="mb-16">
               <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-8 text-center border-b border-blue-200 pb-2">
@@ -182,7 +182,7 @@ export default function TeamPage() {
                       setModalPage(1);
                     }}
                   >
-                    Xem thêm thành viên
+                    View more members
                   </button>
                 </div>
               )}
@@ -190,14 +190,14 @@ export default function TeamPage() {
           ))}
         </div>
       </section>
-      {/* Modal hiển thị tất cả thành viên của một ban */}
+      {/* Modal to display all members of a division */}
       {modalTeam && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-xl shadow-2xl p-8 max-w-4xl w-full relative h-[80vh] overflow-y-auto">
             <button
               className="absolute top-4 right-4 text-2xl text-gray-500 hover:text-red-500"
               onClick={() => setModalTeam(null)}
-              aria-label="Đóng"
+              aria-label="Close"
             >
               ×
             </button>

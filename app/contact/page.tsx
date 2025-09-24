@@ -147,7 +147,7 @@ export default function ContactPage() {
         <div className="container relative z-10 h-full flex flex-col items-center justify-center text-white text-center px-4 md:px-6">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight animate-fade-in">
             <span className="inline-block transform hover:scale-105 transition-transform duration-300">
-              Liên hệ
+              Contact
             </span>
           </h1>
           <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
@@ -155,8 +155,8 @@ export default function ContactPage() {
             className="text-lg max-w-2xl animate-slide-in"
             style={{ animationDelay: "200ms" }}
           >
-            Kết nối với CLB Blockchain Pioneer Student - Chúng tôi luôn sẵn sàng
-            lắng nghe và hỗ trợ bạn
+            Connect with Blockchain Pioneer Student Club — we're ready to listen
+            and help
           </p>
         </div>
       </section>
@@ -289,7 +289,7 @@ export default function ContactPage() {
 
                   <h2 className="text-2xl font-bold text-[#004987] mb-8 flex items-center">
                     <span className="relative">
-                      Thông tin liên hệ
+                      Contact information
                       <span className="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] rounded-full"></span>
                     </span>
                   </h2>
@@ -301,11 +301,11 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                          Địa chỉ
+                          Address
                         </h3>
                         <p className="text-gray-600 leading-relaxed">
-                          Blockchain Labs, Trường Đại Học Giao Thông Vận Tải, Số
-                          03 Cầu Giấy, Phường Láng, Thành phố Hà Nội
+                          Blockchain Labs, University of Transport and
+                          Communications, 03 Cau Giay, Lang Ward, Hanoi, Vietnam
                         </p>
                       </div>
                     </div>
@@ -335,7 +335,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold mb-2 text-gray-800">
-                          Điện thoại
+                          Phone
                         </h3>
                         <p className="text-gray-600">
                           <Link
@@ -351,7 +351,7 @@ export default function ContactPage() {
 
                   <div className="mt-10 pt-8 border-t border-gray-100">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                      Kết nối với chúng tôi
+                      Connect with us
                     </h3>
                     <div className="flex gap-4">
                       <Link
@@ -463,11 +463,11 @@ export default function ContactPage() {
                         <CheckCircle className="h-16 w-16" />
                       </div>
                       <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                        Cảm ơn bạn!
+                        Thank you!
                       </h3>
                       <p className="text-gray-600 text-center max-w-md">
-                        Tin nhắn của bạn đã được gửi thành công. Chúng tôi sẽ
-                        phản hồi trong thời gian sớm nhất.
+                        Your message has been sent successfully. We'll get back
+                        to you soon.
                       </p>
                       {/* Success SVG */}
                       <div className="mt-6 transform hover:scale-105 transition-transform duration-300">
@@ -485,7 +485,7 @@ export default function ContactPage() {
                   <div className="relative z-10 p-8">
                     <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#004987] to-[#00a1e0] mb-8 flex items-center">
                       <span className="relative">
-                        Gửi tin nhắn cho chúng tôi
+                        Send us a message
                         <span className="absolute -bottom-1 left-0 w-1/3 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] rounded-full"></span>
                       </span>
                     </h2>
@@ -498,7 +498,7 @@ export default function ContactPage() {
                             className="text-sm font-medium text-gray-700 flex items-center gap-1.5"
                           >
                             <User className="h-4 w-4 text-[#004987]" />
-                            Họ và tên
+                            Full name
                           </label>
                           <div
                             className={`relative transition-all duration-300 ${
@@ -510,7 +510,7 @@ export default function ContactPage() {
                               name="name"
                               value={formState.name}
                               onChange={handleInputChange}
-                              placeholder="Nhập họ và tên của bạn"
+                              placeholder="Enter your full name"
                               className="pl-10 pr-4 py-2 border-gray-200 focus:border-[#00a1e0] focus:ring-2 focus:ring-[#00a1e0]/20 transition-all duration-300 shadow-sm rounded-lg"
                               onFocus={() => setFocusedField("name")}
                               onBlur={() => setFocusedField(null)}
@@ -541,7 +541,7 @@ export default function ContactPage() {
                               type="email"
                               value={formState.email}
                               onChange={handleInputChange}
-                              placeholder="Nhập địa chỉ email của bạn"
+                              placeholder="Enter your email address"
                               className="pl-10 pr-4 py-2 border-gray-200 focus:border-[#00a1e0] focus:ring-2 focus:ring-[#00a1e0]/20 transition-all duration-300 shadow-sm rounded-lg"
                               onFocus={() => setFocusedField("email")}
                               onBlur={() => setFocusedField(null)}
@@ -560,7 +560,7 @@ export default function ContactPage() {
                           className="text-sm font-medium text-gray-700 flex items-center gap-1.5"
                         >
                           <FileText className="h-4 w-4 text-[#004987]" />
-                          Tiêu đề
+                          Subject
                         </label>
                         <div
                           className={`relative transition-all duration-300 ${
@@ -572,7 +572,7 @@ export default function ContactPage() {
                             name="subject"
                             value={formState.subject}
                             onChange={handleInputChange}
-                            placeholder="Nhập tiêu đề tin nhắn"
+                            placeholder="Enter your subject"
                             className="pl-10 pr-4 py-2 border-gray-200 focus:border-[#00a1e0] focus:ring-2 focus:ring-[#00a1e0]/20 transition-all duration-300 shadow-sm rounded-lg"
                             onFocus={() => setFocusedField("subject")}
                             onBlur={() => setFocusedField(null)}
@@ -590,7 +590,7 @@ export default function ContactPage() {
                           className="text-sm font-medium text-gray-700 flex items-center gap-1.5"
                         >
                           <MessageSquare className="h-4 w-4 text-[#004987]" />
-                          Nội dung tin nhắn
+                          Message
                         </label>
                         <div
                           className={`relative transition-all duration-300 ${
@@ -602,7 +602,7 @@ export default function ContactPage() {
                             name="message"
                             value={formState.message}
                             onChange={handleInputChange}
-                            placeholder="Nhập nội dung tin nhắn của bạn"
+                            placeholder="Enter your message"
                             rows={5}
                             className="pl-10 pr-4 py-2 border-gray-200 focus:border-[#00a1e0] focus:ring-2 focus:ring-[#00a1e0]/20 transition-all duration-300 shadow-sm resize-none rounded-lg"
                             onFocus={() => setFocusedField("message")}
@@ -643,11 +643,11 @@ export default function ContactPage() {
                                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                   ></path>
                                 </svg>
-                                Đang gửi...
+                                Sending...
                               </>
                             ) : (
                               <>
-                                Gửi tin nhắn
+                                Send message
                                 <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                               </>
                             )}
@@ -658,7 +658,7 @@ export default function ContactPage() {
                     </form>
 
                     <div className="mt-8 text-sm text-gray-500 text-center">
-                      <p>Chúng tôi sẽ phản hồi trong vòng 24 giờ làm việc.</p>
+                      <p>We will respond within 24 business hours.</p>
                     </div>
                   </div>
 
@@ -739,11 +739,11 @@ export default function ContactPage() {
         <div className="container px-4 md:px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#004987] to-[#00a1e0] mb-4 inline-block">
-              Bản đồ
+              Map
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] mx-auto mb-6"></div>
             <p className="max-w-3xl mx-auto text-gray-600">
-              Tìm đường đến Blockchain Pioneer Student
+              Find your way to Blockchain Pioneer Student
             </p>
           </div>
 
@@ -799,7 +799,7 @@ export default function ContactPage() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Bản đồ đến CLB Blockchain Pioneer Student"
+              title="Map to Blockchain Pioneer Student Club"
               className="rounded-lg"
             ></iframe>
 
@@ -812,7 +812,7 @@ export default function ContactPage() {
             <Link href="https://goo.gl/maps/1234" target="_blank">
               <Button className="bg-gradient-to-r from-[#004987] to-[#00a1e0] hover:from-[#003b6d] hover:to-[#0081c2] text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
                 <span className="flex items-center gap-2">
-                  Xem chỉ đường
+                  Get directions
                   <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </Button>
@@ -883,7 +883,7 @@ export default function ContactPage() {
         <div className="container px-4 md:px-6 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#004987] to-[#00a1e0] mb-4 inline-block">
-              Câu hỏi thường gặp
+              Frequently Asked Questions
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-[#004987] to-[#00a1e0] mx-auto mb-6"></div>
           </div>
@@ -891,26 +891,24 @@ export default function ContactPage() {
           <div className="max-w-3xl mx-auto space-y-6">
             {[
               {
-                question:
-                  "CLB Blockchain Pioneer Student hoạt động vào những ngày nào trong tuần?",
+                question: "Which days does the club usually operate?",
                 answer:
-                  "CLB thường tổ chức các buổi sinh hoạt vào tối thứ 4 và sáng thứ 7 hàng tuần. Ngoài ra, còn có các sự kiện đặc biệt được thông báo trước trên các kênh truyền thông của CLB.",
+                  "We usually hold sessions on Wednesday evenings and Saturday mornings. Special events are announced on our media channels.",
               },
               {
-                question: "Làm thế nào để tôi có thể tham gia CLB?",
+                question: "How can I join the club?",
                 answer:
-                  "Bạn có thể đăng ký tham gia CLB thông qua mẫu đơn trực tuyến trên trang web của chúng tôi hoặc liên hệ trực tiếp với Ban chủ nhiệm CLB qua email hoặc số điện thoại được cung cấp.",
+                  "You can register via the online form on our website or contact the board directly via the provided email or phone number.",
               },
               {
-                question:
-                  "CLB có yêu cầu kiến thức nền tảng về Blockchain không?",
+                question: "Do I need prior Blockchain knowledge?",
                 answer:
-                  "Không, CLB chào đón tất cả sinh viên có đam mê và quan tâm đến công nghệ Blockchain, bất kể trình độ kiến thức. Chúng tôi có các khóa học và workshop từ cơ bản đến nâng cao phù hợp với mọi đối tượng.",
+                  "No. We welcome all students passionate about Blockchain. We provide courses and workshops from beginner to advanced levels.",
               },
               {
-                question: "Làm thế nào để trở thành đối tác của CLB?",
+                question: "How to become a club partner?",
                 answer:
-                  "Các tổ chức, doanh nghiệp quan tâm đến việc hợp tác với CLB có thể liên hệ trực tiếp với Ban chủ nhiệm qua email hoặc điền form liên hệ trên trang web của chúng tôi.",
+                  "Organizations interested in partnering can contact the board via email or fill out the contact form on our website.",
               },
             ].map((faq, index) => (
               <div
@@ -929,7 +927,7 @@ export default function ContactPage() {
             <Link href="#">
               <Button className="bg-gradient-to-r from-[#004987] to-[#00a1e0] hover:from-[#003b6d] hover:to-[#0081c2] text-white transition-all duration-300 transform hover:scale-105 hover:shadow-lg group">
                 <span className="flex items-center gap-2">
-                  Xem tất cả câu hỏi
+                  View all questions
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </span>
               </Button>

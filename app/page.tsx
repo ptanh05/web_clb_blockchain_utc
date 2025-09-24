@@ -77,7 +77,7 @@ export default function Home() {
   });
   const [ctaRef, ctaInView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  // Thêm state cho featuredEvents
+  // State for featured events
   const [featuredEvents, setFeaturedEvents] = useState<Event[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [errorEvents, setErrorEvents] = useState<string | null>(null);
@@ -114,11 +114,11 @@ export default function Home() {
     return repeated;
   }, [partnersToShow]);
 
-  // Danh sách category
+  // Category list
   const categories = ["all", "Workshop", "Hackathon", "Seminar", "Community"];
 
   useEffect(() => {
-    // Fetch 3 latest events from API
+    // Fetch top 3 events by views from API
     const fetchEvents = async () => {
       try {
         setLoadingEvents(true);
@@ -130,7 +130,7 @@ export default function Home() {
           setFeaturedEvents([]);
         }
       } catch {
-        setErrorEvents("Không thể tải sự kiện mới nhất");
+        setErrorEvents("Unable to load latest events");
       } finally {
         setLoadingEvents(false);
       }
@@ -152,7 +152,7 @@ export default function Home() {
     fetchPartners();
   }, []);
 
-  // Lọc sự kiện theo category (dùng cho thẻ con)
+  // Filter events by category (for child cards)
   const getSubEvents = (parentEvent: Event) => {
     let filtered = featuredEvents.filter((e) => e.id !== parentEvent.id);
     if (selectedCategory !== "all") {
@@ -160,7 +160,7 @@ export default function Home() {
         (e) => e.category === parentEvent.category && e.id !== parentEvent.id
       );
     }
-    // Nếu không đủ 3, lấy thêm từ các event khác (không trùng chính nó)
+    // If less than 3, take from others (excluding current)
     if (filtered.length < 3) {
       const others = featuredEvents.filter(
         (e) => e.id !== parentEvent.id && !filtered.includes(e)
@@ -176,21 +176,21 @@ export default function Home() {
   const introFeatures: IntroFeature[] = [
     {
       icon: BookOpen,
-      title: "Học tập",
+      title: "Learning",
       description:
-        "Workshop, seminar và khóa học từ cơ bản đến chuyên sâu về Blockchain và Web3",
+        "Workshops, seminars, and courses from fundamentals to advanced Blockchain & Web3.",
     },
     {
       icon: Users,
-      title: "Cộng đồng",
+      title: "Community",
       description:
-        "Kết nối với cộng đồng sinh viên, chuyên gia và doanh nghiệp trong lĩnh vực Blockchain",
+        "Connect with students, experts, and companies in the Blockchain space.",
     },
     {
       icon: Award,
-      title: "Thực hành",
+      title: "Hands-on",
       description:
-        "Tham gia các dự án thực tế, hackathon và cơ hội thực tập tại các công ty công nghệ hàng đầu",
+        "Join real-world projects, hackathons, and internship opportunities at top tech firms.",
     },
   ];
 
@@ -203,21 +203,21 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center py-12 md:py-24">
             <div className="space-y-4 text-center lg:text-left">
               <p className="text-sm font-semibold tracking-widest uppercase text-[#004987]">
-                Cộng đồng Web3 tiên phong của sinh viên Việt Nam
+                Vietnam's pioneering Web3 student community
               </p>
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#002b52]">
                 Blockchain Pioneer Student
               </h1>
               <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400 mx-auto lg:mx-0">
-                Khám phá, học hỏi và phát triển cùng cộng đồng Blockchain tại
-                Trường Đại học Giao thông Vận tải.
+                Discover, learn, and grow with the Blockchain community at the
+                University of Transport and Communications.
               </p>
               <Link href="/join">
                 <Button
                   size="lg"
                   className="bg-[#004987] text-white hover:bg-[#003b6d] shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg mt-3"
                 >
-                  Đăng ký tham gia CLB
+                  Join the club
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -244,7 +244,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Giới thiệu về CLB Blockchain Pioneer Student
+              About Blockchain Pioneer Student Club
             </h2>
             <motion.div
               className="w-20 h-1 bg-[#004987] mx-auto mb-6"
@@ -253,10 +253,9 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
             />
             <p className="max-w-3xl mx-auto text-gray-600 text-sm md:text-base">
-              Câu lạc bộ Blockchain Pioneer Student là nơi quy tụ những sinh
-              viên đam mê công nghệ Blockchain và Web3. Chúng tôi tạo ra môi
-              trường học tập, nghiên cứu và thực hành, giúp các bạn sinh viên
-              tiếp cận với công nghệ đang thay đổi tương lai.
+              The club brings together students passionate about Blockchain and
+              Web3, creating an environment for learning, research, and hands-on
+              practice with future-shaping technologies.
             </p>
           </motion.div>
 
@@ -294,7 +293,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#004987] mb-4">
-              Hoạt động nổi bật
+              Featured activities
             </h2>
             <motion.div
               className="w-20 h-1 bg-[#004987] mx-auto mb-6"
@@ -307,7 +306,7 @@ export default function Home() {
           {/* Loading state */}
           {loadingEvents && (
             <div className="text-center py-8 text-gray-500">
-              Đang tải sự kiện...
+              Loading events...
             </div>
           )}
           {/* Error state */}
@@ -380,7 +379,7 @@ export default function Home() {
                         <span>{activity.location}</span>
                       </div>
                       <div className="flex items-center text-sm text-gray-500 mb-4">
-                        <span>{activity.views || 0} lượt xem</span>
+                        <span>{activity.views || 0} views</span>
                       </div>
                       <Link
                         href={`/events/${activity.id}`}
@@ -402,7 +401,7 @@ export default function Home() {
                           variant="outline"
                           className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
                         >
-                          Xem chi tiết
+                          View details
                         </Button>
                       </Link>
                     </div>
@@ -422,7 +421,7 @@ export default function Home() {
                 variant="outline"
                 className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-all duration-300 hover:scale-105"
               >
-                Xem tất cả sự kiện
+                View all events
                 <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
             </Link>
@@ -436,7 +435,7 @@ export default function Home() {
           <SectionAnimation>
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-[#004987] mb-4">
-                Đối tác & Nhà tài trợ
+                Partners & Sponsors
               </h2>
               <div className="w-20 h-1 bg-[#004987] mx-auto mb-6"></div>
             </div>
@@ -496,7 +495,7 @@ export default function Home() {
                   variant="link"
                   className="text-[#004987] hover:scale-105 transition-transform duration-300"
                 >
-                  Xem tất cả đối tác
+                  View all partners
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -518,12 +517,11 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Sẵn sàng tham gia cùng chúng tôi?
+              Ready to join us?
             </h2>
             <p className="text-base md:text-lg mb-8 text-white/80">
-              Đăng ký ngay hôm nay để trở thành thành viên của CLB Blockchain
-              Pioneer Student và bắt đầu hành trình khám phá công nghệ đột phá
-              này!
+              Sign up today to become a member of the Blockchain Pioneer Student
+              Club and start your journey exploring breakthrough technology!
             </p>
             <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -537,7 +535,7 @@ export default function Home() {
                   variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
-                  Đăng ký tham gia CLB
+                  Join the club
                 </Button>
               </Link>
               <JoinPopup />

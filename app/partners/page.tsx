@@ -27,12 +27,12 @@ import { toast } from "react-hot-toast";
 // Constants for page content
 const PAGE_CONTENT = {
   hero: {
-    title: "Đối tác & Nhà tài trợ",
+    title: "Partners & Sponsors",
     description:
-      "Cùng với các đối tác chiến lược, chúng tôi xây dựng cộng đồng Blockchain mạnh mẽ",
+      "Together with strategic partners, we build a strong Blockchain community",
   },
   filters: {
-    searchPlaceholder: "Tìm kiếm đối tác...",
+    searchPlaceholder: "Search partners...",
     typeOptions: [
       "all",
       "academic",
@@ -42,33 +42,33 @@ const PAGE_CONTENT = {
       "technology",
     ],
     typeLabels: {
-      all: "Tất cả",
-      academic: "Học thuật",
-      business: "Doanh nghiệp",
-      community: "Cộng đồng",
-      government: "Chính phủ",
-      technology: "Công nghệ",
+      all: "All",
+      academic: "Academic",
+      business: "Business",
+      community: "Community",
+      government: "Government",
+      technology: "Technology",
     },
   },
   status: {
-    active: "Đang hợp tác",
-    inactive: "Không hoạt động",
-    pending: "Đang xử lý",
+    active: "Active",
+    inactive: "Inactive",
+    pending: "Pending",
   },
   cta: {
-    title: "Trở thành đối tác của chúng tôi",
+    title: "Become our partner",
     description:
-      "Hãy cùng chúng tôi xây dựng cộng đồng Blockchain mạnh mẽ và phát triển bền vững",
-    buttonText: "Liên hệ ngay",
+      "Let's build a strong and sustainable Blockchain community together",
+    buttonText: "Contact us",
   },
   errors: {
-    loading: "Không thể tải danh sách đối tác",
-    adding: "Không thể thêm đối tác mới",
-    updating: "Không thể cập nhật thông tin đối tác",
-    deleting: "Không thể xóa đối tác",
-    network: "Lỗi kết nối mạng",
-    unknown: "Đã xảy ra lỗi không xác định",
-    noResults: "Không tìm thấy đối tác nào phù hợp",
+    loading: "Unable to load partners list",
+    adding: "Unable to add new partner",
+    updating: "Unable to update partner",
+    deleting: "Unable to delete partner",
+    network: "Network error",
+    unknown: "An unknown error occurred",
+    noResults: "No matching partners found",
   },
 };
 
@@ -239,9 +239,7 @@ export default function PartnersPage() {
           {isLoading && (
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#004987] mx-auto"></div>
-              <p className="mt-4 text-gray-600">
-                Đang tải danh sách đối tác...
-              </p>
+              <p className="mt-4 text-gray-600">Loading partners...</p>
             </div>
           )}
 
@@ -254,7 +252,7 @@ export default function PartnersPage() {
                 className="mt-4"
                 onClick={() => window.location.reload()}
               >
-                Thử lại
+                Retry
               </Button>
             </div>
           )}
@@ -321,7 +319,7 @@ export default function PartnersPage() {
                         className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
                         onClick={() => setSelectedPartner(partner)}
                       >
-                        Xem chi tiết
+                        View details
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
                       <Link
