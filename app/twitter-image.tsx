@@ -78,7 +78,7 @@ export default async function Image() {
                 marginTop: "6px",
               }}
             >
-              UTC - Câu lạc bộ Blockchain
+              UTC - Blockchain Club
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default async function Image() {
             marginBottom: "30px",
           }}
         >
-          Học hỏi, phát triển và ứng dụng công nghệ Blockchain & Web3
+          Learn, grow, and apply Blockchain & Web3
         </div>
 
         {/* Features */}
@@ -123,7 +123,7 @@ export default async function Image() {
               fontSize: "16px",
             }}
           >
-            📚 Khóa học
+            📚 Courses
           </div>
           <div
             style={{
@@ -133,7 +133,7 @@ export default async function Image() {
               fontSize: "16px",
             }}
           >
-            🤝 Cộng đồng
+            🤝 Community
           </div>
           <div
             style={{
@@ -143,7 +143,7 @@ export default async function Image() {
               fontSize: "16px",
             }}
           >
-            💡 Sáng tạo
+            💡 Creativity
           </div>
         </div>
 

@@ -78,7 +78,7 @@ export default async function Image() {
                 marginTop: "8px",
               }}
             >
-              Trường Đại học Giao thông Vận tải
+              University of Transport and Communications
             </div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default async function Image() {
             marginBottom: "40px",
           }}
         >
-          Nơi sinh viên học hỏi, phát triển và ứng dụng công nghệ Blockchain
+          Where students learn, grow, and apply Blockchain technology
         </div>
 
         {/* Features */}
@@ -123,7 +123,7 @@ export default async function Image() {
               fontSize: "20px",
             }}
           >
-            📚 Khóa học
+            📚 Courses
           </div>
           <div
             style={{
@@ -133,7 +133,7 @@ export default async function Image() {
               fontSize: "20px",
             }}
           >
-            🤝 Cộng đồng
+            🤝 Community
           </div>
         </div>
 

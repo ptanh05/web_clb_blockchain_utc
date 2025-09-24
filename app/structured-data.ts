@@ -3,16 +3,16 @@ export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Blockchain Pioneer Student UTC",
-  "alternateName": "CLB Blockchain UTC",
+  "alternateName": "UTC Blockchain Club",
   "url": "https://blockchain-utc.vercel.app",
   "logo": "https://blockchain-utc.vercel.app/logo.png",
-  "description": "Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải. Nơi sinh viên học hỏi, phát triển và ứng dụng công nghệ Blockchain, Web3.",
+  "description": "Blockchain Pioneer Student Club at the University of Transport and Communications. Learn, grow, and apply Blockchain & Web3.",
   "foundingDate": "2024-04-01",
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "VN",
-    "addressRegion": "Hà Nội",
-    "addressLocality": "Hà Nội"
+    "addressRegion": "Hanoi",
+    "addressLocality": "Hanoi"
   },
   "contactPoint": {
     "@type": "ContactPoint",
@@ -28,7 +28,7 @@ export const organizationSchema = {
   ],
   "memberOf": {
     "@type": "Organization",
-    "name": "Trường Đại học Giao thông Vận tải",
+    "name": "University of Transport and Communications",
     "url": "https://utc.edu.vn"
   }
 };
@@ -38,7 +38,7 @@ export const websiteSchema = {
   "@type": "WebSite",
   "name": "Blockchain Pioneer Student UTC",
   "url": "https://blockchain-utc.vercel.app",
-  "description": "Trang web chính thức của Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải",
+  "description": "Official website of the Blockchain Pioneer Student Club - University of Transport and Communications",
   "publisher": {
     "@type": "Organization",
     "name": "Blockchain Pioneer Student UTC"
@@ -54,25 +54,25 @@ export const educationalOrganizationSchema = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
   "name": "Blockchain Pioneer Student UTC",
-  "description": "Câu lạc bộ học thuật chuyên về công nghệ Blockchain và Web3",
+  "description": "Academic club specializing in Blockchain and Web3",
   "url": "https://blockchain-utc.vercel.app",
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "VN",
-    "addressRegion": "Hà Nội"
+    "addressRegion": "Hanoi"
   },
   "memberOf": {
     "@type": "CollegeOrUniversity",
-    "name": "Trường Đại học Giao thông Vận tải"
+    "name": "University of Transport and Communications"
   },
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Chương trình đào tạo Blockchain",
+    "name": "Blockchain training programs",
     "itemListElement": [
       {
         "@type": "Course",
-        "name": "Khóa học Cardano Blockchain",
-        "description": "Khóa học cấp tốc 9 buổi về Cardano Blockchain",
+        "name": "Cardano Blockchain Course",
+        "description": "9-session intensive course on Cardano Blockchain",
         "provider": {
           "@type": "Organization",
           "name": "Blockchain Pioneer Student UTC"
@@ -80,8 +80,8 @@ export const educationalOrganizationSchema = {
       },
       {
         "@type": "Course", 
-        "name": "Hackathon Blockchain",
-        "description": "Cuộc thi lập trình Blockchain trong 24-48 giờ",
+        "name": "Blockchain Hackathon",
+        "description": "24–48 hour Blockchain programming competition",
         "provider": {
           "@type": "Organization",
           "name": "Blockchain Pioneer Student UTC"
@@ -95,18 +95,18 @@ export const eventSchema = {
   "@context": "https://schema.org",
   "@type": "Event",
   "name": "Cardano Blockchain Hackathon 2025",
-  "description": "Cuộc thi Hackathon quy mô lớn với giải thưởng 350 triệu VNĐ, thu hút hơn 200 thí sinh từ các trường đại học trên cả nước.",
+  "description": "Large-scale hackathon with prizes worth 350 million VND, attracting 200+ students from universities nationwide.",
   "startDate": "2025-03-01T08:00:00+07:00",
   "endDate": "2025-03-02T18:00:00+07:00",
   "eventStatus": "https://schema.org/EventScheduled",
   "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
   "location": {
     "@type": "Place",
-    "name": "Trường Đại học Giao thông Vận tải",
+    "name": "University of Transport and Communications",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "VN",
-      "addressRegion": "Hà Nội"
+      "addressRegion": "Hanoi"
     }
   },
   "organizer": {
