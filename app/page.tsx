@@ -447,7 +447,7 @@ export default function Home() {
                 {marqueeItems.map((p, index) => (
                   <div
                     key={`marquee1-${p.id}-${index}`}
-                    className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                    className="flex items-center justify-center p-2 mx-2 w-[140px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
                   >
                     <Image
                       src={
@@ -456,10 +456,10 @@ export default function Home() {
                           : "/" + p.logo
                       }
                       alt={p.name}
-                      width={200}
-                      height={100}
+                      width={140}
+                      height={60}
                       className="object-contain transition-all"
-                      sizes="200px"
+                      sizes="140px"
                     />
                   </div>
                 ))}
@@ -468,7 +468,7 @@ export default function Home() {
                 {marqueeItems.map((p, index) => (
                   <div
                     key={`marquee2-${p.id}-${index}`}
-                    className="flex items-center justify-center p-4 mx-4 w-[200px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
+                    className="flex items-center justify-center p-2 mx-2 w-[140px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
                   >
                     <Image
                       src={
@@ -477,10 +477,10 @@ export default function Home() {
                           : "/" + p.logo
                       }
                       alt={p.name}
-                      width={200}
-                      height={100}
+                      width={140}
+                      height={60}
                       className="object-contain transition-all"
-                      sizes="200px"
+                      sizes="140px"
                     />
                   </div>
                 ))}

@@ -76,8 +76,8 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        marquee: "marquee 450s linear infinite",   // 👈 Tốc độ vừa phải
-        marquee2: "marquee2 450s linear infinite", // 👈 Tốc độ vừa phải
+        marquee: "marquee 1500s linear infinite",   // slower
+        marquee2: "marquee2 1500s linear infinite", // slower
       },
     },
   },
@@ -85,6 +85,6 @@ const config: Config = {
     require("tailwindcss-animate"),
     require("@tailwindcss/typography"),
   ],
-}
+};
 
-export default config
+export default config;
