@@ -118,7 +118,7 @@ export function SiteFooter() {
             <ul className="space-y-2">
               <li>
                 <Link href="/join" className="text-white/80 hover:text-white">
-                  Become a member
+                  Member
                 </Link>
               </li>
               <li>
