@@ -69,7 +69,7 @@ export function SiteHeader() {
                     pathname === "/" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Trang chủ
+                  Home
                 </Link>
                 <Link
                   href="/about"
@@ -78,7 +78,7 @@ export function SiteHeader() {
                     pathname === "/about" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Giới thiệu
+                  About
                 </Link>
                 <Link
                   href="/events"
@@ -87,7 +87,7 @@ export function SiteHeader() {
                     pathname === "/events" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Sự kiện
+                  Events
                 </Link>
                 {/* 
                 <Link
@@ -129,7 +129,7 @@ export function SiteHeader() {
                     pathname === "/team" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Thành viên
+                  Team
                 </Link>
                 <Link
                   href="/contact"
@@ -138,7 +138,7 @@ export function SiteHeader() {
                     pathname === "/contact" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Liên hệ
+                  Contact
                 </Link>
                 <Link
                   href="/join"
@@ -147,7 +147,7 @@ export function SiteHeader() {
                     pathname === "/join" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Tham gia CLB
+                  Join Club
                 </Link>
               </nav>
             </SheetContent>
@@ -166,7 +166,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Trang chủ
+                  Home
                 </Link>
                 <Link
                   href="/about"
@@ -177,7 +177,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Giới thiệu
+                  About
                 </Link>
                 <Link
                   href="/events"
@@ -188,7 +188,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Sự kiện
+                  Events
                 </Link>
                 {/* 
                 <Link
@@ -238,7 +238,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Thành viên
+                  Team
                 </Link>
                 <Link
                   href="/contact"
@@ -249,7 +249,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Liên hệ
+                  Contact
                 </Link>
               </nav>
 
@@ -262,7 +262,7 @@ export function SiteHeader() {
                     pathname === "/" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Trang chủ
+                  Home
                 </Link>
                 <Link
                   href="/about"
@@ -271,7 +271,7 @@ export function SiteHeader() {
                     pathname === "/about" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Giới thiệu
+                  About
                 </Link>
                 <Link
                   href="/events"
@@ -280,7 +280,7 @@ export function SiteHeader() {
                     pathname === "/events" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Sự kiện
+                  Events
                 </Link>
                 {/* 
                 <Link
@@ -322,7 +322,7 @@ export function SiteHeader() {
                     pathname === "/team" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Thành viên
+                  Team
                 </Link>
                 <Link
                   href="/contact"
@@ -331,7 +331,7 @@ export function SiteHeader() {
                     pathname === "/contact" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Liên hệ
+                  Contact
                 </Link>
                 <Link
                   href="/join"
@@ -340,7 +340,7 @@ export function SiteHeader() {
                     pathname === "/join" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Tham gia CLB
+                  Join Club
                 </Link>
               </nav>
             </div>
@@ -351,7 +351,7 @@ export function SiteHeader() {
                     pathname === "/join" ? "bg-[#003b6d]" : "bg-[#004987]"
                   } hover:bg-[#003b6d]`}
                 >
-                  Tham gia CLB
+                  Join Club
                 </Button>
               </Link>
             </div>

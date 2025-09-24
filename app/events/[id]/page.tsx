@@ -162,7 +162,7 @@ export default function EventDetailPage() {
                 className="text-white hover:bg-white/10 mb-8"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Quay lại danh sách sự kiện
+                Back to events
               </Button>
             </Link>
 
@@ -179,7 +179,7 @@ export default function EventDetailPage() {
                       : "bg-gray-100 text-gray-800"
                   }`}
                 >
-                  {event.status === "upcoming" ? "Sắp diễn ra" : "Đã kết thúc"}
+                  {event.status === "upcoming" ? "Upcoming" : "Ended"}
                 </span>
                 <span className="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full">
                   {event.category}
@@ -199,7 +199,7 @@ export default function EventDetailPage() {
                 {event.schedule && event.schedule.length > 0 && (
                   <>
                     <h2 className="text-2xl font-bold text-[#004987] mt-12 mb-6">
-                      Lịch trình
+                      Schedule
                     </h2>
                     <div className="space-y-4">
                       {event.schedule.map(
@@ -254,7 +254,7 @@ export default function EventDetailPage() {
                         size="lg"
                         className="bg-white text-[#004987] hover:bg-gray-100"
                       >
-                        Đăng ký tham gia
+                        Register
                         <ChevronRight className="ml-2 h-4 w-4" />
                       </Button>
                     </Link>
@@ -265,7 +265,7 @@ export default function EventDetailPage() {
                     className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                   >
                     <Share2 className="mr-2 h-4 w-4" />
-                    Chia sẻ
+                    Share
                   </Button>
                   <Button
                     size="lg"
@@ -273,7 +273,7 @@ export default function EventDetailPage() {
                     className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                   >
                     <BookmarkPlus className="mr-2 h-4 w-4" />
-                    Lưu lại
+                    Save
                   </Button>
                 </div>
               </motion.div>
@@ -294,7 +294,7 @@ export default function EventDetailPage() {
                 transition={{ duration: 0.8 }}
               >
                 <h2 className="text-2xl font-bold text-[#004987] mb-6">
-                  Giới thiệu sự kiện
+                  Event introduction
                 </h2>
                 <div className="prose max-w-none">
                   <ReactMarkdown>{event.notionContent}</ReactMarkdown>

@@ -144,11 +144,12 @@ export default function EventsPage() {
         <div className="container relative z-10 px-4 md:px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <AnimatedHeading className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Sự kiện Blockchain Pioneer Student
+              Blockchain Pioneer Student Events
             </AnimatedHeading>
             <AnimatedDivider className="w-24 h-1 bg-white mx-auto mb-8" />
             <p className="text-lg md:text-xl text-white/90 mb-8">
-              Khám phá các sự kiện, workshop và hackathon về Blockchain và Web3
+              Explore events, workshops, and hackathons about Blockchain and
+              Web3
             </p>
           </AnimatedSection>
         </div>
@@ -169,7 +170,7 @@ export default function EventsPage() {
               >
                 <input
                   type="text"
-                  placeholder="Tìm kiếm sự kiện..."
+                  placeholder="Search events..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#004987] focus:border-transparent transition-all duration-300"
@@ -193,7 +194,7 @@ export default function EventsPage() {
                     onClick={() => setSelectedCategory(category)}
                     className="transition-all duration-300"
                   >
-                    {category === "all" ? "Tất cả danh mục" : category}
+                    {category === "all" ? "All categories" : category}
                   </Button>
                 ))}
               </motion.div>
@@ -204,7 +205,7 @@ export default function EventsPage() {
           {isLoading && (
             <div className="text-center py-12">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
-              <p className="mt-4 text-gray-600">Đang tải sự kiện...</p>
+              <p className="mt-4 text-gray-600">Loading events...</p>
             </div>
           )}
 
@@ -217,7 +218,7 @@ export default function EventsPage() {
                 onClick={() => window.location.reload()}
                 className="text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white"
               >
-                Thử lại
+                Retry
               </Button>
             </div>
           )}
@@ -287,14 +288,20 @@ export default function EventsPage() {
                     </div>
                     <div className="flex items-center text-sm text-gray-500 mb-4">
                       <Eye className="h-4 w-4 mr-1" />
-                      <span>{event.views || 0} lượt xem</span>
+                      <span>{event.views || 0} views</span>
                     </div>
                     <Link
                       href={`/events/${event.id}`}
                       onClick={() => {
                         try {
-                          navigator.sendBeacon?.(`/api/events/${event.id}`, new Blob([], { type: 'application/json' })) ||
-                            fetch(`/api/events/${event.id}`, { method: 'POST', keepalive: true }).catch(() => {});
+                          navigator.sendBeacon?.(
+                            `/api/events/${event.id}`,
+                            new Blob([], { type: "application/json" })
+                          ) ||
+                            fetch(`/api/events/${event.id}`, {
+                              method: "POST",
+                              keepalive: true,
+                            }).catch(() => {});
                         } catch {}
                       }}
                     >
@@ -302,7 +309,7 @@ export default function EventsPage() {
                         variant="outline"
                         className="w-full text-[#004987] border-[#004987] hover:bg-[#004987] hover:text-white transition-colors duration-300"
                       >
-                        Xem chi tiết
+                        View details
                       </Button>
                     </Link>
                   </div>
@@ -319,7 +326,7 @@ export default function EventsPage() {
               className="text-center py-12"
             >
               <p className="text-gray-600 text-lg">
-                Không tìm thấy sự kiện phù hợp với tiêu chí tìm kiếm.
+                No events match your search criteria.
               </p>
             </motion.div>
           )}
@@ -331,10 +338,10 @@ export default function EventsPage() {
         <div className="container px-4 md:px-6">
           <AnimatedSection className="max-w-3xl mx-auto text-center">
             <AnimatedHeading className="text-2xl md:text-3xl font-bold mb-4">
-              Muốn tổ chức sự kiện với chúng tôi?
+              Want to organize an event with us?
             </AnimatedHeading>
             <p className="text-lg mb-8 text-white/90">
-              Liên hệ ngay để hợp tác tổ chức các sự kiện về Blockchain và Web3
+              Contact us to collaborate on Blockchain and Web3 events
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
@@ -343,7 +350,7 @@ export default function EventsPage() {
                   variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
-                  Liên hệ ngay
+                  Contact us
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -353,7 +360,7 @@ export default function EventsPage() {
                   variant="outline"
                   className="bg-white text-[#004987] hover:bg-gray-100 transition-all duration-300 hover:scale-105"
                 >
-                  Tìm hiểu thêm
+                  Learn more
                 </Button>
               </Link>
             </div>
