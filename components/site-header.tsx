@@ -87,7 +87,7 @@ export function SiteHeader() {
                     pathname === "/events" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Sự kiện & Dự án
+                  Sự kiện
                 </Link>
                 {/* 
                 <Link
@@ -188,7 +188,7 @@ export function SiteHeader() {
                       : "text-[#004987]"
                   }`}
                 >
-                  Sự kiện & Dự án
+                  Sự kiện
                 </Link>
                 {/* 
                 <Link
@@ -280,7 +280,7 @@ export function SiteHeader() {
                     pathname === "/events" ? "text-[#004987] font-bold" : ""
                   }`}
                 >
-                  Sự kiện & Dự án
+                  Sự kiện
                 </Link>
                 {/* 
                 <Link
