@@ -490,7 +490,7 @@ export default function Home() {
 
           <SectionAnimation delay={0.1}>
             <div className="text-center mt-10">
-              <Link href="/partners">
+              <Link href="#">
                 <Button
                   variant="link"
                   className="text-[#004987] hover:scale-105 transition-transform duration-300"
