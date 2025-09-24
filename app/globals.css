@@ -120,6 +120,11 @@
   .animate-marquee2 {
     animation: marquee2 20s linear infinite;
   }
+
+  /* Continuous marquee: single track duplicated inline, scrolls half-width */
+  .animate-marquee-continuous {
+    animation: marqueeContinuous 20s linear infinite;
+  }
 }
 
 @keyframes pulse {
@@ -220,6 +225,16 @@
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+/* Move one full copy width when track contains two inline duplicates */
+@keyframes marqueeContinuous {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 

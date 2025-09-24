@@ -442,32 +442,24 @@ export default function Home() {
           </SectionAnimation>
 
           {partners.length > 0 && (
-            <div className="overflow-hidden whitespace-nowrap relative">
-              <div className="inline-flex animate-marquee">
-                {marqueeItems.map((p, index) => (
+            <div
+              className="overflow-hidden relative"
+              style={{
+                maskImage:
+                  "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+              }}
+            >
+              <div
+                className="flex animate-marquee-continuous"
+                style={{
+                  willChange: "transform",
+                  width: "max-content",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {[...marqueeItems, ...marqueeItems].map((p, index) => (
                   <div
-                    key={`marquee1-${p.id}-${index}`}
-                    className="flex items-center justify-center p-2 mx-2 w-[140px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
-                  >
-                    <Image
-                      src={
-                        p.logo?.startsWith("http") || p.logo?.startsWith("/")
-                          ? p.logo
-                          : "/" + p.logo
-                      }
-                      alt={p.name}
-                      width={140}
-                      height={60}
-                      className="object-contain transition-all"
-                      sizes="140px"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="inline-flex animate-marquee2 absolute top-0">
-                {marqueeItems.map((p, index) => (
-                  <div
-                    key={`marquee2-${p.id}-${index}`}
+                    key={`marqueeC-${p.id}-${index}`}
                     className="flex items-center justify-center p-2 mx-2 w-[140px] transition-transform duration-300 hover:scale-110 hover:shadow-xl"
                   >
                     <Image
