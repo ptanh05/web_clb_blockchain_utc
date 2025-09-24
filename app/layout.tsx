@@ -116,7 +116,11 @@ export const metadata: Metadata = {
   applicationName: "Blockchain Pioneer Student",
   manifest: "/manifest.json",
   icons: {
-    icon: [{ url: "/Logo_favicon.png", type: "image/png" }],
+    icon: [
+      { url: "/Logo_favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/Logo_favicon.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: [{ url: "/Logo_favicon.png", sizes: "180x180", type: "image/png" }],
     shortcut: ["/Logo_favicon.png"],
   },
   other: {
