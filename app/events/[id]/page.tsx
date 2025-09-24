@@ -1,5 +1,6 @@
 "use client";
 
+import ReactMarkdown from "react-markdown";
 import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -296,7 +297,7 @@ export default function EventDetailPage() {
                   Giới thiệu sự kiện
                 </h2>
                 <div className="prose max-w-none">
-                  <p className="mb-4 text-gray-600">{event.description}</p>
+                  <ReactMarkdown>{event.notionContent}</ReactMarkdown>
                 </div>
 
                 {event.schedule && event.schedule.length > 0 && (
@@ -448,7 +449,7 @@ export default function EventDetailPage() {
                       {event.title}
                     </h3>
                     <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
-                      {event.excerpt || event.description}
+                      {event.excerpt}
                     </p>
                     <div className="flex items-center text-sm text-gray-500 mb-2">
                       <MapPin className="h-4 w-4 mr-1" />

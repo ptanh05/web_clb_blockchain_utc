@@ -30,7 +30,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<EventResp
     const eventData: Partial<Event> = await request.json();
 
     // Basic validation
-    if (!eventData.title || !eventData.date || !eventData.location || !eventData.description || !eventData.category || !eventData.slug || !eventData.image || !eventData.excerpt) {
+    if (!eventData.title || !eventData.date || !eventData.location || !eventData.category || !eventData.slug || !eventData.image || !eventData.excerpt) {
        return NextResponse.json(
         { data: null, error: 'Missing required fields', details: 'title, date, location, description, category, slug, image, excerpt are required.' },
         { status: 400 }

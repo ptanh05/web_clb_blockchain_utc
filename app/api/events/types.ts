@@ -21,12 +21,10 @@ export interface Event {
   date: string; // e.g., 'YYYY-MM-DD'
   time?: string; // Optional time, e.g., 'HH:mm'
   location?: string; // Made optional based on usage
-  description?: string; // Made optional based on usage
   excerpt?: string; // Optional short description
   image?: string; // Optional image URL
   category: string; // e.g., 'Workshop', 'Hackathon', 'Seminar'
   tags?: string[]; // Optional array of tags
-  content?: string; // Optional full content
   views?: number; // Optional number of views
   likes?: number; // Optional number of likes
   comments?: number; // Optional number of comments
@@ -37,6 +35,8 @@ export interface Event {
   organizer?: string; // Optional organizer name
   createdAt?: string; // Optional timestamp
   updatedAt?: string; // Optional timestamp
+  notion_page_id: string | null;
+  notionContent?: string | null;
 }
 
 export interface EventListResponse {

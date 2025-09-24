@@ -149,7 +149,6 @@ export const EventService = {
       eventData.date || null, // Use null if date is missing
       eventData.time || null,
       eventData.location || '',
-      eventData.description || '',
       eventData.excerpt || '',
       eventData.image || '/placeholder.svg',
       eventData.category || 'Other',
@@ -160,6 +159,7 @@ export const EventService = {
       eventData.views || 0,
       eventData.createdAt || new Date().toISOString(),
       eventData.updatedAt || new Date().toISOString(),
+      eventData.notion_page_id || null,
     ];
      // Ensure date is correctly formatted if needed by your DB (e.g., to a Date object if pg client requires it, but string often works)
      // If date is required as a Date object by pg:
