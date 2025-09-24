@@ -88,7 +88,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="/events" className="text-white/80 hover:text-white">
-                  Sự kiện & Dự án
+                  Sự kiện 
                 </Link>
               </li>
               <li>
