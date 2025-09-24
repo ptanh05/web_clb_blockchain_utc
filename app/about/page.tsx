@@ -77,7 +77,7 @@ export default function AboutPage() {
               </AnimatedHeading>
               <AnimatedDivider />
               <p className="text-gray-600 mb-6">
-                To become a leading Blockchain club in Vietnam's student
+                To become a leading Blockchain club in Vietnam&apos;s student
                 community, nurturing young talents in Blockchain and Web3.
               </p>
               <div className="grid grid-cols-2 gap-4">

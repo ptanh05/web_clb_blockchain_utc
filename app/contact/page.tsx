@@ -155,8 +155,8 @@ export default function ContactPage() {
             className="text-lg max-w-2xl animate-slide-in"
             style={{ animationDelay: "200ms" }}
           >
-            Connect with Blockchain Pioneer Student Club — we're ready to listen
-            and help
+            Connect with Blockchain Pioneer Student Club — we&apos;re ready to
+            listen and help
           </p>
         </div>
       </section>
@@ -464,8 +464,8 @@ export default function ContactPage() {
                         Thank you!
                       </h3>
                       <p className="text-gray-600 text-center max-w-md">
-                        Your message has been sent successfully. We'll get back
-                        to you soon.
+                        Your message has been sent successfully. We&apos;ll get
+                        back to you soon.
                       </p>
                       {/* Success SVG */}
                       <div className="mt-6 transform hover:scale-105 transition-transform duration-300">

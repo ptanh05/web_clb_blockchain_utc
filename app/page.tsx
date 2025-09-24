@@ -203,7 +203,7 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center py-12 md:py-24">
             <div className="space-y-4 text-center lg:text-left">
               <p className="text-sm font-semibold tracking-widest uppercase text-[#004987]">
-                Vietnam's pioneering Web3 student community
+                Vietnam&apos;s pioneering Web3 student community
               </p>
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-[#002b52]">
                 Blockchain Pioneer Student

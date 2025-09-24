@@ -200,7 +200,8 @@ export default function MediaPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Explore photos, videos, and documents about the club's activities
+              Explore photos, videos, and documents about the club&apos;s
+              activities
             </motion.p>
           </motion.div>
         </div>
