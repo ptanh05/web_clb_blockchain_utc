@@ -91,21 +91,18 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/news" className="text-white/80 hover:text-white">
-                  News
+                <Link href="#" className="text-white/80 hover:text-white">
+                  News (Coming Soon)
                 </Link>
               </li>
               <li>
-                <Link href="/media" className="text-white/80 hover:text-white">
-                  Media
+                <Link href="#" className="text-white/80 hover:text-white">
+                  Media (Coming Soon)
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/partners"
-                  className="text-white/80 hover:text-white"
-                >
-                  Partners
+                <Link href="#" className="text-white/80 hover:text-white">
+                  Partners (Coming Soon)
                 </Link>
               </li>
               <li>
@@ -126,7 +123,7 @@ export function SiteFooter() {
               </li>
               <li>
                 <Link href="#" className="text-white/80 hover:text-white">
-                  FAQ
+                  FAQ (Coming Soon)
                 </Link>
               </li>
               <li>
