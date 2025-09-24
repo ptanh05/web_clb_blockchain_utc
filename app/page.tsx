@@ -374,7 +374,7 @@ export default function Home() {
                         {activity.title}
                       </h3>
                       <p className="text-gray-600 text-sm md:text-base mb-4 line-clamp-3">
-                        {activity.excerpt || activity.description}
+                        {activity.excerpt}
                       </p>
                       <div className="flex items-center text-sm text-gray-500 mb-2">
                         <span>{activity.location}</span>
