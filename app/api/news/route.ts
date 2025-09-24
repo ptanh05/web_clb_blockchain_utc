@@ -1,9 +1,13 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { NewsService } from './news.service';
 
+// Ensure this route is always treated as dynamic on platforms like Vercel
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    // Use nextUrl to avoid static rendering issues
+    const searchParams = request.nextUrl.searchParams;
     const category = searchParams.get('category') || 'all';
     const search = searchParams.get('search') || '';
 
