@@ -22,27 +22,27 @@ const inter = Inter({
 // SEO Metadata
 export const metadata: Metadata = {
   title: {
-    default: "Blockchain Pioneer Student - CLB Blockchain UTC",
+    default: "Blockchain Pioneer Student - UTC Blockchain Club",
     template: "%s | Blockchain Pioneer Student",
   },
   description:
-    "Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải. Nơi sinh viên học hỏi, phát triển và ứng dụng công nghệ Blockchain, Web3. Tổ chức Hackathon, khóa học và sự kiện chuyên sâu.",
+    "Blockchain Pioneer Student Club at the University of Transport and Communications. Learn, grow, and apply Blockchain & Web3. Organizing hackathons, courses, and events.",
   keywords: [
     "blockchain",
     "web3",
     "cryptocurrency",
     "hackathon",
-    "sinh viên",
-    "đại học giao thông vận tải",
+    "student",
+    "university of transport and communications",
     "UTC",
     "cardano",
     "defi",
     "nft",
     "smart contract",
-    "câu lạc bộ blockchain",
+    "blockchain club",
     "pioneer student",
-    "công nghệ blockchain",
-    "lập trình blockchain",
+    "blockchain technology",
+    "blockchain development",
   ],
   authors: [{ name: "Blockchain Pioneer Student UTC" }],
   creator: "Blockchain Pioneer Student UTC",
@@ -56,23 +56,23 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
     languages: {
-      "vi-VN": "/",
+      "en-US": "/",
     },
   },
   openGraph: {
     type: "website",
-    locale: "vi_VN",
+    locale: "en_US",
     url: "https://www.bpsclub.com/",
     siteName: "Blockchain Pioneer Student UTC",
-    title: "Blockchain Pioneer Student - CLB Blockchain UTC",
+    title: "Blockchain Pioneer Student - UTC Blockchain Club",
     description:
-      "Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải. Nơi sinh viên học hỏi, phát triển và ứng dụng công nghệ Blockchain, Web3.",
+      "Blockchain Pioneer Student Club at the University of Transport and Communications. Learn, grow, and apply Blockchain & Web3.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Blockchain Pioneer Student UTC - CLB Blockchain",
+        alt: "Blockchain Pioneer Student UTC - Blockchain Club",
         type: "image/jpeg",
       },
       {
@@ -88,9 +88,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@blockchain_utc",
     creator: "@blockchain_utc",
-    title: "Blockchain Pioneer Student - CLB Blockchain UTC",
+    title: "Blockchain Pioneer Student - UTC Blockchain Club",
     description:
-      "Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải. Nơi sinh viên học hỏi, phát triển và ứng dụng công nghệ Blockchain, Web3.",
+      "Blockchain Pioneer Student Club at the University of Transport and Communications. Learn, grow, and apply Blockchain & Web3.",
     images: ["/twitter-image.jpg"],
   },
   robots: {
@@ -148,7 +148,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Structured Data */}
         <script
@@ -172,7 +172,7 @@ export default function RootLayout({
 
         {/* Additional SEO Meta Tags */}
         <meta name="geo.region" content="VN-HN" />
-        <meta name="geo.placename" content="Hà Nội" />
+        <meta name="geo.placename" content="Hanoi" />
         <meta name="geo.position" content="21.0285;105.8542" />
         <meta name="ICBM" content="21.0285, 105.8542" />
 

@@ -1,7 +1,7 @@
 {
   "name": "Blockchain Pioneer Student UTC",
   "short_name": "Blockchain UTC",
-  "description": "Câu lạc bộ Blockchain Pioneer Student - Trường Đại học Giao thông Vận tải",
+  "description": "Blockchain Pioneer Student Club - University of Transport and Communications",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -45,21 +45,21 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Trang chủ Blockchain UTC"
+      "label": "Blockchain UTC Home"
     },
     {
       "src": "/screenshot-mobile.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Trang chủ Blockchain UTC Mobile"
+      "label": "Blockchain UTC Home Mobile"
     }
   ],
   "shortcuts": [
     {
-      "name": "Sự kiện",
+      "name": "Events",
       "short_name": "Events",
-      "description": "Xem các sự kiện sắp tới",
+      "description": "View upcoming events",
       "url": "/events",
       "icons": [
         {
@@ -69,9 +69,9 @@
       ]
     },
     {
-      "name": "Tin tức",
+      "name": "News",
       "short_name": "News",
-      "description": "Đọc tin tức mới nhất",
+      "description": "Read the latest news",
       "url": "/news",
       "icons": [
         {
@@ -81,9 +81,9 @@
       ]
     },
     {
-      "name": "Tham gia",
+      "name": "Join",
       "short_name": "Join",
-      "description": "Đăng ký tham gia CLB",
+      "description": "Register to join the club",
       "url": "/join",
       "icons": [
         {

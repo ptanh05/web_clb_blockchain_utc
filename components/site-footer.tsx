@@ -27,8 +27,7 @@ export function SiteFooter() {
               />
             </div>
             <p className="text-white/80 text-sm">
-              Câu lạc bộ tiên phong phát triển lĩnh vực Blockchain trong cộng
-              đồng sinh viên Việt Nam.
+              A pioneering student club advancing Blockchain in Vietnam.
             </p>
             <div className="flex gap-4">
               <Link
@@ -79,26 +78,26 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg mb-4">Liên kết nhanh</h3>
+            <h3 className="font-semibold text-lg mb-4">Quick links</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-white/80 hover:text-white">
-                  Giới thiệu
+                  About
                 </Link>
               </li>
               <li>
                 <Link href="/events" className="text-white/80 hover:text-white">
-                  Sự kiện 
+                  Events
                 </Link>
               </li>
               <li>
                 <Link href="/news" className="text-white/80 hover:text-white">
-                  Tin tức
+                  News
                 </Link>
               </li>
               <li>
                 <Link href="/media" className="text-white/80 hover:text-white">
-                  Thư viện
+                  Media
                 </Link>
               </li>
               <li>
@@ -106,28 +105,28 @@ export function SiteFooter() {
                   href="/partners"
                   className="text-white/80 hover:text-white"
                 >
-                  Đối tác
+                  Partners
                 </Link>
               </li>
               <li>
                 <Link href="/team" className="text-white/80 hover:text-white">
-                  Thành viên
+                  Team
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg mb-4">Tham gia</h3>
+            <h3 className="font-semibold text-lg mb-4">Join</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/join" className="text-white/80 hover:text-white">
-                  Đăng ký thành viên
+                  Become a member
                 </Link>
               </li>
               <li>
                 <Link href="/faq" className="text-white/80 hover:text-white">
-                  Câu hỏi thường gặp
+                  FAQ
                 </Link>
               </li>
               <li>
@@ -135,20 +134,20 @@ export function SiteFooter() {
                   href="/contact"
                   className="text-white/80 hover:text-white"
                 >
-                  Liên hệ
+                  Contact
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-semibold text-lg mb-4">Liên hệ</h3>
+            <h3 className="font-semibold text-lg mb-4">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 shrink-0 mt-0.5" />
                 <span className="text-white/80">
-                  Blockchain Labs, Trường Đại Học Giao Thông Vận Tải, Số 03 Cầu
-                  Giấy, Phường Láng, Thành phố Hà Nội
+                  Blockchain Labs, University of Transport and Communications,
+                  03 Cau Giay, Lang Ward, Hanoi, Vietnam
                 </span>
               </li>
               <li className="flex items-center gap-2">
@@ -175,8 +174,8 @@ export function SiteFooter() {
 
         <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60 text-sm">
           <p>
-            © {new Date().getFullYear()} Blockchain Pioneer Student. Tất cả các
-            quyền được bảo lưu.
+            © {new Date().getFullYear()} Blockchain Pioneer Student. All rights
+            reserved.
           </p>
         </div>
       </div>
