@@ -52,16 +52,26 @@ export default function TeamPage() {
 
   // Danh sách thứ tự ban ưu tiên
   const teamOrder = [
-    "Ban Cố vấn",
-    "Ban Chủ nhiệm",
-    "Ban Chuyên môn",
-    "Ban Truyền thông",
-    "Ban Hậu cần",
-    "Ban Ngoại giao",
+    "Advisory Board",
+    "Executive Board",
+    "Specialist Board",
+    "Media Board",
+    "Logistics Board",
+    "External Relations Board",
   ];
-
+  // Map Vietnamese team names to English for display (if API returns Vietnamese)
+  const teamNameMap: { [key: string]: string } = {
+    "Ban Cố vấn": "Advisory Board",
+    "Ban Chủ nhiệm": "Executive Board",
+    "Ban Chuyên môn": "Specialist Board",
+    "Ban Truyền thông": "Media Board",
+    "Ban Hậu cần": "Logistics Board",
+    "Ban Ngoại giao": "External Relations Board",
+  };
   // Lấy danh sách các ban từ dữ liệu members, giữ thứ tự ưu tiên, các ban khác xếp sau
-  const allTeams = Array.from(new Set(members.map((m) => m.team_name)));
+  const allTeams = Array.from(
+    new Set(members.map((m) => teamNameMap[m.team_name] || m.team_name))
+  );
   const teams = [
     ...teamOrder.filter((t) => allTeams.includes(t)),
     ...allTeams.filter((t) => !teamOrder.includes(t)),
@@ -70,7 +80,9 @@ export default function TeamPage() {
   // Nhóm thành viên theo team_name
   const membersByTeam: { [team: string]: Member[] } = {};
   teams.forEach((team) => {
-    membersByTeam[team] = members.filter((m) => m.team_name === team);
+    membersByTeam[team] = members.filter(
+      (m) => (teamNameMap[m.team_name] || m.team_name) === team
+    );
   });
 
   // Lọc theo search cho từng ban
