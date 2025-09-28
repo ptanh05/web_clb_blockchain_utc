@@ -112,7 +112,7 @@ export default function EventDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-[#004987] border-t-transparent"></div>
-        <p className="mt-4 text-gray-600">Đang tải thông tin sự kiện...</p>
+        <p className="mt-4 text-gray-600">Event information is loading...</p>
       </div>
     );
   }
@@ -120,7 +120,7 @@ export default function EventDetailPage() {
   if (error) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-red-600 mb-4">Lỗi: {error}</p>
+        <p className="text-red-600 mb-4">Error: {error}</p>
         <Button
           variant="outline"
           onClick={() => window.location.reload()}
@@ -135,7 +135,7 @@ export default function EventDetailPage() {
   if (!event) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Không tìm thấy sự kiện.</p>
+        <p className="text-gray-600">No events were found.</p>
       </div>
     );
   }
