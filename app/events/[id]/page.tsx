@@ -346,13 +346,11 @@ export default function EventDetailPage() {
               >
                 <div className="bg-gray-50 rounded-lg p-6">
                   <h3 className="text-lg font-semibold text-[#004987] mb-4">
-                    Thông tin sự kiện
+                    Event Information
                   </h3>
                   <div className="space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-600">
-                        Thời gian
-                      </p>
+                      <p className="text-sm font-medium text-gray-600">Time</p>
                       <p className="text-gray-900">
                         {formatDate(event.date)}
                         {formatTime(event.time) &&
@@ -361,18 +359,17 @@ export default function EventDetailPage() {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-600">
-                        Địa điểm
+                        Location
                       </p>
                       <p className="text-gray-900">{event.location}</p>
                     </div>
                     <div>
                       <p className="text-sm font-medium text-gray-600">
-                        Danh mục
+                        Category
                       </p>
                       <p className="text-gray-900">{event.category}</p>
                     </div>
                   </div>
-
                   <div className="mt-6">
                     {event.registrationLink && (
                       <Link href={event.registrationLink}>
