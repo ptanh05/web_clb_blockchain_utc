@@ -394,12 +394,12 @@ export default function EventDetailPage() {
       <section className="py-12 bg-white">
         <div className="container px-4 md:px-6">
           <h2 className="text-xl font-semibold mb-4 text-[#004987]">
-            Các sự kiện liên quan
+            Related Events
           </h2>
           {isChildLoading ? (
-            <div>Đang tải...</div>
+            <div>Loading...</div>
           ) : childEvents.length === 0 ? (
-            <div>Không có sự kiện liên quan.</div>
+            <div>No related events</div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {childEvents.map((event) => (
